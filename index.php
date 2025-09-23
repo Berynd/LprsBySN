@@ -40,8 +40,8 @@
     <!-- Section Hero -->
     <section id="accueil" class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">Bienvenue sur notre site</h1>
-            <p class="hero-subtitle">Découvrez nos services et solutions innovantes</p>
+            <h1 class="hero-title">Lycée privé et UFA Robert Schuman</h1>
+            <p class="hero-subtitle">Enseignement catholique sous contrat d'association avec l'Etat</p>
             <button class="cta-button">Découvrir</button>
         </div>
         <div class="hero-image">
