@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 23 sep. 2025 à 06:47
+-- Généré le : mar. 23 sep. 2025 à 10:10
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `evenement` (
   `lieu` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `element_requis` text CHARACTER SET latin1 COLLATE latin1_bin,
   `nombre_place` int DEFAULT NULL,
-  `date_création` date DEFAULT NULL,
+  `date_creation` date DEFAULT NULL,
   `etat` varchar(50) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   PRIMARY KEY (`id_evenement`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
@@ -203,14 +203,14 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `email` varchar(150) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `mdp` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `role` varchar(50) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
-  `spécialité` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
-  `matière` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  `specialite` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  `matiere` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `poste` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `annee_promo` year DEFAULT NULL,
   `cv` blob,
   `promo` varchar(50) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `motif_partenariat` text CHARACTER SET latin1 COLLATE latin1_bin,
-  `est_vérifié` tinyint(1) DEFAULT '0',
+  `est_verifie` tinyint(1) DEFAULT '0',
   `ref_entreprise` int DEFAULT NULL,
   `ref_formation` int DEFAULT NULL,
   PRIMARY KEY (`id_utilisateur`),
