@@ -16,7 +16,7 @@ class UtilisateurRepository
         ));
         $donne = $req2->fetch();
         if ($donne == NULL){
-            $sql = 'INSERT INTO utilisateur(nom,prenom,email,mdp,role,specialite,matiere,poste) 
+            $sql = 'INSERT INTO utilisateur(nom,prenom,email,mdp,role,specialite,matiere,poste,annee) 
                 Values (:nom,:prenom,:email,:mdp)';
             $req = $this->bdd->getBdd()->prepare($sql);
             $res = $req->execute(array(
