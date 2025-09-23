@@ -1,6 +1,160 @@
 <?php
 
+namespace modele;
 class Evenement
 {
+    private $idEvenement;
+    private $typeEvenement;
+    private $titreEvenement;
+    private $descriptionEvenement;
+    private $lieuEvenement;
+    private $elementRequis;
+    private $nombrePlace;
+    private $dateCreationEvenement;
+    private $etatEvenement;
+
+    /**
+     * @return mixed
+     */
+    public function getIdEvenement()
+    {
+        return $this->idEvenement;
+    }
+
+    /**
+     * @param mixed $idEvenement
+     */
+    public function setIdEvenement($idEvenement)
+    {
+        $this->idEvenement = $idEvenement;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTypeEvenement()
+    {
+        return $this->typeEvenement;
+    }
+
+    /**
+     * @param mixed $typeEvenement
+     */
+    public function setTypeEvenement($typeEvenement)
+    {
+        $this->typeEvenement = $typeEvenement;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitreEvenement()
+    {
+        return $this->titreEvenement;
+    }
+
+    /**
+     * @param mixed $titreEvenement
+     */
+    public function setTitreEvenement($titreEvenement)
+    {
+        $this->titreEvenement = $titreEvenement;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescriptionEvenement()
+    {
+        return $this->descriptionEvenement;
+    }
+
+    /**
+     * @param mixed $descriptionEvenement
+     */
+    public function setDescriptionEvenement($descriptionEvenement)
+    {
+        $this->descriptionEvenement = $descriptionEvenement;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLieuEvenement()
+    {
+        return $this->lieuEvenement;
+    }
+
+    /**
+     * @param mixed $lieuEvenement
+     */
+    public function setLieuEvenement($lieuEvenement)
+    {
+        $this->lieuEvenement = $lieuEvenement;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getElementRequis()
+    {
+        return $this->elementRequis;
+    }
+
+    /**
+     * @param mixed $elementRequis
+     */
+    public function setElementRequis($elementRequis)
+    {
+        $this->elementRequis = $elementRequis;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombrePlace()
+    {
+        return $this->nombrePlace;
+    }
+
+    /**
+     * @param mixed $nombrePlace
+     */
+    public function setNombrePlace($nombrePlace)
+    {
+        $this->nombrePlace = $nombrePlace;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateCreationEvenement()
+    {
+        return $this->dateCreationEvenement;
+    }
+
+    /**
+     * @param mixed $dateCreationEvenement
+     */
+    public function setDateCreationEvenement($dateCreationEvenement)
+    {
+        $this->dateCreationEvenement = $dateCreationEvenement;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEtatEvenement()
+    {
+        return $this->etatEvenement;
+    }
+
+    /**
+     * @param mixed $etatEvenement
+     */
+    public function setEtatEvenement($etatEvenement)
+    {
+        $this->etatEvenement = $etatEvenement;
+    }
 
 }
