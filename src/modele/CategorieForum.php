@@ -1,9 +1,9 @@
 <?php
 
-class CategoriForum
+class CategorieForum
 {
     private $idCategorieForum;
-    private $NomCategorieForum;
+    private $nomCategorieForum;
     private $descriptionCategorieForum;
     private $categorieForum;
 
@@ -28,15 +28,15 @@ class CategoriForum
      */
     public function getNomCategorieForum()
     {
-        return $this->NomCategorieForum;
+        return $this->nomCategorieForum;
     }
 
     /**
-     * @param mixed $NomCategorieForum
+     * @param mixed $nomCategorieForum
      */
-    public function setNomCategorieForum($NomCategorieForum)
+    public function setNomCategorieForum($nomCategorieForum)
     {
-        $this->NomCategorieForum = $NomCategorieForum;
+        $this->nomCategorieForum = $nomCategorieForum;
     }
 
     /**
