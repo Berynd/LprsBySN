@@ -27,6 +27,8 @@
                     <li class="nav-item">
                         <a href="#contact" class="nav-link">Contact</a>
                     </li>
+                    <li class="nav-item"><a href="vue/Inscription.php" class="nav-link">Inscription</a></li>
+                    <li class="nav-item"><a href="vue/Connexion.php" class="nav-link">Connexion</a></li>
                 </ul>
                 <div class="hamburger">
                     <span class="bar"></span>
