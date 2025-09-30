@@ -10,7 +10,7 @@ class Utilisateur
     private $role;
     private $specialite;
     private $matiere;
-    private $post;
+    private $poste;
     private $anneePromo;
     private $cv;
     private $promo;
@@ -150,17 +150,17 @@ class Utilisateur
     /**
      * @return mixed
      */
-    public function getPost()
+    public function getPoste()
     {
-        return $this->post;
+        return $this->poste;
     }
 
     /**
-     * @param mixed $post
+     * @param mixed $poste
      */
-    public function setPost($post)
+    public function setPost($poste)
     {
-        $this->post = $post;
+        $this->poste = $poste;
     }
 
     /**
