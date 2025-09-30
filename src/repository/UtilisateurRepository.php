@@ -17,7 +17,7 @@ class UtilisateurRepository
         $donne = $req2->fetch();
         if ($donne == NULL){
             $sql = 'INSERT INTO utilisateur(nom,prenom,email,mdp,role,specialite,matiere,post,annee) 
-                Values (:nom,:prenom,:email,:mdp)';
+                Values (:nom,:prenom,:email,:mdp, :role, :specialite, :matiere, :post, :annee)';
             $req = $this->bdd->getBdd()->prepare($sql);
             $res = $req->execute(array(
                 'nom' => $user->getNom(),
@@ -27,7 +27,7 @@ class UtilisateurRepository
                 'role' => $user->getRole(),
                 'specialite' => $user->getSpecialite(),
                 'matiere' => $user->getMatiere(),
-                'poste',
+                'poste'=>$user->getPoste(),
                 'annee' => $user->getAnneePromo(),
             ));
             var_dump($res);
@@ -35,7 +35,7 @@ class UtilisateurRepository
             if ($res) {
                 return true;
                 echo "Votre profil a été créé ! ";
-                header('Location:../../vue/Connexion.html');
+                header('Location:../../vue/Connexion.php');
             } else {
                 return false;
             }
