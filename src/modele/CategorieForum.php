@@ -5,69 +5,45 @@ class CategorieForum
     private $idCategorieForum;
     private $nomCategorieForum;
     private $descriptionCategorieForum;
-    private $categorieForum;
+    private $categorie;
 
-    /**
-     * @return mixed
-     */
     public function getIdCategorieForum()
     {
         return $this->idCategorieForum;
     }
 
-    /**
-     * @param mixed $idCategorieForum
-     */
     public function setIdCategorieForum($idCategorieForum)
     {
         $this->idCategorieForum = $idCategorieForum;
     }
 
-    /**
-     * @return mixed
-     */
     public function getNomCategorieForum()
     {
         return $this->nomCategorieForum;
     }
 
-    /**
-     * @param mixed $nomCategorieForum
-     */
     public function setNomCategorieForum($nomCategorieForum)
     {
         $this->nomCategorieForum = $nomCategorieForum;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDescriptionCategorieForum()
     {
         return $this->descriptionCategorieForum;
     }
 
-    /**
-     * @param mixed $descriptionCategorieForum
-     */
     public function setDescriptionCategorieForum($descriptionCategorieForum)
     {
         $this->descriptionCategorieForum = $descriptionCategorieForum;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCategorieForum()
+    public function getCategorie()
     {
-        return $this->categorieForum;
+        return $this->categorie;
     }
 
-    /**
-     * @param mixed $categorieForum
-     */
-    public function setCategorieForum($categorieForum)
+    public function setCategorie($categorie)
     {
-        $this->categorieForum = $categorieForum;
+        $this->categorie = $categorie;
     }
 }

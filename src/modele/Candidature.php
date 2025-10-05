@@ -2,6 +2,12 @@
 
 class Candidature
 {
+    private $idCandidature;
+    private $motivation;
+    private $dateCandidature;
+    private $refOffre;
+    private $refUtilisateur;
+
     /**
      * @return mixed
      */
@@ -81,9 +87,4 @@ class Candidature
     {
         $this->refUtilisateur = $refUtilisateur;
     }
-    private $idCandidature;
-    private $motivation;
-    private $dateCandidature;
-    private $refOffre;
-    private $refUtilisateur;
 }

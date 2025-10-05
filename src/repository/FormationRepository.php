@@ -2,9 +2,13 @@
 
 namespace repository;
 
+use modele\Formation;
+use BDD;
+
 class FormationRepository
 {
     private $bdd;
+
     public function __construct()
     {
         $this->bdd = new BDD();
@@ -12,74 +16,57 @@ class FormationRepository
 
     public function ajout(Formation $formation)
     {
-        $req2 = $this->bdd->getBdd()->prepare('SELECT * FROM entreprise WHERE nom_formation = :nom_formation');
-        $req2->execute(array(
-            'nom_formation' => $formation->getNomFormation(),
-        ));
-        $donne = $req2->fetch();
-        if ($donne == NULL) {
-            $sql = 'INSERT INTO formation(nom_formation) 
-                Values (:nom_formation)';
-            $req = $this->bdd->getBdd()->prepare($sql);
-            $res = $req->execute(array(
-                'nom_formation' => $formation->getNomFormation()
-            ));
-            var_dump($res);
+        $check = $this->bdd->getBdd()->prepare(
+            'SELECT COUNT(*) FROM formation WHERE nom_formation = :nom_formation'
+        );
+        $check->execute([
+            'nom_formation' => $formation->getNomFormation()
+        ]);
 
-            if ($res) {
-                return true;
-                echo "La formation a été crée ! ";
-                header('Location: ***');
-            } else {
-                return false;
-            }
-            exit();
-        } else {
-            echo "Cette formation existe déjà ! ";
-            header('Location: ***');
-            exit();
+        if ($check->fetchColumn() == 0) {
+            $sql = 'INSERT INTO formation (nom_formation)
+                    VALUES (:nom_formation)';
+            $req = $this->bdd->getBdd()->prepare($sql);
+            return $req->execute([
+                'nom_formation' => $formation->getNomFormation()
+            ]);
         }
+
+        return false; // formation déjà existante
     }
 
     public function listeFormation()
     {
-        $sqlFormation = 'SELECT * FROM formation';
-        $reqFormation = $this->bdd->getBDD()->prepare($sqlFormation);
-        $reqFormation->execute();
-
-        return $reqFormation->fetchAll();
+        $sql = 'SELECT * FROM formation';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function nombreFormation()
     {
-        $sqlnombreformation = 'SELECT COUNT(*) FROM formation';
-        $reqnombreformation = $this->bdd->getBdd()->prepare($sqlnombreformation);
-        $reqnombreformation->execute(array());
-
-        return $reqnombreformation->fetchColumn();
-
+        $sql = 'SELECT COUNT(*) FROM formation';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchColumn();
     }
 
     public function suppression(Formation $formation)
     {
-        $sqlsuppression = 'DELETE FROM formation WHERE id_formation = :id';
-        $reqsuppression = $this->bdd->getBdd()->prepare($sqlsuppression);
-        $ressuppression = $reqsuppression->execute(array(
-            'id' => $formation->getIdFormation()
-        ));
-        header("Location: ***");
-        return $ressuppression ? "Suppression réussie" : "Échec de la suppression";
+        $sql = 'DELETE FROM formation WHERE id_formation = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute(['id' => $formation->getIdFormation()]);
     }
 
     public function modification(Formation $formation)
     {
-        $sqlmodification = "UPDATE formation SET nom_formation = :nom_formation WHERE id_formation = :id";
-        $reqmodification = $this->bdd->getBdd()->prepare($sqlmodification);
-        $resmodification = $reqmodification->execute(array(
+        $sql = 'UPDATE formation 
+                SET nom_formation = :nom_formation 
+                WHERE id_formation = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute([
             'nom_formation' => $formation->getNomFormation(),
             'id' => $formation->getIdFormation()
-        ));
-        header("Location: ***");
-        return $resmodification ? "Modification réussie" : "Échec de la modification";
+        ]);
     }
 }

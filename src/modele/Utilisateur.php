@@ -19,259 +19,51 @@ class Utilisateur
     private $refEntreprise;
     private $refFormation;
 
-    /**
-     * @return mixed
-     */
-    public function getIdUtilisateur()
-    {
-        return $this->idUtilisateur;
-    }
+    public function getIdUtilisateur() { return $this->idUtilisateur; }
+    public function setIdUtilisateur($idUtilisateur) { $this->idUtilisateur = $idUtilisateur; }
 
-    /**
-     * @param mixed $idUtilisateur
-     */
-    public function setIdUtilisateur($idUtilisateur)
-    {
-        $this->idUtilisateur = $idUtilisateur;
-    }
+    public function getNom() { return $this->nom; }
+    public function setNom($nom) { $this->nom = $nom; }
 
-    /**
-     * @return mixed
-     */
-    public function getNom()
-    {
-        return $this->nom;
-    }
+    public function getPrenom() { return $this->prenom; }
+    public function setPrenom($prenom) { $this->prenom = $prenom; }
 
-    /**
-     * @param mixed $nom
-     */
-    public function setNom($nom)
-    {
-        $this->nom = $nom;
-    }
+    public function getEmail() { return $this->email; }
+    public function setEmail($email) { $this->email = $email; }
 
-    /**
-     * @return mixed
-     */
-    public function getPrenom()
-    {
-        return $this->prenom;
-    }
+    public function getMdp() { return $this->mdp; }
+    public function setMdp($mdp) { $this->mdp = $mdp; }
 
-    /**
-     * @param mixed $prenom
-     */
-    public function setPrenom($prenom)
-    {
-        $this->prenom = $prenom;
-    }
+    public function getRole() { return $this->role; }
+    public function setRole($role) { $this->role = $role; }
 
-    /**
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
+    public function getSpecialite() { return $this->specialite; }
+    public function setSpecialite($specialite) { $this->specialite = $specialite; }
 
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
+    public function getMatiere() { return $this->matiere; }
+    public function setMatiere($matiere) { $this->matiere = $matiere; }
 
-    /**
-     * @return mixed
-     */
-    public function getMdp()
-    {
-        return $this->mdp;
-    }
+    public function getPoste() { return $this->poste; }
+    public function setPoste($poste) { $this->poste = $poste; }
 
-    /**
-     * @param mixed $mdp
-     */
-    public function setMdp($mdp)
-    {
-        $this->mdp = $mdp;
-    }
+    public function getAnneePromo() { return $this->anneePromo; }
+    public function setAnneePromo($anneePromo) { $this->anneePromo = $anneePromo; }
 
-    /**
-     * @return mixed
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
+    public function getCv() { return $this->cv; }
+    public function setCv($cv) { $this->cv = $cv; }
 
-    /**
-     * @param mixed $role
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-    }
+    public function getPromo() { return $this->promo; }
+    public function setPromo($promo) { $this->promo = $promo; }
 
-    /**
-     * @return mixed
-     */
-    public function getSpecialite()
-    {
-        return $this->specialite;
-    }
+    public function getMotifPartenariat() { return $this->motifPartenariat; }
+    public function setMotifPartenariat($motifPartenariat) { $this->motifPartenariat = $motifPartenariat; }
 
-    /**
-     * @param mixed $specialite
-     */
-    public function setSpecialite($specialite)
-    {
-        $this->specialite = $specialite;
-    }
+    public function getEstVerifie() { return $this->estVerifie; }
+    public function setEstVerifie($estVerifie) { $this->estVerifie = $estVerifie; }
 
-    /**
-     * @return mixed
-     */
-    public function getMatiere()
-    {
-        return $this->matiere;
-    }
+    public function getRefEntreprise() { return $this->refEntreprise; }
+    public function setRefEntreprise($refEntreprise) { $this->refEntreprise = $refEntreprise; }
 
-    /**
-     * @param mixed $matiere
-     */
-    public function setMatiere($matiere)
-    {
-        $this->matiere = $matiere;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPoste()
-    {
-        return $this->poste;
-    }
-
-    /**
-     * @param mixed $poste
-     */
-    public function setPost($poste)
-    {
-        $this->poste = $poste;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAnneePromo()
-    {
-        return $this->anneePromo;
-    }
-
-    /**
-     * @param mixed $anneePromo
-     */
-    public function setAnneePromo($anneePromo)
-    {
-        $this->anneePromo = $anneePromo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCv()
-    {
-        return $this->cv;
-    }
-
-    /**
-     * @param mixed $cv
-     */
-    public function setCv($cv)
-    {
-        $this->cv = $cv;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPromo()
-    {
-        return $this->promo;
-    }
-
-    /**
-     * @param mixed $promo
-     */
-    public function setPromo($promo)
-    {
-        $this->promo = $promo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMotifPartenariat()
-    {
-        return $this->motifPartenariat;
-    }
-
-    /**
-     * @param mixed $motifPartenariat
-     */
-    public function setMotifPartenariat($motifPartenariat)
-    {
-        $this->motifPartenariat = $motifPartenariat;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEstVerifie()
-    {
-        return $this->estVerifie;
-    }
-
-    /**
-     * @param mixed $estVerifie
-     */
-    public function setEstVerifie($estVerifie)
-    {
-        $this->estVerifie = $estVerifie;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRefEntreprise()
-    {
-        return $this->refEntreprise;
-    }
-
-    /**
-     * @param mixed $refEntreprise
-     */
-    public function setRefEntreprise($refEntreprise)
-    {
-        $this->refEntreprise = $refEntreprise;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRefFormation()
-    {
-        return $this->refFormation;
-    }
-
-    /**
-     * @param mixed $refFormation
-     */
-    public function setRefFormation($refFormation)
-    {
-        $this->refFormation = $refFormation;
-    }
+    public function getRefFormation() { return $this->refFormation; }
+    public function setRefFormation($refFormation) { $this->refFormation = $refFormation; }
 }

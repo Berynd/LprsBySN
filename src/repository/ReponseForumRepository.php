@@ -2,162 +2,143 @@
 
 namespace repository;
 
+use modele\ReponseForum;
+use BDD;
+use PDO;
+
 class ReponseForumRepository
 {
     private $bdd;
-    
+
     public function __construct()
     {
         $this->bdd = new BDD();
     }
 
-    /**
-     * Ajouter une nouvelle réponse au forum
-     */
+    /** Ajouter une nouvelle réponse */
     public function ajout(ReponseForum $reponseForum)
     {
-        // Vérifier si la réponse existe déjà (basé sur le contenu et l'utilisateur)
-        $req2 = $this->bdd->getBdd()->prepare('SELECT * FROM reponse_forum WHERE contenu = :contenu AND ref_utilisateur = :ref_utilisateur');
-        $req2->execute(array(
+        $check = $this->bdd->getBdd()->prepare(
+            'SELECT COUNT(*) FROM reponse_forum 
+             WHERE contenu_reponse_forum = :contenu 
+             AND ref_utilisateur = :ref_utilisateur 
+             AND ref_post_forum = :ref_post_forum'
+        );
+        $check->execute([
             'contenu' => $reponseForum->getContenuReponseForum(),
-            'ref_utilisateur' => $reponseForum->getRefUtilisateur()
-        ));
-        $donne = $req2->fetch();
-        
-        if ($donne == NULL) {
-            $sql = 'INSERT INTO reponse_forum(contenu, date_creation, ref_post_forum, ref_utilisateur)
+            'ref_utilisateur' => $reponseForum->getRefUtilisateur(),
+            'ref_post_forum' => $reponseForum->getRefPostForum()
+        ]);
+
+        if ($check->fetchColumn() == 0) {
+            $sql = 'INSERT INTO reponse_forum 
+                    (contenu_reponse_forum, date_creation_reponse_forum, ref_post_forum, ref_utilisateur)
                     VALUES (:contenu, :date_creation, :ref_post_forum, :ref_utilisateur)';
             $req = $this->bdd->getBdd()->prepare($sql);
-            $res = $req->execute(array(
+            return $req->execute([
                 'contenu' => $reponseForum->getContenuReponseForum(),
                 'date_creation' => $reponseForum->getDateCreationReponseForum(),
                 'ref_post_forum' => $reponseForum->getRefPostForum(),
                 'ref_utilisateur' => $reponseForum->getRefUtilisateur()
-            ));
-
-            if ($res) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false; // La réponse existe déjà
+            ]);
         }
+
+        return false;
     }
 
-    /**
-     * Lister toutes les réponses du forum
-     */
+    /** Lister toutes les réponses */
     public function listeReponsesForum()
     {
-        $sqlReponse = 'SELECT * FROM reponse_forum ORDER BY date_creation DESC';
-        $reqReponse = $this->bdd->getBDD()->prepare($sqlReponse);
-        $reqReponse->execute();
-
-        return $reqReponse->fetchAll();
+        $sql = 'SELECT * FROM reponse_forum ORDER BY date_creation_reponse_forum DESC';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Lister les réponses d'un post spécifique
-     */
+    /** Lister les réponses d’un post */
     public function listeReponsesParPost($idPost)
     {
-        $sqlReponse = 'SELECT * FROM reponse_forum WHERE ref_post_forum = :id_post ORDER BY date_creation ASC';
-        $reqReponse = $this->bdd->getBDD()->prepare($sqlReponse);
-        $reqReponse->execute(array('id_post' => $idPost));
-
-        return $reqReponse->fetchAll();
+        $sql = 'SELECT * FROM reponse_forum 
+                WHERE ref_post_forum = :id_post 
+                ORDER BY date_creation_reponse_forum ASC';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['id_post' => $idPost]);
+        return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Récupérer une réponse par son ID
-     */
+    /** Obtenir une réponse par ID */
     public function getReponseById($idReponse)
     {
-        $sqlReponse = 'SELECT * FROM reponse_forum WHERE id_reponse_forum = :id';
-        $reqReponse = $this->bdd->getBDD()->prepare($sqlReponse);
-        $reqReponse->execute(array('id' => $idReponse));
-
-        return $reqReponse->fetch();
+        $sql = 'SELECT * FROM reponse_forum WHERE id_reponse_forum = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['id' => $idReponse]);
+        return $req->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Compter le nombre total de réponses
-     */
+    /** Compter le total de réponses */
     public function nombreReponsesForum()
     {
-        $sqlNombreReponse = 'SELECT COUNT(*) FROM reponse_forum';
-        $reqNombreReponse = $this->bdd->getBdd()->prepare($sqlNombreReponse);
-        $reqNombreReponse->execute();
-
-        return $reqNombreReponse->fetchColumn();
+        $sql = 'SELECT COUNT(*) FROM reponse_forum';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchColumn();
     }
 
-    /**
-     * Compter le nombre de réponses pour un post spécifique
-     */
+    /** Compter le nombre de réponses d’un post */
     public function nombreReponsesParPost($idPost)
     {
-        $sqlNombreReponse = 'SELECT COUNT(*) FROM reponse_forum WHERE ref_post_forum = :id_post';
-        $reqNombreReponse = $this->bdd->getBdd()->prepare($sqlNombreReponse);
-        $reqNombreReponse->execute(array('id_post' => $idPost));
-
-        return $reqNombreReponse->fetchColumn();
+        $sql = 'SELECT COUNT(*) FROM reponse_forum WHERE ref_post_forum = :id_post';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['id_post' => $idPost]);
+        return $req->fetchColumn();
     }
 
-    /**
-     * Supprimer une réponse du forum
-     */
+    /** Supprimer une réponse */
     public function suppression(ReponseForum $reponseForum)
     {
-        $sqlSuppression = 'DELETE FROM reponse_forum WHERE id_reponse_forum = :id';
-        $reqSuppression = $this->bdd->getBdd()->prepare($sqlSuppression);
-        $resSuppression = $reqSuppression->execute(array(
-            'id' => $reponseForum->getIdReponseForum()
-        ));
-        
-        return $resSuppression ? "Suppression réussie" : "Échec de la suppression";
+        $sql = 'DELETE FROM reponse_forum WHERE id_reponse_forum = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute(['id' => $reponseForum->getIdReponseForum()]);
     }
 
-    /**
-     * Modifier une réponse du forum
-     */
+    /** Modifier une réponse */
     public function modification(ReponseForum $reponseForum)
     {
-        $sqlModification = "UPDATE reponse_forum SET contenu = :contenu, date_creation = :date_creation, ref_post_forum = :ref_post_forum, ref_utilisateur = :ref_utilisateur WHERE id_reponse_forum = :id";
-        $reqModification = $this->bdd->getBdd()->prepare($sqlModification);
-        $resModification = $reqModification->execute(array(
+        $sql = 'UPDATE reponse_forum 
+                SET contenu_reponse_forum = :contenu, 
+                    date_creation_reponse_forum = :date_creation, 
+                    ref_post_forum = :ref_post_forum, 
+                    ref_utilisateur = :ref_utilisateur 
+                WHERE id_reponse_forum = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute([
             'contenu' => $reponseForum->getContenuReponseForum(),
             'date_creation' => $reponseForum->getDateCreationReponseForum(),
             'ref_post_forum' => $reponseForum->getRefPostForum(),
             'ref_utilisateur' => $reponseForum->getRefUtilisateur(),
             'id' => $reponseForum->getIdReponseForum()
-        ));
-        
-        return $resModification ? "Modification réussie" : "Échec de la modification";
+        ]);
     }
 
-    /**
-     * Lister les réponses d'un utilisateur spécifique
-     */
+    /** Lister les réponses d’un utilisateur */
     public function listeReponsesParUtilisateur($idUtilisateur)
     {
-        $sqlReponse = 'SELECT * FROM reponse_forum WHERE ref_utilisateur = :id_utilisateur ORDER BY date_creation DESC';
-        $reqReponse = $this->bdd->getBDD()->prepare($sqlReponse);
-        $reqReponse->execute(array('id_utilisateur' => $idUtilisateur));
-
-        return $reqReponse->fetchAll();
+        $sql = 'SELECT * FROM reponse_forum 
+                WHERE ref_utilisateur = :id_utilisateur 
+                ORDER BY date_creation_reponse_forum DESC';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['id_utilisateur' => $idUtilisateur]);
+        return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Rechercher des réponses par contenu
-     */
+    /** Recherche dans les réponses */
     public function rechercherReponses($motCle)
     {
-        $sqlRecherche = 'SELECT * FROM reponse_forum WHERE contenu LIKE :mot_cle ORDER BY date_creation DESC';
-        $reqRecherche = $this->bdd->getBDD()->prepare($sqlRecherche);
-        $reqRecherche->execute(array('mot_cle' => '%' . $motCle . '%'));
-
-        return $reqRecherche->fetchAll();
+        $sql = 'SELECT * FROM reponse_forum 
+                WHERE contenu_reponse_forum LIKE :mot_cle 
+                ORDER BY date_creation_reponse_forum DESC';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['mot_cle' => '%' . $motCle . '%']);
+        return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 }

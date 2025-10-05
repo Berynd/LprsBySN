@@ -3,10 +3,12 @@
 namespace repository;
 
 use modele\Evenement;
+use BDD;
 
 class EvenementRepository
 {
     private $bdd;
+
     public function __construct()
     {
         $this->bdd = new BDD();
@@ -14,76 +16,63 @@ class EvenementRepository
 
     public function ajout(Evenement $evenement)
     {
-        $req2 = $this->bdd->getBdd()->prepare('SELECT * FROM evenement WHERE titre = :titre');
-        $req2->execute(array(
-            'titre' => $evenement->getTitreEvenement(),
-        ));
-        $donne = $req2->fetch();
-        if ($donne == NULL) {
-            $sql = 'INSERT INTO evenement(type,titre,description,lieu,element_requis,nombre_place,date_creation,etat)
-                Values (:type,:titre,:description,:lieu,:element_requis,:nombre_place,:date_creation,:etat)';
+        $check = $this->bdd->getBdd()->prepare(
+            'SELECT COUNT(*) FROM evenement WHERE titre_evenement = :titre'
+        );
+        $check->execute(['titre' => $evenement->getTitreEvenement()]);
+
+        if ($check->fetchColumn() == 0) {
+            $sql = 'INSERT INTO evenement 
+                    (type_evenement, titre_evenement, description_evenement, lieu_evenement, element_requis, nombre_place, date_creation_evenement, etat_evenement)
+                    VALUES (:type, :titre, :description, :lieu, :element_requis, :nombre_place, :date_creation, :etat)';
             $req = $this->bdd->getBdd()->prepare($sql);
-            $res = $req->execute(array(
+            return $req->execute([
                 'type' => $evenement->getTypeEvenement(),
+                'titre' => $evenement->getTitreEvenement(),
                 'description' => $evenement->getDescriptionEvenement(),
                 'lieu' => $evenement->getLieuEvenement(),
                 'element_requis' => $evenement->getElementRequis(),
                 'nombre_place' => $evenement->getNombrePlace(),
                 'date_creation' => $evenement->getDateCreationEvenement(),
                 'etat' => $evenement->getEtatEvenement()
-            ));
-            var_dump($res);
-
-            if ($res) {
-                return true;
-                echo "L'évènement a été crée ! ";
-                header('Location: ***');
-            } else {
-                return false;
-            }
-            exit();
-        } else {
-            echo "L'évènement existe déjà existe déjà ! ";
-            header('Location: ***');
-            exit();
+            ]);
         }
+
+        return false;
     }
 
     public function listeEvenement()
     {
-        $sqlEvenement = 'SELECT * FROM evenement';
-        $reqEvenement = $this->bdd->getBDD()->prepare($sqlEvenement);
-        $reqEvenement->execute();
-
-        return $reqEvenement->fetchAll();
+        $sql = 'SELECT * FROM evenement';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function nombreEvenement()
     {
-        $sqlnombreevenement = 'SELECT COUNT(*) FROM evenement';
-        $reqnombreevenement = $this->bdd->getBdd()->prepare($sqlnombreevenement);
-        $reqnombreevenement->execute(array());
-
-        return $reqnombreevenement->fetchColumn();
-
+        $sql = 'SELECT COUNT(*) FROM evenement';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchColumn();
     }
 
     public function suppression(Evenement $evenement)
     {
-        $sqlsuppression = 'DELETE FROM evenement WHERE id_evenement = :id';
-        $reqsuppression = $this->bdd->getBdd()->prepare($sqlsuppression);
-        $ressuppression = $reqsuppression->execute(array(
-            'id' => $evenement->getIdEvenement()
-        ));
-        header("Location: ***");
-        return $ressuppression ? "Suppression réussie" : "Échec de la suppression";
+        $sql = 'DELETE FROM evenement WHERE id_evenement = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute(['id' => $evenement->getIdEvenement()]);
     }
 
     public function modification(Evenement $evenement)
     {
-        $sqlmodification = "UPDATE evenement SET type = :type, titre = :titre, description = :description, lieu = :lieu, element_requis = :element_requis, nombre_place = :nombre_place, date_creation = :date_creation, etat = :etat WHERE id_evenement = :id";
-        $reqmodification = $this->bdd->getBdd()->prepare($sqlmodification);
-        $resmodification = $reqmodification->execute(array(
+        $sql = 'UPDATE evenement 
+                SET type_evenement = :type, titre_evenement = :titre, description_evenement = :description, 
+                    lieu_evenement = :lieu, element_requis = :element_requis, nombre_place = :nombre_place, 
+                    date_creation_evenement = :date_creation, etat_evenement = :etat 
+                WHERE id_evenement = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute([
             'type' => $evenement->getTypeEvenement(),
             'titre' => $evenement->getTitreEvenement(),
             'description' => $evenement->getDescriptionEvenement(),
@@ -93,8 +82,6 @@ class EvenementRepository
             'date_creation' => $evenement->getDateCreationEvenement(),
             'etat' => $evenement->getEtatEvenement(),
             'id' => $evenement->getIdEvenement()
-        ));
-        header("Location: ***");
-        return $resmodification ? "Modification réussie" : "Échec de la modification";
+        ]);
     }
 }

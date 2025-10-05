@@ -2,54 +2,66 @@
 
 namespace repository;
 
+use modele\PostForum;
+use BDD;
+use PDO;
+
 class PostForumRepository
 {
     private $bdd;
 
     public function __construct()
     {
-        $this->bdd = new Bdd();
+        $this->bdd = new BDD();
     }
-    public function ajoutPost(PostForum  $postForum)
+
+    public function ajout(PostForum $postForum)
     {
-        $sql = "INSERT INTO postForum (titre,contenu,date_creation,ref_categorie_forum,ref_utilisateur) VALUES (:titre,:contenu,:date_creation,:ref_categorie_forum, :ref_utilisateur)";
+        $sql = "INSERT INTO post_forum 
+                (titre_post_forum, contenu_post_forum, date_creation_post_forum, ref_categorie_forum, ref_utilisateur)
+                VALUES (:titre, :contenu, :date_creation, :ref_categorie_forum, :ref_utilisateur)";
         $req = $this->bdd->getBdd()->prepare($sql);
-        $res = $req->execute(array(
+        return $req->execute([
             'titre' => $postForum->getTitre(),
             'contenu' => $postForum->getContenu(),
             'date_creation' => $postForum->getDateCreation(),
             'ref_categorie_forum' => $postForum->getRefCategorieForum(),
             'ref_utilisateur' => $postForum->getRefUtilisateur()
-
-        ));
-        if ($res == true) {
-            return true;
-        } else {
-            return false;
-        }
+        ]);
     }
-        public function modifPost(PostForum $postForum)
+
+    public function modification(PostForum $postForum)
     {
-        $sql = 'UPDATE offre SET titre=:titre,contenu=:contenu,date_creation=:date_creation,ref_categorie_forum=:ref_categorie_forum,ref_utilisateur=:ref_utilisateur WHERE id_post = :id';
-        $req = $this->bdd->getBDD()->prepare($sql);
-        $req->execute(array(
+        $sql = 'UPDATE post_forum 
+                SET titre_post_forum = :titre, 
+                    contenu_post_forum = :contenu, 
+                    date_creation_post_forum = :date_creation, 
+                    ref_categorie_forum = :ref_categorie_forum, 
+                    ref_utilisateur = :ref_utilisateur 
+                WHERE id_post = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute([
             'titre' => $postForum->getTitre(),
-            'contenu' => $postForum->getcontenu(),
+            'contenu' => $postForum->getContenu(),
             'date_creation' => $postForum->getDateCreation(),
             'ref_categorie_forum' => $postForum->getRefCategorieForum(),
             'ref_utilisateur' => $postForum->getRefUtilisateur(),
-            'id' => $postForum->getIdOffre()
-        ));
-
+            'id' => $postForum->getIdPost()
+        ]);
     }
-    public function supPostForum(PostForum $postForum)
+
+    public function suppression(PostForum $postForum)
     {
-        $sql = "DELETE FROM offre WHERE id = :id";
+        $sql = "DELETE FROM post_forum WHERE id_post = :id";
         $req = $this->bdd->getBdd()->prepare($sql);
-        $res = $req->execute([
-                "id" => $postForum->getIdOffre()
-            ]
-        );
+        return $req->execute(['id' => $postForum->getIdPost()]);
     }
 
+    public function listePost()
+    {
+        $sql = "SELECT * FROM post_forum";
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

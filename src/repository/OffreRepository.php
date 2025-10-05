@@ -2,7 +2,9 @@
 
 namespace repository;
 
-use Offre;
+use modele\Offre;
+use BDD;
+use PDO;
 
 class OffreRepository
 {
@@ -10,66 +12,65 @@ class OffreRepository
 
     public function __construct()
     {
-        $this->bdd = new Bdd();
+        $this->bdd = new BDD();
     }
 
-    public function ajoutOffres(Offre $offre)
+    public function ajout(Offre $offre)
     {
-        $sql = "INSERT INTO offre (titre, description, mission, salaire,type_offre,date_creation,etat)VALUES (:titre,:description,:mission,:salaire,:type,:date_creation,:etat)";
+        $sql = "INSERT INTO offre 
+                (titre, description, mission, salaire, type_offre, date_creation_offre, etat_offre, ref_entreprise)
+                VALUES (:titre, :description, :mission, :salaire, :type_offre, :date_creation, :etat, :ref_entreprise)";
         $req = $this->bdd->getBdd()->prepare($sql);
-        $res = $req->execute(array(
+        return $req->execute([
             'titre' => $offre->getTitre(),
             'description' => $offre->getDescription(),
             'mission' => $offre->getMission(),
             'salaire' => $offre->getSalaire(),
             'type_offre' => $offre->getTypeOffre(),
             'date_creation' => $offre->getDateCreation(),
-            'etat' => $offre->getEtat()
-        ));
-
-        if ($res == true) {
-            return true;
-        } else {
-            return false;
-        }
+            'etat' => $offre->getEtatOffre(),
+            'ref_entreprise' => $offre->getRefEntreprise()
+        ]);
     }
 
-    public function supOffres(Offre $offre)
+    public function suppression(Offre $offre)
     {
-        $sql = "DELETE FROM offre WHERE id = :id";
+        $sql = "DELETE FROM offre WHERE id_offre = :id";
         $req = $this->bdd->getBdd()->prepare($sql);
-        $res = $req->execute([
-                "id" => $offre->getIdOffre()
-            ]
-        );
+        return $req->execute(['id' => $offre->getIdOffre()]);
     }
 
-
-    public function catalogueOffres()
+    public function listeOffres()
     {
         $sql = "SELECT * FROM offre";
         $req = $this->bdd->getBdd()->prepare($sql);
         $req->execute();
-        return $req->fetchAll(PDO::FETCH_ASSOC); // Retourne un tableau de films
-
+        return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function modifOffres(Offre $offre)
+    public function modification(Offre $offre)
     {
-        $sql = 'UPDATE offre SET titre=:titre,description=:description,mission=:mission,salaire=:salaire,type_offre,date_creation=:date_creation,etat=:etat WHERE id_offre = :id';
-        $req = $this->bdd->getBDD()->prepare($sql);
-        $req->execute(array(
+        $sql = 'UPDATE offre 
+                SET titre = :titre, 
+                    description = :description, 
+                    mission = :mission, 
+                    salaire = :salaire, 
+                    type_offre = :type_offre, 
+                    date_creation_offre = :date_creation, 
+                    etat_offre = :etat, 
+                    ref_entreprise = :ref_entreprise
+                WHERE id_offre = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute([
             'titre' => $offre->getTitre(),
             'description' => $offre->getDescription(),
-            'mission' => $offre->getmission(),
-            'salaire' => $offre->getsalaire(),
+            'mission' => $offre->getMission(),
+            'salaire' => $offre->getSalaire(),
             'type_offre' => $offre->getTypeOffre(),
             'date_creation' => $offre->getDateCreation(),
-            'etat' => $offre->getEtat(),
+            'etat' => $offre->getEtatOffre(),
+            'ref_entreprise' => $offre->getRefEntreprise(),
             'id' => $offre->getIdOffre()
-        ));
-
-
-
+        ]);
     }
 }

@@ -2,9 +2,13 @@
 
 namespace repository;
 
+use modele\Candidature;
+use BDD;
+
 class CandidatureRepository
 {
     private $bdd;
+
     public function __construct()
     {
         $this->bdd = new BDD();
@@ -12,77 +16,63 @@ class CandidatureRepository
 
     public function ajout(Candidature $candidature)
     {
-        $req2 = $this->bdd->getBdd()->prepare('SELECT * FROM candidature WHERE motivation = :motivation');
-        $req2->execute(array(
+        $check = $this->bdd->getBdd()->prepare(
+            'SELECT COUNT(*) FROM candidature WHERE motivation = :motivation AND ref_utilisateur = :refUtilisateur AND ref_offre = :refOffre'
+        );
+        $check->execute([
             'motivation' => $candidature->getMotivation(),
-        ));
-        $donne = $req2->fetch();
-        if ($donne == NULL) {
-            $sql = 'INSERT INTO candidature(motivation,date_creation)
-                Values (:motivation,:date_creation)';
+            'refUtilisateur' => $candidature->getRefUtilisateur(),
+            'refOffre' => $candidature->getRefOffre()
+        ]);
+
+        if ($check->fetchColumn() == 0) {
+            $sql = 'INSERT INTO candidature (motivation, date_candidature, ref_offre, ref_utilisateur)
+                    VALUES (:motivation, :date_candidature, :ref_offre, :ref_utilisateur)';
             $req = $this->bdd->getBdd()->prepare($sql);
-            $res = $req->execute(array(
+            return $req->execute([
                 'motivation' => $candidature->getMotivation(),
-                'date_creation' => $candidature->getdescription(),
-
-            ));
-            var_dump($res);
-
-            if ($res) {
-                return true;
-                echo "La candidature a été crée ! ";
-                header('Location: ***');
-            } else {
-                return false;
-            }
-            exit();
-        } else {
-            echo "La candidature existe déjà existe déjà ! ";
-            header('Location: ***');
-            exit();
+                'date_candidature' => $candidature->getDateCandidature(),
+                'ref_offre' => $candidature->getRefOffre(),
+                'ref_utilisateur' => $candidature->getRefUtilisateur()
+            ]);
         }
+
+        return false;
     }
 
     public function listeCandidatures()
     {
-        $sqlEvenement = 'SELECT * FROM evenement';
-        $reqEvenement = $this->bdd->getBDD()->prepare($sqlEvenement);
-        $reqEvenement->execute();
-
-        return $reqEvenement->fetchAll();
+        $sql = 'SELECT * FROM candidature';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function nombreCandidature()
     {
-        $sqlnombreevenement = 'SELECT COUNT(*) FROM evenement';
-        $reqnombreevenement = $this->bdd->getBdd()->prepare($sqlnombreevenement);
-        $reqnombreevenement->execute(array());
-
-        return $reqnombreevenement->fetchColumn();
-
+        $sql = 'SELECT COUNT(*) FROM candidature';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchColumn();
     }
 
     public function suppression(Candidature $candidature)
     {
-        $sqlsuppression = 'DELETE FROM candidature WHERE id_candidature = :id';
-        $reqsuppression = $this->bdd->getBdd()->prepare($sqlsuppression);
-        $ressuppression = $reqsuppression->execute(array(
-            'id' => $candidature->getIdEvenement()
-        ));
-        header("Location: ***");
-        return $ressuppression ? "Suppression réussie" : "Échec de la suppression";
+        $sql = 'DELETE FROM candidature WHERE id_candidature = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute(['id' => $candidature->getIdCandidature()]);
     }
 
     public function modification(Candidature $candidature)
     {
-        $sqlmodification = "UPDATE candidature SET motivation = :motivation, date_creation = :date_creation,id_candidature = :id";
-        $reqmodification = $this->bdd->getBdd()->prepare($sqlmodification);
-        $resmodification = $reqmodification->execute(array(
+        $sql = "UPDATE candidature 
+                SET motivation = :motivation, date_candidature = :date_candidature 
+                WHERE id_candidature = :id";
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute([
             'motivation' => $candidature->getMotivation(),
-            'titre' => $candidature->getDateCreation(),
-            'id' => $candidature->getIdCandidature(),
-        ));
-        header("Location: ***");
-        return $resmodification ? "Modification réussie" : "Échec de la modification";
+            'date_candidature' => $candidature->getDateCandidature(),
+            'id' => $candidature->getIdCandidature()
+        ]);
     }
 }
