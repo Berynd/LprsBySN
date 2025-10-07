@@ -1,10 +1,5 @@
 <?php
 
-namespace repository;
-
-use modele\Utilisateur;
-use BDD;
-use PDO;
 
 class UtilisateurRepository
 {
