@@ -89,7 +89,9 @@
                     </ul>
                 </div>
                 <div class="about-image">
-                    <div class="placeholder-image"></div>
+                    <div class="placeholder-image">
+                        <img src="assets/img/imglycee.png" class="placeholder-image">
+                    </div>
                 </div>
             </div>
         </div>
