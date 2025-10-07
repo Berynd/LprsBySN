@@ -191,7 +191,7 @@ $nbFormations = (new \repository\FormationRepository())->nombreFormation();
 <main class="main">
     <header class="topbar">
         <h1>Panneau d'administration</h1>
-        <form action="logout.php" method="post" style="margin:0;">
+        <form action="../index.php" method="post" style="margin:0;">
             <button type="submit" class="logout-btn">🚪 Déconnexion</button>
         </form>
     </header>
