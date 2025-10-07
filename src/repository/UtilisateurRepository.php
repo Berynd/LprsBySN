@@ -25,35 +25,35 @@ class UtilisateurRepository
     public function inscription(Utilisateur $user)
     {
         $req2 = $this->bdd->getBdd()->prepare('SELECT * FROM utilisateur WHERE email = :email');
-        $req2->execute(['email' => $user->getEmail()]);
+        $req2->execute(array(
+            'email' => $user->getEmail(),
+        ));
         $donne = $req2->fetch();
-
-        if ($donne === false) {
-            $sql = 'INSERT INTO utilisateur
-                    (nom, prenom, email, mdp, role, specialite, matiere, poste, annee_promo, cv, promo, motif_partenariat, est_verifie, ref_entreprise, ref_formation)
-                    VALUES
-                    (:nom, :prenom, :email, :mdp, :role, :specialite, :matiere, :poste, :annee_promo, :cv, :promo, :motif_partenariat, :est_verifie, :ref_entreprise, :ref_formation)';
+        if ($donne == NULL){
+            $sql = 'INSERT INTO Utilisateur(nom,prenom,email,mdp) 
+                Values (:nom,:prenom,:email,:mdp)';
             $req = $this->bdd->getBdd()->prepare($sql);
-            return $req->execute([
+            $res = $req->execute(array(
                 'nom' => $user->getNom(),
                 'prenom' => $user->getPrenom(),
                 'email' => $user->getEmail(),
                 'mdp' => $user->getMdp(),
-                'role' => $user->getRole(),
-                'specialite' => $user->getSpecialite(),
-                'matiere' => $user->getMatiere(),
-                'poste' => $user->getPoste(),
-                'annee_promo' => $user->getAnneePromo(),
-                'cv' => $user->getCv(),
-                'promo' => $user->getPromo(),
-                'motif_partenariat' => $user->getMotifPartenariat(),
-                'est_verifie' => $user->getEstVerifie(),
-                'ref_entreprise' => $user->getRefEntreprise(),
-                'ref_formation' => $user->getRefFormation()
-            ]);
-        }
+            ));
+            var_dump($res);
 
-        return false;
+            if ($res) {
+                return true;
+                echo "Votre profil a été créé ! ";
+                header('Location:../../vue/Connexion.php');
+            } else {
+                return false;
+            }
+            exit();
+        } else {
+            echo "Vous avez déjà un compte, veuillez vous connecter ! ";
+            header('Location: ../../index.php');
+            exit();
+        }
     }
 
     /** Ajout d’un utilisateur par un administrateur */

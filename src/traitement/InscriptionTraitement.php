@@ -7,13 +7,7 @@ var_dump($_POST);
 if (empty($_POST["nom"]) ||
     empty($_POST["prenom"]) ||
     empty($_POST["email"]) ||
-    empty($_POST["mdp"]) ||
-    empty($_POST["role"]) ||
-    empty($_POST["specialite"]) ||
-    empty($_POST["matiere"]) ||
-    empty($_POST["annee_promo"]) ||
-    empty($_POST["cv"]) ||
-    empty($_POST["promo"])
+    empty($_POST["mdp"])
 ) {
     echo "C'est pas bien tetard";
     header("Location: ../../vue/Connexion.php");
@@ -28,11 +22,11 @@ if (empty($_POST["nom"]) ||
     ));
 
     var_dump($user);
-    $repository = new repositoryUtilisateur();
+    $repository = new UtilisateurRepository();
     $resultat = $repository->inscription($user);
     var_dump($resultat);
     if ($resultat == true) {
-        header("Location: ../../vue/Connexion.html");
+        header("Location: ../../vue/Connexion.php");
     } else {
         header("Location: ../../index.php");
     }

@@ -1,10 +1,5 @@
 <?php
 
-namespace repository;
-
-use modele\Entreprise;
-use BDD;
-
 class EntrepriseRepository
 {
     private $bdd;
