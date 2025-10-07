@@ -29,7 +29,7 @@ if (empty($_POST["email"]) || empty($_POST["mdp"])) {
         if ($_POST['email'] == "admin@gmail.com") {
             header("Location: ../../vue/PageAdmin.php");
         } else {
-            header("Location: ../../index.php");
+            header("Location: ../../vue/index2.php");
         }
         exit();
 
