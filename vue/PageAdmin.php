@@ -1,12 +1,18 @@
 <?php
 session_start();
-// Exemple d'auth (à adapter plus tard)
-// if (!isset($_SESSION['admin_logged_in'])) {
-//     header("Location: login.php");
-//     exit();
-// }
+require_once "../src/bdd/BDD.php";
+require_once "../src/repository/UtilisateurRepository.php";
+require_once "../src/repository/EntrepriseRepository.php";
+require_once "../src/repository/EvenementRepository.php";
+require_once "../src/repository/FormationRepository.php";
 
 $page = $_GET['page'] ?? 'dashboard';
+
+// Comptages pour le tableau de bord
+$nbUtilisateurs = (new \repository\UtilisateurRepository())->nombreUtilisateur();
+$nbEntreprises = (new \repository\EntrepriseRepository())->nombreEntreprise();
+$nbEvenements = (new \repository\EvenementRepository())->nombreEvenement();
+$nbFormations = (new \repository\FormationRepository())->nombreFormation();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -22,6 +28,7 @@ $page = $_GET['page'] ?? 'dashboard';
             --accent: #3b82f6;
             --card: #1e293b;
             --hover: #334155;
+            --danger: #dc2626;
         }
 
         * {
@@ -78,7 +85,7 @@ $page = $_GET['page'] ?? 'dashboard';
             color: var(--accent);
         }
 
-        /* Main content */
+        /* Main */
         .main {
             flex: 1;
             display: flex;
@@ -100,32 +107,54 @@ $page = $_GET['page'] ?? 'dashboard';
             color: var(--accent);
         }
 
+        .logout-btn {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #b91c1c;
+        }
+
         .content {
             padding: 2rem;
         }
 
-        .cards {
+        .dashboard-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.5rem;
             margin-top: 2rem;
         }
 
-        .card {
+        .stat-card {
             background: var(--card);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 1.5rem;
-            transition: transform 0.2s, background 0.2s;
-            cursor: pointer;
+            text-align: center;
+            transition: transform 0.2s ease, background 0.2s;
         }
 
-        .card:hover {
-            transform: translateY(-4px);
+        .stat-card:hover {
+            transform: translateY(-5px);
             background: var(--hover);
         }
 
-        .card h3 {
+        .stat-title {
+            font-size: 1.1rem;
+            color: var(--text);
             margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
             color: var(--accent);
         }
 
@@ -136,22 +165,6 @@ $page = $_GET['page'] ?? 'dashboard';
             margin-top: auto;
             font-size: 0.9rem;
             opacity: 0.7;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                display: none;
-            }
-
-            .main {
-                width: 100%;
-            }
-
-            .topbar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
         }
     </style>
 </head>
@@ -164,67 +177,73 @@ $page = $_GET['page'] ?? 'dashboard';
     </div>
     <ul class="sidebar-menu">
         <li><a href="PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
-        <li><a href="PageAdmin.php?page=candidature" class="<?= ($page=='candidature')?'active':'' ?>">📄 Candidatures</a></li>
-        <li><a href="PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
+        <li><a href="PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
         <li><a href="PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
         <li><a href="PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
         <li><a href="PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
-        <li><a href="PageAdmin.php?page=offre" class="<?= ($page=='offre')?'active':'' ?>">💼 Offres</a></li>
+        <li><a href="PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
         <li><a href="PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
         <li><a href="PageAdmin.php?page=reponse_forum" class="<?= ($page=='reponse_forum')?'active':'' ?>">💭 Réponses Forum</a></li>
-        <li><a href="PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
-        <li><a href="logout.php">🚪 Déconnexion</a></li>
     </ul>
 </aside>
 
-<!-- Contenu principal -->
+<!-- Main content -->
 <main class="main">
     <header class="topbar">
         <h1>Panneau d'administration</h1>
-        <p>Bienvenue, <?= $_SESSION['admin_name'] ?? "Administrateur" ?> 👋</p>
+        <form action="logout.php" method="post" style="margin:0;">
+            <button type="submit" class="logout-btn">🚪 Déconnexion</button>
+        </form>
     </header>
 
     <section class="content">
         <?php
         switch ($page) {
-            case 'candidature':
-                echo "<h2>Gestion des candidatures</h2><p>Consultez et traitez les candidatures reçues.</p>";
-                break;
             case 'categorie_forum':
-                echo "<h2>Gestion des catégories du forum</h2><p>Ajoutez, modifiez ou supprimez des catégories.</p>";
+                include __DIR__ . '/page_admin/CategorieForum.php';
                 break;
             case 'entreprise':
-                echo "<h2>Gestion des entreprises</h2><p>Administrez les profils d’entreprises partenaires.</p>";
+                include __DIR__ . '/page_admin/Entreprise.php';
                 break;
             case 'evenement':
-                echo "<h2>Gestion des événements</h2><p>Planifiez et gérez les événements du site.</p>";
+                include __DIR__ . '/page_admin/Evenement.php';
                 break;
             case 'formation':
-                echo "<h2>Gestion des formations</h2><p>Ajoutez ou mettez à jour les formations disponibles.</p>";
-                break;
-            case 'offre':
-                echo "<h2>Gestion des offres</h2><p>Modifiez ou supprimez les offres en ligne.</p>";
+                include __DIR__ . '/page_admin/Formation.php';
                 break;
             case 'post_forum':
-                echo "<h2>Gestion des posts de forum</h2><p>Modérez les publications des utilisateurs.</p>";
+                include __DIR__ . '/page_admin/PostForum.php';
                 break;
             case 'reponse_forum':
-                echo "<h2>Gestion des réponses du forum</h2><p>Surveillez les interactions dans les discussions.</p>";
+                include __DIR__ . '/page_admin/ReponseForum.php';
                 break;
             case 'utilisateur':
-                echo "<h2>Gestion des utilisateurs</h2><p>Gérez les comptes, rôles et permissions.</p>";
+                include __DIR__ . '/page_admin/Utilisateur.php';
                 break;
             default:
                 echo "
                 <h2>Tableau de bord</h2>
-                <div class='cards'>
-                    <div class='card'><h3>📄 Candidatures</h3><p>Suivre les candidatures reçues.</p></div>
-                    <div class='card'><h3>🗂️ Forum</h3><p>Catégories, posts et réponses.</p></div>
-                    <div class='card'><h3>🏢 Entreprises</h3><p>Gérer les partenaires.</p></div>
-                    <div class='card'><h3>🎓 Formations</h3><p>Mettre à jour les formations.</p></div>
-                    <div class='card'><h3>💼 Offres</h3><p>Suivre les opportunités.</p></div>
-                    <div class='card'><h3>👥 Utilisateurs</h3><p>Gérer les comptes et rôles.</p></div>
-                </div>";
+                <p>Bienvenue sur l’espace d’administration du site LPRS.</p>
+                
+                <div class='dashboard-stats'>
+                    <div class='stat-card'>
+                        <div class='stat-title'>👥 Utilisateurs</div>
+                        <div class='stat-number'>{$nbUtilisateurs}</div>
+                    </div>
+                    <div class='stat-card'>
+                        <div class='stat-title'>🏢 Entreprises</div>
+                        <div class='stat-number'>{$nbEntreprises}</div>
+                    </div>
+                    <div class='stat-card'>
+                        <div class='stat-title'>📅 Événements</div>
+                        <div class='stat-number'>{$nbEvenements}</div>
+                    </div>
+                    <div class='stat-card'>
+                        <div class='stat-title'>🎓 Formations</div>
+                        <div class='stat-number'>{$nbFormations}</div>
+                    </div>
+                </div>
+                ";
                 break;
         }
         ?>

@@ -117,7 +117,7 @@ class UtilisateurRepository
     }
 
     /** Liste des utilisateurs */
-    public function listeUtilisateurs()
+    public function listeUtilisateur()
     {
         $sql = 'SELECT * FROM utilisateur';
         $req = $this->bdd->getBdd()->prepare($sql);
