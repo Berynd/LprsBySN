@@ -24,16 +24,15 @@ if (empty($_POST["email"]) || empty($_POST["mdp"])) {
             "id_utilisateur" => $resultat->getIdUtilisateur(),
             "role" => $resultat->getRole()
         ];
+    }
 
         if ($_POST['email'] == "admin@gmail.com") {
-            header("Location: ../vue/PageAdmin.php");
+            header("Location: ../../vue/PageAdmin.php");
         } else {
-            header("Location: ../index.php");
+            header("Location: ../../index.php");
         }
         exit();
-    } else {
-        header("Location: ../../index.php");
-        exit();
-    }
+
+
 }
 ?>

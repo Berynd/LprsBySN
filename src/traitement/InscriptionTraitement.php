@@ -26,7 +26,7 @@ if (empty($_POST["nom"]) ||
     $resultat = $repository->inscription($user);
     var_dump($resultat);
     if ($resultat == true) {
-        header("Location: ../../vue/Connexion.html");
+        header("Location: ../../vue/Connexion.php");
     } else {
         header("Location: ../../index.php");
     }

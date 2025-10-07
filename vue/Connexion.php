@@ -30,9 +30,9 @@
     <div class="container">
         <h2 class="section-title">Connexion</h2>
 
-        <form class="contact-form" style="max-width:600px;margin:auto;">
+        <form class="contact-form" style="max-width:600px;margin:auto;" method="POST" action="../src/traitement/ConnexionTraitement.php">
             <input type="email" name="email" placeholder="Adresse email" required>
-            <input type="password" name="password" placeholder="Mot de passe" required>
+            <input type="password" name="mdp" placeholder="Mot de passe" required>
             <button type="submit">Se connecter</button>
         </form>
 
