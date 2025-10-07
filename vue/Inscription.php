@@ -25,22 +25,28 @@
         </div>
     </header>
 
+
     <!-- Section Inscription -->
     <section class="services" style="padding-top:120px;"> <!-- on réutilise ton style section -->
+        <form method="POST" action="../src/traitement/InscriptionTraitement.php">
         <div class="container">
             <h2 class="section-title">Créer un compte</h2>
 
-            <form class="contact-form" style="max-width:600px;margin:auto;">
-                <input type="text" name="username" placeholder="Nom d'utilisateur" required>
-                <input type="email" name="email" placeholder="Adresse email" required>
-                <input type="password" name="password" placeholder="Mot de passe" required>
-                <button type="submit">S'inscrire</button>
-            </form>
+
+                <form class="contact-form" style="max-width:600px;margin:auto;">
+                    <input type="text" name="username" placeholder="Nom" required>
+                    <input type="text" name="username" placeholder="Prénom" required>
+                    <input type="email" name="email" placeholder="Adresse email" required>
+                    <input type="password" name="password" placeholder="Mot de passe" required>
+                    <button type="submit">S'inscrire</button>
+                </form>
+
 
             <p style="text-align:center;margin-top:20px;">
                 Déjà inscrit ? <a href="Connexion.php" style="color:#3498db;font-weight:600;">Connectez-vous</a>
             </p>
         </div>
+        </form>
     </section>
 
     <!-- Footer -->
