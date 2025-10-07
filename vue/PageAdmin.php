@@ -1,5 +1,9 @@
 <?php
+use repository\EvenementRepository;
+use repository\FormationRepository;
+
 session_start();
+
 require_once "../src/bdd/BDD.php";
 require_once "../src/repository/UtilisateurRepository.php";
 require_once "../src/repository/EntrepriseRepository.php";
@@ -9,10 +13,18 @@ require_once "../src/repository/FormationRepository.php";
 $page = $_GET['page'] ?? 'dashboard';
 
 // Comptages pour le tableau de bord
-$nbUtilisateurs = (new \repository\UtilisateurRepository())->nombreUtilisateur();
-$nbEntreprises = (new \repository\EntrepriseRepository())->nombreEntreprise();
-$nbEvenements = (new \repository\EvenementRepository())->nombreEvenement();
-$nbFormations = (new \repository\FormationRepository())->nombreFormation();
+$repUtilisateur = new UtilisateurRepository();
+$nbUtilisateurs = $repUtilisateur->nombreUtilisateur();
+
+$repEntreprise = new EntrepriseRepository();
+$nbEntreprises = $repEntreprise->nombreEntreprise();
+
+$repEvenement = new EvenementRepository();
+$nbEvenements = $repEvenement->nombreEvenement();
+
+$repFormations = new FormationRepository();
+$nbFormations = $repFormations->nombreFormation();
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
