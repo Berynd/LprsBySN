@@ -1,9 +1,5 @@
 <?php
-use repository\EvenementRepository;
-use repository\FormationRepository;
-
 session_start();
-
 require_once "../src/bdd/BDD.php";
 require_once "../src/repository/UtilisateurRepository.php";
 require_once "../src/repository/EntrepriseRepository.php";
