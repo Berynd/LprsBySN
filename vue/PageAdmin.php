@@ -1,6 +1,4 @@
 <?php
-use repository\EvenementRepository;
-use repository\FormationRepository;
 
 session_start();
 
@@ -195,7 +193,6 @@ $nbFormations = $repFormations->nombreFormation();
         <li><a href="PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
         <li><a href="PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
         <li><a href="PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
-        <li><a href="PageAdmin.php?page=reponse_forum" class="<?= ($page=='reponse_forum')?'active':'' ?>">💭 Réponses Forum</a></li>
     </ul>
 </aside>
 
@@ -203,7 +200,7 @@ $nbFormations = $repFormations->nombreFormation();
 <main class="main">
     <header class="topbar">
         <h1>Panneau d'administration</h1>
-        <form action="../index.php" method="post" style="margin:0;">
+        <form action="../src/traitement/Utilisateur/TraitementDeconnexionUtilisateur.php" method="post" style="margin:0;">
             <button type="submit" class="logout-btn">🚪 Déconnexion</button>
         </form>
     </header>

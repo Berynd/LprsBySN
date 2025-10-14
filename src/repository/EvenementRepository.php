@@ -1,10 +1,5 @@
 <?php
 
-namespace repository;
-
-use modele\Evenement;
-use BDD;
-
 class EvenementRepository
 {
     private $bdd;

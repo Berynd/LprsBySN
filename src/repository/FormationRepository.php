@@ -1,10 +1,4 @@
 <?php
-
-namespace repository;
-
-use modele\Formation;
-use BDD;
-
 class FormationRepository
 {
     private $bdd;

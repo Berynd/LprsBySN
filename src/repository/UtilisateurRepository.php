@@ -179,4 +179,12 @@ class UtilisateurRepository
         $req->execute();
         return $req->fetchColumn();
     }
+
+    /** Deconnecte l'utilisateur */
+    public function deconnect()
+    {
+        session_start();
+        session_destroy();
+        header("Location: ../../../index.php");
+    }
 }

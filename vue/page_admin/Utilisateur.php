@@ -116,7 +116,7 @@ $listeUtilisateurs = $repo->listeUtilisateur();
 
     <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher un utilisateur..." onkeyup="filterUtilisateur()">
 
-    <button class="btn-ajout" onclick="window.location.href='../page_admin/AjoutUtilisateur.php'">
+    <button class="btn-ajout" onclick="window.location.href='../vue/AjoutUtilisateur.php'">
         ➕ Ajouter un utilisateur
     </button>
 
@@ -146,7 +146,7 @@ $listeUtilisateurs = $repo->listeUtilisateur();
                     <td><?= ($user['est_verifie'] ?? 0) ? '✅' : '❌' ?></td>
                     <td>
                         <button class="btn-action btn-modifier" onclick="window.location.href='../page_admin/ModifierUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Modifier</button>
-                        <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet utilisateur ?')) window.location.href='../../src/traitement/utilisateur/SuppressionUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Supprimer</button>
+                        <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet utilisateur ?')) window.location.href='../src/traitement/TraitementSuppresion.php?id=<?= $user['id_utilisateur'] ?>'">Supprimer</button>
                     </td>
                 </tr>
             <?php endforeach; ?>

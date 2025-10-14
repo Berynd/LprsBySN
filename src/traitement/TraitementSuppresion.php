@@ -25,6 +25,6 @@ var_dump($user);
 
 $repository = new UtilisateurRepository();
 $resultat = $repository->suppression($user);
-header("Location: ../PageAdmin.php");
+header("Location: ../../vue/PageAdmin.php");
 
 
