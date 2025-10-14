@@ -145,13 +145,9 @@ $listeUtilisateurs = $repo->listeUtilisateur();
                     <td><?= htmlspecialchars($user['ref_entreprise'] ?? '—') ?></td>
                     <td><?= ($user['est_verifie'] ?? 0) ? '✅' : '❌' ?></td>
                     <td>
-<<<<<<< HEAD
                         <button class="btn-action btn-modifier" onclick="window.location.href='../page_admin/ModifierUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Modifier</button>
                         <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet utilisateur ?')) window.location.href='../src/traitement/TraitementSuppresion.php?id=<?= $user['id_utilisateur'] ?>'">Supprimer</button>
-=======
-                        <button class="btn-action btn-modifier" onclick="window.location.href='../traitement/ModificationUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Modifier</button>
-                        <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet utilisateur ?')) window.location.href='../../src/traitement/utilisateur/SuppressionUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Supprimer</button>
->>>>>>> 62f5104843237c5dfd6b4adb66f719627f87d312
+
                     </td>
                 </tr>
             <?php endforeach; ?>
