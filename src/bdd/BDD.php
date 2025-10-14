@@ -6,7 +6,7 @@ class BDD
 
     public function __construct()
     {
-            $this->bdd = new PDO('mysql:host=localhost:8889;dbname=projetlprs;charset=utf8', 'root', 'root');
+            $this->bdd = new PDO('mysql:host=localhost;dbname=projetlprs;charset=utf8', 'root', '');
     }
 
     public function getBDD()
