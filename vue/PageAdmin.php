@@ -1,7 +1,9 @@
 <?php
+<<<<<<< HEAD
 
+=======
+>>>>>>> 62f5104843237c5dfd6b4adb66f719627f87d312
 session_start();
-
 require_once "../src/bdd/BDD.php";
 require_once "../src/repository/UtilisateurRepository.php";
 require_once "../src/repository/EntrepriseRepository.php";
