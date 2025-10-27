@@ -130,52 +130,7 @@ $nbFormations = $repFormations->nombreFormation();
             background-color: #b91c1c;
         }
 
-        .content {
-            padding: 2rem;
-        }
-
-        .dashboard-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .stat-card {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: transform 0.2s ease, background 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            background: var(--hover);
-        }
-
-        .stat-title {
-            font-size: 1.1rem;
-            color: var(--text);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        .footer {
-            text-align: center;
-            padding: 1rem;
-            border-top: 1px solid #334155;
-            margin-top: auto;
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        /* --- Formulaire stylé --- */
+        /* Contenu principal */
         .content {
             padding: 3rem;
             display: flex;
@@ -219,7 +174,8 @@ $nbFormations = $repFormations->nombreFormation();
             font-size: 0.95rem;
         }
 
-        .form-group input {
+        .form-group input,
+        .form-group select {
             background: var(--bg);
             border: 2px solid transparent;
             border-radius: 8px;
@@ -234,7 +190,8 @@ $nbFormations = $repFormations->nombreFormation();
             opacity: 0.8;
         }
 
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
@@ -261,6 +218,15 @@ $nbFormations = $repFormations->nombreFormation();
 
         .btn-submit:active {
             transform: scale(0.98);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            border-top: 1px solid #334155;
+            margin-top: auto;
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -292,25 +258,52 @@ $nbFormations = $repFormations->nombreFormation();
     </header>
 
     <div class="content">
-        <h2 class="form-title">➕ Ajouter un utilisateur</h2>
-        <form method="POST" action="../src/traitement/Utilisateur/TraitementAjoutUtilisateur.php" class="add-form">
+        <h2 class="form-title">➕ Ajouter un événement</h2>
+        <form method="POST" action="../src/traitement/Evenement/TraitementAjoutEvenement.php" class="add-form">
             <div class="form-group">
-                <label for="nom">Nom</label>
-                <input type="text" id="nom" name="nom" required>
+                <label for="type">Type d'événement</label>
+                <select id="type" name="type" required>
+                    <option value="">-- Sélectionner un type --</option>
+                    <option value="Academique">🎓 Académique</option>
+                    <option value="Culturel_Artistique">🎭 Culturel & Artistique</option>
+                    <option value="Sportif">⚽ Sportif</option>
+                    <option value="Citoyens_Solidaire">🌍 Citoyen & Solidaire</option>
+                    <option value="Festifs_Communautaire">🎉 Festif & Communautaire</option>
+                    <option value="Technologique_Innovant">💻 Technologique & Innovant</option>
+                    <option value="Caritatifs">💖 Caritatif</option>
+                </select>
             </div>
+
             <div class="form-group">
-                <label for="prenom">Prénom</label>
-                <input type="text" id="prenom" name="prenom" required>
+                <label for="titre">Titre</label>
+                <input type="text" id="titre" name="titre" placeholder="Titre de l’événement" required>
             </div>
+
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="exemple@lprs.fr" required>
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" placeholder="Brève description" required>
             </div>
+
             <div class="form-group">
-                <label for="mdp">Mot de passe</label>
-                <input type="password" id="mdp" name="mdp" required>
+                <label for="lieu">Lieu</label>
+                <input type="text" id="lieu" name="lieu" placeholder="Lieu de l’événement" required>
             </div>
-            <button type="submit" class="btn-submit">Ajouter l’utilisateur</button>
+
+            <div class="form-group">
+                <label for="element_requis">Éléments requis</label>
+                <input type="text" id="element_requis" name="element_requis" placeholder="Ex: ordinateur, tenue sportive..." required>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre_place">Nombre de places</label>
+                <input type="number" id="nombre_place" name="nombre_place" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="date_evenement">Date de l’événement</label>
+                <input type="datetime-local" id="date_evenement" name="date_evenement" required>
+            </div>
+            <button type="submit" class="btn-submit">Ajouter l’événement</button>
         </form>
     </div>
 

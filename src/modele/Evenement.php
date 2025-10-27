@@ -10,7 +10,7 @@ class Evenement
     private $lieuEvenement;
     private $elementRequis;
     private $nombrePlace;
-    private $dateCreationEvenement;
+    private $dateEvenement;
     private $etatEvenement;
 
     public function __construct(array $donnees)
@@ -145,17 +145,17 @@ class Evenement
     /**
      * @return mixed
      */
-    public function getDateCreationEvenement()
+    public function getDateEvenement()
     {
-        return $this->dateCreationEvenement;
+        return $this->dateEvenement;
     }
 
     /**
-     * @param mixed $dateCreationEvenement
+     * @param mixed $dateEvenement
      */
-    public function setDateCreationEvenement($dateCreationEvenement)
+    public function setDateEvenement($dateEvenement)
     {
-        $this->dateCreationEvenement = $dateCreationEvenement;
+        $this->dateEvenement = $dateEvenement;
     }
 
     /**
