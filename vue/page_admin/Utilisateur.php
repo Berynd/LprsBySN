@@ -114,7 +114,7 @@ $listeUtilisateurs = $repo->listeUtilisateur();
 <div class="admin-container">
     <h2>Liste des Utilisateurs</h2>
 
-    <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher un utilisateur..." onkeyup="filterUtilisateur()">
+    <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher un utilisateur..." onkeyup="filter()">
 
     <button class="btn-ajout" onclick="window.location.href='../vue/AjoutUtilisateur.php'">
         ➕ Ajouter un utilisateur
@@ -146,7 +146,7 @@ $listeUtilisateurs = $repo->listeUtilisateur();
                     <td><?= ($user['est_verifie'] ?? 0) ? '✅' : '❌' ?></td>
                     <td>
                         <button class="btn-action btn-modifier" onclick="window.location.href='../page_admin/ModifierUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Modifier</button>
-                        <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet utilisateur ?')) window.location.href='../src/traitement/TraitementSuppresion.php?id=<?= $user['id_utilisateur'] ?>'">Supprimer</button>
+                        <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet utilisateur ?')) window.location.href='../src/traitement/Utilisateur/TraitementSuppresionUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Supprimer</button>
 
                     </td>
                 </tr>
@@ -159,7 +159,7 @@ $listeUtilisateurs = $repo->listeUtilisateur();
 </div>
 
 <script>
-    function filterUtilisateur() {
+    function filter() {
         let input = document.getElementById("search").value.toLowerCase();
         let rows = document.querySelectorAll("tbody tr");
 

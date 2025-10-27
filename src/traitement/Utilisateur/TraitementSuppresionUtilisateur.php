@@ -1,9 +1,9 @@
 <?php
 
 
-include "../repository/UtilisateurRepository.php";
-require_once "../bdd/BDD.php";
-require_once "../modele/Utilisateur.php";
+include "../../repository/UtilisateurRepository.php";
+require_once "../../bdd/BDD.php";
+require_once "../../modele/Utilisateur.php";
 
 
 var_dump($_GET);
@@ -25,6 +25,6 @@ var_dump($user);
 
 $repository = new UtilisateurRepository();
 $resultat = $repository->suppression($user);
-header("Location: ../../vue/PageAdmin.php");
+header("Location: ../../../vue/PageAdmin.php");
 
 
