@@ -11,6 +11,8 @@ class FormationRepository
 
     public function ajout(Formation $formation)
     {
+
+
         $check = $this->bdd->getBdd()->prepare(
             'SELECT COUNT(*) FROM formation WHERE nom_formation = :nom_formation'
         );
