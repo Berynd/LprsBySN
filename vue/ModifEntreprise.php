@@ -5,7 +5,7 @@ require_once "../src/repository/UtilisateurRepository.php";
 require_once "../src/repository/EntrepriseRepository.php";
 require_once "../src/repository/EvenementRepository.php";
 require_once "../src/repository/FormationRepository.php";
-require_once "../src/modele/Formation.php";
+require_once "../src/modele/Entreprise.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
@@ -22,13 +22,15 @@ $nbEvenements = $repEvenement->nombreEvenement();
 $repFormations = new FormationRepository();
 $nbFormations = $repFormations->nombreFormation();
 
-$FormationRepository = new FormationRepository();
-$formation = $FormationRepository->detailFormation($_GET["id"]);
-$formation = new Formation([
-        'idFormation' => $formation["id_formation"],
-        'nomFormation' => $formation["nom_formation"]
+$EntrepriseRepository = new EntrepriseRepository();
+$entreprise = $EntrepriseRepository->detailEntreprise($_GET["id"]);
+$entreprise = new Entreprise([
+    'idEntreprise' => $entreprise["id_entreprise"],
+    'nom' => $entreprise["nom"],
+    'adresse' => $entreprise["adresse"],
+    'siteWeb' => $entreprise["site_web"],
 ]);
-$idFormation = $_GET['id'];
+$idEntreprise = $_GET['id'];
 
 ?>
 <!DOCTYPE html>
@@ -301,13 +303,21 @@ $idFormation = $_GET['id'];
     </header>
 
     <div class="content">
-        <h2 class="form-title">Modifier la formation</h2>
-        <form action="../src/traitement/Formation/TraitementModifFormation.php" method="post" class="add-form">
+        <h2 class="form-title">Modifier l'entreprise</h2>
+        <form action="../src/traitement/Entreprise/TraitementModifEntreprise.php" method="post" class="add-form">
             <div class="form-group">
-                <label for="nomFormation">Nom de la formation</label>
-                <input type="text" id="nomFormation" name="nomFormation" value="<?=$formation->getNomFormation()?>">
+                <label for="nom">Nom de l'entreprise</label>
+                <input type="text" id="nom" name="nom" value="<?=$entreprise->getNom()?>">
             </div>
-            <input type="hidden" name="idFormation" value="<?=$formation->getIdFormation()?>">
+            <div class="form-group">
+                <label for="adresse">Adresse de l'entreprise</label>
+                <input type="text" id="adresse" name="adresse" value="<?=$entreprise->getAdresse()?>">
+            </div>
+            <div class="form-group">
+                <label for="siteWeb">Site de l'entreprise</label>
+                <input type="text" id="siteWeb" name="siteWeb" value="<?=$entreprise->getSiteWeb()?>">
+            </div>
+            <input type="hidden" name="idEntreprise" value="<?=$entreprise->getIdEntreprise()?>">
             <input type="submit" value="Modifier" class="btn-submit" >
         </form>
     </div>

@@ -137,7 +137,7 @@ $listeEntreprise = $repo->listeEntreprise();
                     <td><?= htmlspecialchars($user['adresse']) ?></td>
                     <td><?= htmlspecialchars($user['site_web']) ?></td>
                     <td>
-                        <button class="btn-action btn-modifier" onclick="window.location.href='../page_admin/ModifierEntreprise.php?id=<?= $user['id_entreprise'] ?>'">Modifier</button>
+                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/ModifEntreprise.php?id=<?= $user['id_entreprise'] ?>'">Modifier</button>
                         <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cette entreprise ?')) window.location.href='../src/traitement/Entreprise/TraitementSuppresionEntreprise.php?id=<?= $user['id_entreprise'] ?>'">Supprimer</button>
 
                     </td>

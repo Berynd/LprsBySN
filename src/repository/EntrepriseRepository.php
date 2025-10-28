@@ -32,6 +32,16 @@ class EntrepriseRepository
         return false; // entreprise déjà existante
     }
 
+    public function detailEntreprise($id)
+    {
+        if (empty($id)) return null;
+
+        $sql = 'SELECT * FROM entreprise WHERE id_entreprise = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['id' => $id]);
+        return $req->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function listeEntreprise()
     {
         $sql = 'SELECT * FROM entreprise';

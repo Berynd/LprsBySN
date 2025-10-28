@@ -67,13 +67,12 @@ class FormationRepository
 
     public function modification(Formation $formation)
     {
-        $sql = 'UPDATE formation 
-                SET nom_formation = :nom_formation 
-                WHERE id_formation = :id';
+        $sql = 'UPDATE formation SET nom_formation = :nom_formation WHERE id_formation = :id';
         $req = $this->bdd->getBdd()->prepare($sql);
-        return $req->execute([
+        $req = $req->execute(array(
             'nom_formation' => $formation->getNomFormation(),
             'id' => $formation->getIdFormation()
-        ]);
+        ));
     }
 }
+
