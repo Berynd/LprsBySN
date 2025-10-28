@@ -1,6 +1,4 @@
 <?php
-
-namespace modele;
 class Evenement
 {
     private $idEvenement;

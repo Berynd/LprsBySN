@@ -129,15 +129,14 @@ $listeEvenement = $repo->listeEvenement();
             <th>lieu</th>
             <th>Element requis</th>
             <th>Nombre de place</th>
-            <th>Date de création</th>
+            <th>Date de l'évènement</th>
             <th>Etat</th>
-            <th>Vérifié</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <?php if (!empty($listeUtilisateurs)) : ?>
-            <?php foreach ($listeUtilisateurs as $user): ?>
+        <?php if (!empty($listeEvenement)) : ?>
+            <?php foreach ($listeEvenement as $user): ?>
                 <tr>
                     <td><?= htmlspecialchars($user['type']) ?></td>
                     <td><?= htmlspecialchars($user['titre']) ?></td>
@@ -145,9 +144,8 @@ $listeEvenement = $repo->listeEvenement();
                     <td><?= htmlspecialchars($user['lieu']) ?></td>
                     <td><?= htmlspecialchars($user['element_requis']) ?></td>
                     <td><?= htmlspecialchars($user['nombre_place']) ?></td>
-                    <td><?= htmlspecialchars($user['date_creation']) ?></td>
+                    <td><?= htmlspecialchars($user['date_evenement']) ?></td>
                     <td><?= htmlspecialchars($user['etat']) ?></td>
-                    <td><?= ($user['est_verifie'] ?? 0) ? '✅' : '❌' ?></td>
                     <td>
                         <button class="btn-action btn-modifier" onclick="window.location.href='../page_admin/ModifierEvenement.php?id=<?= $user['id_evenement'] ?>'">Modifier</button>
                         <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet evenement ?')) window.location.href='../src/traitement/Evenement/TraitementSuppresionEvenement.php?id=<?= $user['id_evenement'] ?>'">Supprimer</button>
