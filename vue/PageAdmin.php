@@ -20,7 +20,7 @@ $nbEvenements = $repEvenement->nombreEvenement();
 
 $repFormations = new FormationRepository();
 $nbFormations = $repFormations->nombreFormation();
-
+//var_dump(__DIR__);
 ?>
 <!DOCTYPE html>
 <html lang="fr">

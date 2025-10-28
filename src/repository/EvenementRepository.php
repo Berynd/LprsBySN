@@ -12,13 +12,13 @@ class EvenementRepository
     public function ajout(Evenement $evenement)
     {
         $check = $this->bdd->getBdd()->prepare(
-            'SELECT COUNT(*) FROM evenement WHERE titre_evenement = :titre'
+            'SELECT COUNT(*) FROM evenement WHERE titre = :titre'
         );
         $check->execute(['titre' => $evenement->getTitreEvenement()]);
 
         if ($check->fetchColumn() == 0) {
             $sql = 'INSERT INTO evenement 
-                    (type_evenement, titre_evenement, description_evenement, lieu_evenement, element_requis, nombre_place, date_evenement, etat_evenement)
+                    (type, titre, description, lieu, element_requis, nombre_place, date_evenement, etat)
                     VALUES (:type, :titre, :description, :lieu, :element_requis, :nombre_place, :date_evenement, :etat)';
             $req = $this->bdd->getBdd()->prepare($sql);
             return $req->execute([

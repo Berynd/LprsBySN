@@ -1,7 +1,5 @@
 <?php
 
-use modele\Evenement;
-
 include "../../repository/EvenementRepository.php";
 require_once "../../bdd/BDD.php";
 require_once "../../modele/Evenement.php";
@@ -21,15 +19,16 @@ if(empty($_POST["type"]) ||
 }else{
 
     $user = new Evenement(array(
-        'type' => $_POST['type'],
-        'titre' => $_POST['titre'],
-        'description' => $_POST['description'],
-        'lieu' => $_POST['lieu'],
-        'element_requis' => $_POST['element_requis'],
-        'nombre_place' => $_POST['nombre_place'],
-        'date_evenement' => $_POST['date_evenement']
-
+        'typeEvenement' => $_POST['type'],
+        'titreEvenement' => $_POST['titre'],
+        'descriptionEvenement' => $_POST['description'],
+        'lieuEvenement' => $_POST['lieu'],
+        'elementRequis' => $_POST['element_requis'],
+        'nombrePlace' => $_POST['nombre_place'],
+        'dateEvenement' => $_POST['date_evenement'],
+        'etatEvenement' => 'à venir'
     ));
+
     var_dump($user);
     $repository = new EvenementRepository();
     $resultat = $repository->ajout($user);
