@@ -32,7 +32,7 @@
             <h2 class="section-title">Créer un compte</h2>
 
 
-                <form class="contact-form" style="max-width:600px;margin:auto;" method="POST" action="../src/traitement/InscriptionTraitement.php">
+                <form class="contact-form" style="max-width:600px;margin:auto;" method="POST" action="../src/traitement/TraitementInscriptionUtilisateur.php">
 
                     <input type="text" name="nom" placeholder="Nom" required>
                     <input type="text" name="prenom" placeholder="Prénom" required>

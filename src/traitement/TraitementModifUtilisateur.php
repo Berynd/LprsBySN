@@ -2,19 +2,21 @@
 include "../repository/UtilisateurRepository.php";
 require_once "../bdd/BDD.php";
 require_once "../modele/Utilisateur.php";
-session_start();
+var_dump($_POST);
+if(empty($_POST["nom"]) && empty($_POST["adresse"] && empty($_POST["site_web"])))
+{
+    echo "<p style='color: red; font-weight: bold;'>Erreur : Tous les champs doivent être remplis.</p>";
+    echo "<button onclick='history.back()' style='padding: 10px; font-size: 16px; cursor: pointer;'>Retour à la modification</button>";
+    return;
+}
+
+$entreprise = new Entreprise(
+    $_POST,
+);
+
+var_dump($entreprise);
+$repository = new EntrepriseRepository();
+$resultat = $repository->modification($entreprise);
+header("Location: ../../../vue/pageAdmin.php");
 
 
-
-
-$user = new Utilisateur(array(
-    'nom' => $_POST['nom'],
-    'prenom' => $_POST['prenom'],
-    'email' => $_POST['email'],
-    'idUtilisateur' => $_POST['idUtilisateur']
-));
-
-var_dump($user);
-$repository = new UtilisateurRepository();
-$resultat = $repository->modificationAdmin($user);
-header("Location:../../vue/page_admin.php");
