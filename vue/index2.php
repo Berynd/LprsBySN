@@ -131,6 +131,27 @@
     </div>
 </footer>
 
-<script src="assets/js/script.js"></script>
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Informations du compte</h2>
+                <button type="button" class="modal-close" aria-label="Fermer">&times;</button>
+            </div>
+            <form id="userModalForm">
+                <div class="modal-body">
+                    <input type="text" id="modalPrenom" name="prenom" placeholder="Prénom">
+                    <input type="text" id="modalNom" name="nom" placeholder="Nom">
+                    <input type="email" id="modalEmail" name="email" placeholder="Email">
+                    <textarea id="modalNotes" name="notes" placeholder="Notes" rows="4"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-button secondary" id="modalCancel">Fermer</button>
+                    <button type="submit" class="modal-button primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/LprsBySn/assets/js/script.js"></script>
 </body>
 </html>
