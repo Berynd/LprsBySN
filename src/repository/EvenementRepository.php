@@ -59,6 +59,16 @@ class EvenementRepository
         return $req->execute(['id' => $evenement->getIdEvenement()]);
     }
 
+    public function detailEvenement($id)
+    {
+        if (empty($id)) return null;
+
+        $sql = 'SELECT * FROM evenement WHERE id_evenement = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['id' => $id]);
+        return $req->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function modification(Evenement $evenement)
     {
         $sql = 'UPDATE evenement 

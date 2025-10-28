@@ -147,7 +147,7 @@ $listeEvenement = $repo->listeEvenement();
                     <td><?= htmlspecialchars($user['date_evenement']) ?></td>
                     <td><?= htmlspecialchars($user['etat']) ?></td>
                     <td>
-                        <button class="btn-action btn-modifier" onclick="window.location.href='../page_admin/ModifierEvenement.php?id=<?= $user['id_evenement'] ?>'">Modifier</button>
+                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/ModifEvenement.php?id=<?= $user['id_evenement'] ?>'">Modifier</button>
                         <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet evenement ?')) window.location.href='../src/traitement/Evenement/TraitementSuppresionEvenement.php?id=<?= $user['id_evenement'] ?>'">Supprimer</button>
 
                     </td>
