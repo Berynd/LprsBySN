@@ -71,11 +71,7 @@ class EvenementRepository
 
     public function modification(Evenement $evenement)
     {
-        $sql = 'UPDATE evenement 
-                SET type_evenement = :type, titre_evenement = :titre, description_evenement = :description, 
-                    lieu_evenement = :lieu, element_requis = :element_requis, nombre_place = :nombre_place, 
-                    date_evenement = :date_evenement, etat_evenement = :etat 
-                WHERE id_evenement = :id';
+        $sql = 'UPDATE evenement SET type = :type, titre = :titre, description = :description, lieu = :lieu, element_requis = :element_requis, nombre_place = :nombre_place, date_evenement = :date_evenement, etat = :etat WHERE id_evenement = :id';
         $req = $this->bdd->getBdd()->prepare($sql);
         return $req->execute([
             'type' => $evenement->getTypeEvenement(),
