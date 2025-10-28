@@ -7,153 +7,142 @@ require_once __DIR__ . '/../../src/bdd/BDD.php';
 $repo = new FormationRepository();
 $listeFormation = $repo->listeFormation();
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Formations</title>
-    <style>
-        body {
-            background-color: #1e2530;
-            color: #e2e8f0;
-            font-family: "Poppins", sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+<style>
+    .admin-container {
+        background: #1e293b;
+        color: #f1f5f9;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        max-width: 1200px;
+        margin: 0 auto;
+    }
 
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #4f75ff;
-            margin-bottom: 20px;
-        }
+    .admin-container h2 {
+        color: #3b82f6;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
 
-        .search-bar {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            margin-bottom: 1rem;
-            border: none;
-            border-radius: 8px;
-            background: #334155;
-            color: white;
-            font-size: 1rem;
-        }
+    .search-bar {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        margin-bottom: 1rem;
+        border: none;
+        border-radius: 8px;
+        background: #334155;
+        color: white;
+        font-size: 1rem;
+    }
 
-        .search-bar::placeholder {
-            color: #94a3b8;
-        }
-        .add-btn {
-            background-color: #4f75ff;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.2s;
-            margin-bottom: 25px;
-        }
+    .search-bar::placeholder {
+        color: #94a3b8;
+    }
 
-        .add-btn:hover {
-            background-color: #678cff;
-        }
+    .btn-ajout {
+        background: #3b82f6;
+        border: none;
+        color: white;
+        padding: 0.8rem 1.2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 1.5rem;
+        transition: 0.2s;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #232b38;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+    .btn-ajout:hover {
+        background: #2563eb;
+    }
 
-        th, td {
-            padding: 15px;
-            text-align: left;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #0f172a;
+        border-radius: 8px;
+        overflow: hidden;
+    }
 
-        th {
-            background-color: #1b2230;
-            font-weight: 600;
-        }
+    th, td {
+        text-align: left;
+        padding: 12px 16px;
+    }
 
-        tr:nth-child(even) {
-            background-color: #2b3342;
-        }
+    thead {
+        background: #1e293b;
+    }
 
-        tr:hover {
-            background-color: #343e52;
-        }
+    tbody tr:nth-child(odd) {
+        background: #1e293b;
+    }
 
-        .actions button {
-            border: none;
-            padding: 8px 14px;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            margin-right: 5px;
-            transition: 0.2s;
-        }
+    tbody tr:nth-child(even) {
+        background: #0f172a;
+    }
 
-        .edit-btn {
-            background-color: #f0a500;
-        }
+    tbody tr:hover {
+        background: #334155;
+    }
 
-        .edit-btn:hover {
-            background-color: #f7b733;
-        }
+    .btn-action {
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        color: white;
+        transition: 0.2s;
+    }
 
-        .delete-btn {
-            background-color: #e74c3c;
-        }
+    .btn-modifier {
+        background: #f59e0b;
+    }
 
-        .delete-btn:hover {
-            background-color: #ff6659;
-        }
+    .btn-modifier:hover {
+        background: #d97706;
+    }
 
-        .icon {
-            font-size: 1.2rem;
-        }
-    </style>
-</head>
-<body>
+    .btn-supprimer {
+        background: #ef4444;
+    }
 
-<h1>Liste des Formations</h1>
+    .btn-supprimer:hover {
+        background: #dc2626;
+    }
+</style>
 
-<input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher un utilisateur..." onkeyup="filter()">
+<div class="admin-container">
+    <h2>Liste des Formations</h2>
 
+    <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher une formation..." onkeyup="filter()">
 
-<button class="add-btn" onclick="window.location.href='../vue/AjoutFormation.php'">
-    ➕ Ajouter un utilisateur
-</button>
+    <button class="btn-ajout" onclick="window.location.href='../vue/AjoutFormation.php'">
+        ➕ Ajouter une formation
+    </button>
 
-<table>
-    <thead>
-    <tr>
-        <th>Nom de la Formation</th>
-
-    </thead>
-    <tbody>
-    <?php if (!empty($listeFormation)) : ?>
-        <?php foreach ($listeFormation as $Formation) : ?>
+    <table>
+        <thead>
+        <tr>
+            <th>Nom de la Formation</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (!empty($listeFormation)) : ?>
+            <?php foreach ($listeFormation as $formation) : ?>
             <tr>
-                <td><?= htmlspecialchars($Formation['nom_formation']) ?></td>
+                <td><?= htmlspecialchars($formation['nom_formation']) ?></td>
                 <td>
-                    <button class="btn-action edit-btn icon" onclick="window.location.href='../vue/ModifFormation.php?id=<?= $Formation['id_formation'] ?>'">Modifier</button>
-                    <button class="btn-action delete-btn icon" onclick="if(confirm('Supprimer cette formation ?')) window.location.href='../src/traitement/Formation/TraitementSuppressionFormation.php?id=<?= $Formation['id_formation'] ?>'">Supprimer</button>
+                    <button class="btn-action btn-modifier" onclick="window.location.href='../vue/ModifFormation.php?id=<?= $formation['id_formation'] ?>'">Modifier</button>
+                    <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet evenement ?')) window.location.href='../src/traitement/Formation/TraitementSuppressionFormation.php?id=<?= $formation['id_formation'] ?>'">Supprimer</button>
 
                 </td>
             </tr>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <tr><td colspan="8" style="text-align:center; opacity:0.7;">Aucune formation trouvé 😔</td></tr>
-    <?php endif; ?>
-    </tbody>
-</table>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr><td colspan="10" style="text-align:center; opacity:0.7;">Aucune formation trouvée 😔</td></tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
 </div>
 
 <script>
@@ -167,5 +156,3 @@ $listeFormation = $repo->listeFormation();
         });
     }
 </script>
-</body>
-</html>
