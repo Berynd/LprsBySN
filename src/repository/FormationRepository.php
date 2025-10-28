@@ -32,6 +32,16 @@ class FormationRepository
         return false; // formation déjà existante
     }
 
+    public function detailFormation($id)
+    {
+        if (empty($id)) return null;
+
+        $sql = 'SELECT * FROM formation WHERE id_formation = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['id' => $id]);
+        return $req->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function listeFormation()
     {
         $sql = 'SELECT * FROM formation';

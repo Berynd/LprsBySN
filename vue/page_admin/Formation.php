@@ -30,26 +30,19 @@ $listeFormation = $repo->listeFormation();
         }
 
         .search-bar {
-            background-color: #2c3440;
-            border-radius: 10px;
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
             width: 100%;
-            max-width: 600px;
-            margin-bottom: 20px;
-        }
-
-        .search-bar input {
+            padding: 0.8rem 1rem;
+            margin-bottom: 1rem;
             border: none;
-            background: transparent;
-            color: #e2e8f0;
-            outline: none;
-            width: 100%;
+            border-radius: 8px;
+            background: #334155;
+            color: white;
             font-size: 1rem;
-            margin-left: 10px;
         }
 
+        .search-bar::placeholder {
+            color: #94a3b8;
+        }
         .add-btn {
             background-color: #4f75ff;
             border: none;
@@ -131,11 +124,13 @@ $listeFormation = $repo->listeFormation();
 
 <h1>Liste des Formations</h1>
 
-<div class="search-bar">
-    🔍 <input type="text" placeholder="Rechercher une formation...">
-</div>
+<input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher un utilisateur..." onkeyup="filter()">
 
-<button class="add-btn">➕ Ajouter une formation</button>
+
+<button class="add-btn" onclick="window.location.href='../vue/AjoutFormation.php'">
+    ➕ Ajouter un utilisateur
+</button>
+
 <table>
     <thead>
     <tr>
@@ -148,8 +143,8 @@ $listeFormation = $repo->listeFormation();
             <tr>
                 <td><?= htmlspecialchars($Formation['nom_formation']) ?></td>
                 <td>
-                    <button class="btn-action edit-btn" onclick="window.location.href='../page_admin/ModifierFormation.php?id=<?= $Formation['id_formation'] ?>'">Modifier</button>
-                    <button class="btn-action delete-btn" onclick="if(confirm('Supprimer cette formation ?')) window.location.href='../src/traitement/Formation/TraitementSuppresionFormation.php?id=<?= $Formation['id_formation'] ?>'">Supprimer</button>
+                    <button class="btn-action edit-btn icon" onclick="window.location.href='../vue/ModifFormation.php?id=<?= $Formation['id_formation'] ?>'">Modifier</button>
+                    <button class="btn-action delete-btn icon" onclick="if(confirm('Supprimer cette formation ?')) window.location.href='../src/traitement/Formation/TraitementSuppressionFormation.php?id=<?= $Formation['id_formation'] ?>'">Supprimer</button>
 
                 </td>
             </tr>
