@@ -5,6 +5,7 @@ require_once "../src/repository/UtilisateurRepository.php";
 require_once "../src/repository/EntrepriseRepository.php";
 require_once "../src/repository/EvenementRepository.php";
 require_once "../src/repository/FormationRepository.php";
+require_once "../src/modele/Utilisateur.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
@@ -12,14 +13,39 @@ $page = $_GET['page'] ?? 'dashboard';
 $repUtilisateur = new UtilisateurRepository();
 $nbUtilisateurs = $repUtilisateur->nombreUtilisateur();
 
-$repEntreprise = new EntrepriseRepository();
-$nbEntreprises = $repEntreprise->nombreEntreprise();
+$repEvenement = new EvenementRepository();
+$nbEvenements = $repEvenement->nombreEvenement();
 
 $repEvenement = new EvenementRepository();
 $nbEvenements = $repEvenement->nombreEvenement();
 
 $repFormations = new FormationRepository();
 $nbFormations = $repFormations->nombreFormation();
+
+$UtilisateurRepository = new UtilisateurRepository();
+$utilisateur = $UtilisateurRepository->detailUtilisateur($_GET["id"]);
+$utilisateur = new Utilisateur([
+    'idUtilisateur' => $utilisateur['idUtilisateur'],
+    'nom' => $utilisateur['nom'],
+    'prenom' => $utilisateur['prenom'],
+    'email' => $utilisateur['email'],
+    'mdp' => $utilisateur['mdp'],
+    'role' => $utilisateur['role'],
+    'specialite' => $utilisateur['specialite'],
+    'matiere' => $utilisateur['matiere'],
+    'poste' => $utilisateur['poste'],
+    'anneePromo' => $utilisateur['annee_promo'],
+    'cv' => $utilisateur['cv'],
+    'promo' => $utilisateur['promo'],
+    'motifPartenariat' => $utilisateur['motif_partenariat'],
+    'estVerifie' => $utilisateur['estVerifie'],
+    'refEntreprise' => $utilisateur['refEntreprise'],
+    'refFormation' => $utilisateur['refFormation']
+]);
+$entreprise = $repUtilisateur->getNomEntreprise();
+$formation = $repUtilisateur->getNomFormation();
+
+$idUtilisateur = $_GET['id'];
 
 ?>
 <!DOCTYPE html>
@@ -292,32 +318,96 @@ $nbFormations = $repFormations->nombreFormation();
     </header>
 
     <div class="content">
-        <h2 class="form-title">➕ Ajouter un utilisateur</h2>
-        <form method="POST" action="../src/traitement/Utilisateur/TraitementAjoutUtilisateur.php" class="add-form">
+        <h2 class="form-title">Modifier l'Utilisateur</h2>
+        <form action="../src/traitement/Utilisateur/TraitementModifUtilisateur.php" method="post" class="add-form">
             <div class="form-group">
                 <label for="nom">Nom</label>
-                <input type="text" id="nom" name="nom" required>
+                <input type="text" id="nom" name="nom" value="<?=$utilisateur->getNom()?>">
             </div>
             <div class="form-group">
                 <label for="prenom">Prénom</label>
-                <input type="text" id="prenom" name="prenom" required>
+                <input type="text" id="prenom" name="prenom" value="<?=$utilisateur->getPrenom()?>">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="exemple@lprs.fr" required>
+                <input type="text" id="email" name="email" value="<?=$utilisateur->getEmail()?>">
             </div>
             <div class="form-group">
                 <label for="mdp">Mot de passe</label>
-                <input type="password" id="mdp" name="mdp" required>
+                <input type="text" id="mdp" name="mdp" value="<?=$utilisateur->getMdp()?>">
             </div>
-            <button type="submit" class="btn-submit">Ajouter l’utilisateur</button>
+            <div class="form-group">
+                <label for="role">Role de l'utilisateur</label>
+                <select id="role" name="role" value="<?=$utilisateur->getRole()?>">
+                    <option value="utilisateur">utilisateur</option>
+                    <option value="Admin">admin</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="specialite">Spécialité </label> <!-- Spécialité / Matière enseigné -->
+                <select id="specialite" name="specialite" value="<?=$utilisateur->getSpecialite()?>">
+                    <option value="francais">français</option>
+                    <option value="mathematique">mathématique</option>
+                    <option value="anglais">anglais</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="poste">Poste</label> <!-- Poste occupé dans l'entreprise -->
+                <select id="poste" name="poste" value="<?=$utilisateur->getPoste()?>">
+                    <option value="directionGestion">Direction et gestion</option>
+                    <option value="informatique">Informatique</option>
+                    <option value="marketingCommunication">Marketing et communication</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="comptabilité">Comptabilité</option>
+                    <option value="ressourcesHumaines">Ressources humaines</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="anneePromo">Année promo</label>
+                <input type="month" id="anneePromo" name="anneePromo" min="2000" required value="<?=$utilisateur->getAnneePromo()?>">
+            </div>
+            <div class="form-group">
+                <label for="cv">CV</label>
+                <input type="file" id="cv" name="cv" accept="image/png, image/jpeg">
+            </div>
+            <div class="form-group">
+                <label for="motifPartenariat">motif du partenariat</label>
+                <input type="text" id="motifPartenariat" name="motifPartenariat" required value="<?=$utilisateur->getMotifPartenariat()?>">
+            </div>
+            <div class="form-group">
+                <label for="estVerifie">Est il vérifié</label> <!-- L'utilisateur est il vérifié par un admin -->
+                <select id="estVerifie" name="estVerifie" value="<?=$utilisateur->getEstVerifie()?>">
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="refEntreprise">refEntreprise</label>
+                <select id="refEntreprise" name="refEntreprise" value="<?=$utilisateur->getRefEntreprise()?>">
+                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownDestinations">
+                        <?php foreach ($entreprise as $entreprise): ?>
+                            <li><span class="dropdown-item disabled"><?= htmlspecialchars($entreprise) ?></span></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="refFormation">refFormation</label>
+                <select id="refFormation" name="refFormation" value="<?=$utilisateur->getRefFormation()?>">
+                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownDestinations">
+                        <?php foreach ($formation as $formation): ?>
+                            <li><span class="dropdown-item disabled"><?= htmlspecialchars($formation) ?></span></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </select>
+            </div>
+            <input type="hidden" name="idEvenement" value="<?=$utilisateur->getIdUtilisateur()?>">
+            <input type="submit" value="Modifier" class="btn-submit" >
         </form>
     </div>
-
     <footer class="footer">
         <p>&copy; 2025 LPRS - Administration</p>
     </footer>
 </main>
-
 </body>
 </html>
