@@ -72,11 +72,11 @@ $listeFormation = $repo->listeFormation();
     }
 
     tbody tr:nth-child(odd) {
-        background: #1e293b;
+        background: #0f172a; /* noir */
     }
 
     tbody tr:nth-child(even) {
-        background: #0f172a;
+        background: #1e293b; /* gris */
     }
 
     tbody tr:hover {
