@@ -170,6 +170,6 @@ session_start();
         </div>
     </div>
 
-    <script src="/LprsBySn/assets/js/script.js"></script>
+    <script src="/assets/js/script.js"></script>
 </body>
 </html>
