@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../../src/modele/Evenement.php';
 require_once __DIR__ . '/../../src/repository/EvenementRepository.php';
 require_once __DIR__ . '/../../src/bdd/BDD.php';
@@ -6,6 +7,10 @@ require_once __DIR__ . '/../../src/bdd/BDD.php';
 // Récupération de la liste des utilisateurs
 $repo = new EvenementRepository();
 $listeEvenement = $repo->listeEvenement();
+
+if($_SESSION["userConnecte"]["role"]=="utilisateur"){
+    header('Location:../vue/index2.php');
+}
 ?>
 
 <style>

@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if($_SESSION["userConnecte"]["role"]=="utilisateur"){
+    header('Location:../vue/index2.php');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
