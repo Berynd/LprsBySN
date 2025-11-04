@@ -16,7 +16,7 @@
                 </div>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a href="vue/PageAdmin.php" class="nav-link">Accueil</a>
+                        <a href="#accueil" class="nav-link">Accueil</a>
                     </li>
                     <li class="nav-item">
                         <a href="#evenements" class="nav-link">Événements</a>
