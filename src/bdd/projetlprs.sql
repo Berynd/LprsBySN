@@ -1,14 +1,21 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.3
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Generation Time: Sep 30, 2025 at 08:00 AM
--- Server version: 5.7.26
--- PHP Version: 7.4.2
+-- Host: 127.0.0.1:3306
+-- Generation Time: Nov 04, 2025 at 10:00 AM
+-- Server version: 8.3.0
+-- PHP Version: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `projetlprs`
@@ -20,12 +27,16 @@ SET time_zone = "+00:00";
 -- Table structure for table `candidature`
 --
 
-CREATE TABLE `candidature` (
-  `id_candidature` int(11) NOT NULL,
-  `motivation` text COLLATE latin1_bin,
+DROP TABLE IF EXISTS `candidature`;
+CREATE TABLE IF NOT EXISTS `candidature` (
+  `id_candidature` int NOT NULL AUTO_INCREMENT,
+  `motivation` text CHARACTER SET latin1 COLLATE latin1_bin,
   `date_candidature` date DEFAULT NULL,
-  `ref_offre` int(11) NOT NULL,
-  `ref_utilisateur` int(11) NOT NULL
+  `ref_offre` int NOT NULL,
+  `ref_utilisateur` int NOT NULL,
+  PRIMARY KEY (`id_candidature`),
+  KEY `ref_offre` (`ref_offre`),
+  KEY `ref_utilisateur` (`ref_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
@@ -34,11 +45,13 @@ CREATE TABLE `candidature` (
 -- Table structure for table `categorie_forum`
 --
 
-CREATE TABLE `categorie_forum` (
-  `id_categorie_forum` int(11) NOT NULL,
-  `nom` varchar(100) COLLATE latin1_bin NOT NULL,
-  `description` text COLLATE latin1_bin,
-  `categorie` varchar(100) COLLATE latin1_bin DEFAULT NULL
+DROP TABLE IF EXISTS `categorie_forum`;
+CREATE TABLE IF NOT EXISTS `categorie_forum` (
+  `id_categorie_forum` int NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `description` text CHARACTER SET latin1 COLLATE latin1_bin,
+  `categorie` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  PRIMARY KEY (`id_categorie_forum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
@@ -47,12 +60,21 @@ CREATE TABLE `categorie_forum` (
 -- Table structure for table `entreprise`
 --
 
-CREATE TABLE `entreprise` (
-  `id_entreprise` int(11) NOT NULL,
-  `nom` varchar(255) COLLATE latin1_bin NOT NULL,
-  `adresse` varchar(255) COLLATE latin1_bin DEFAULT NULL,
-  `site_web` varchar(255) COLLATE latin1_bin DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+DROP TABLE IF EXISTS `entreprise`;
+CREATE TABLE IF NOT EXISTS `entreprise` (
+  `id_entreprise` int NOT NULL AUTO_INCREMENT,
+  `nom` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `adresse` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  `site_web` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  PRIMARY KEY (`id_entreprise`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+
+--
+-- Dumping data for table `entreprise`
+--
+
+INSERT INTO `entreprise` (`id_entreprise`, `nom`, `adresse`, `site_web`) VALUES
+(12, 'Thales', '69 rue du gros chateau', 'https://www.thalesgroup.com/fr');
 
 -- --------------------------------------------------------
 
@@ -60,17 +82,26 @@ CREATE TABLE `entreprise` (
 -- Table structure for table `evenement`
 --
 
-CREATE TABLE `evenement` (
-  `id_evenement` int(11) NOT NULL,
-  `type` varchar(100) COLLATE latin1_bin DEFAULT NULL,
-  `titre` varchar(255) COLLATE latin1_bin NOT NULL,
-  `description` text COLLATE latin1_bin,
-  `lieu` varchar(255) COLLATE latin1_bin DEFAULT NULL,
-  `element_requis` text COLLATE latin1_bin,
-  `nombre_place` int(11) DEFAULT NULL,
-  `date_creation` date DEFAULT NULL,
-  `etat` varchar(50) COLLATE latin1_bin DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+DROP TABLE IF EXISTS `evenement`;
+CREATE TABLE IF NOT EXISTS `evenement` (
+  `id_evenement` int NOT NULL AUTO_INCREMENT,
+  `type` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  `titre` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `description` text CHARACTER SET latin1 COLLATE latin1_bin,
+  `lieu` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  `element_requis` text CHARACTER SET latin1 COLLATE latin1_bin,
+  `nombre_place` int DEFAULT NULL,
+  `date_evenement` datetime DEFAULT NULL,
+  `etat` varchar(50) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  PRIMARY KEY (`id_evenement`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+
+--
+-- Dumping data for table `evenement`
+--
+
+INSERT INTO `evenement` (`id_evenement`, `type`, `titre`, `description`, `lieu`, `element_requis`, `nombre_place`, `date_evenement`, `etat`) VALUES
+(11, 'Sportif', 'test', 'test', 'test', 'test', 10, '2025-11-07 20:22:00', 'Finis');
 
 -- --------------------------------------------------------
 
@@ -78,10 +109,24 @@ CREATE TABLE `evenement` (
 -- Table structure for table `formation`
 --
 
-CREATE TABLE `formation` (
-  `id_formation` int(11) NOT NULL,
-  `nom_formation` varchar(255) COLLATE latin1_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+DROP TABLE IF EXISTS `formation`;
+CREATE TABLE IF NOT EXISTS `formation` (
+  `id_formation` int NOT NULL AUTO_INCREMENT,
+  `nom_formation` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  PRIMARY KEY (`id_formation`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+
+--
+-- Dumping data for table `formation`
+--
+
+INSERT INTO `formation` (`id_formation`, `nom_formation`) VALUES
+(1, 'BTS SIO SLAM'),
+(2, 'BTS SIO SISR'),
+(3, 'BAC PRO SN'),
+(4, 'BAC PRO CIEL'),
+(5, 'BAC PRO TU'),
+(6, 'BAC PRO MEI');
 
 -- --------------------------------------------------------
 
@@ -89,10 +134,13 @@ CREATE TABLE `formation` (
 -- Table structure for table `inscrire`
 --
 
-CREATE TABLE `inscrire` (
-  `ref_utilisateur` int(11) NOT NULL,
-  `ref_evenement` int(11) NOT NULL,
-  `est_valide` tinyint(1) DEFAULT '0'
+DROP TABLE IF EXISTS `inscrire`;
+CREATE TABLE IF NOT EXISTS `inscrire` (
+  `ref_utilisateur` int NOT NULL,
+  `ref_evenement` int NOT NULL,
+  `est_valide` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`ref_utilisateur`,`ref_evenement`),
+  KEY `ref_evenement` (`ref_evenement`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
@@ -101,16 +149,19 @@ CREATE TABLE `inscrire` (
 -- Table structure for table `offre`
 --
 
-CREATE TABLE `offre` (
-  `id_offre` int(11) NOT NULL,
-  `titre` varchar(255) COLLATE latin1_bin NOT NULL,
-  `description` text COLLATE latin1_bin,
-  `mission` text COLLATE latin1_bin,
+DROP TABLE IF EXISTS `offre`;
+CREATE TABLE IF NOT EXISTS `offre` (
+  `id_offre` int NOT NULL AUTO_INCREMENT,
+  `titre` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `description` text CHARACTER SET latin1 COLLATE latin1_bin,
+  `mission` text CHARACTER SET latin1 COLLATE latin1_bin,
   `salaire` decimal(10,2) DEFAULT NULL,
-  `type_offre` varchar(50) COLLATE latin1_bin DEFAULT NULL,
+  `type_offre` varchar(50) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `date_creation` date DEFAULT NULL,
-  `etat` varchar(50) COLLATE latin1_bin DEFAULT NULL,
-  `ref_entreprise` int(11) NOT NULL
+  `etat` varchar(50) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  `ref_entreprise` int NOT NULL,
+  PRIMARY KEY (`id_offre`),
+  KEY `ref_entreprise` (`ref_entreprise`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
@@ -119,9 +170,12 @@ CREATE TABLE `offre` (
 -- Table structure for table `organisation`
 --
 
-CREATE TABLE `organisation` (
-  `ref_utilisateur` int(11) NOT NULL,
-  `ref_evenement` int(11) NOT NULL
+DROP TABLE IF EXISTS `organisation`;
+CREATE TABLE IF NOT EXISTS `organisation` (
+  `ref_utilisateur` int NOT NULL,
+  `ref_evenement` int NOT NULL,
+  PRIMARY KEY (`ref_utilisateur`,`ref_evenement`),
+  KEY `ref_evenement` (`ref_evenement`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
@@ -130,13 +184,17 @@ CREATE TABLE `organisation` (
 -- Table structure for table `post_forum`
 --
 
-CREATE TABLE `post_forum` (
-  `id_post` int(11) NOT NULL,
-  `titre` varchar(255) COLLATE latin1_bin NOT NULL,
-  `contenu` text COLLATE latin1_bin,
+DROP TABLE IF EXISTS `post_forum`;
+CREATE TABLE IF NOT EXISTS `post_forum` (
+  `id_post` int NOT NULL AUTO_INCREMENT,
+  `titre` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `contenu` text CHARACTER SET latin1 COLLATE latin1_bin,
   `date_creation` date DEFAULT NULL,
-  `ref_categorie_forum` int(11) NOT NULL,
-  `ref_utilisateur` int(11) NOT NULL
+  `ref_categorie_forum` int NOT NULL,
+  `ref_utilisateur` int NOT NULL,
+  PRIMARY KEY (`id_post`),
+  KEY `ref_categorie_forum` (`ref_categorie_forum`),
+  KEY `ref_utilisateur` (`ref_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
@@ -145,12 +203,16 @@ CREATE TABLE `post_forum` (
 -- Table structure for table `reponse_forum`
 --
 
-CREATE TABLE `reponse_forum` (
-  `id_reponse_forum` int(11) NOT NULL,
-  `contenu` text COLLATE latin1_bin,
+DROP TABLE IF EXISTS `reponse_forum`;
+CREATE TABLE IF NOT EXISTS `reponse_forum` (
+  `id_reponse_forum` int NOT NULL AUTO_INCREMENT,
+  `contenu` text CHARACTER SET latin1 COLLATE latin1_bin,
   `date_creation` date DEFAULT NULL,
-  `ref_post_forum` int(11) NOT NULL,
-  `ref_utilisateur` int(11) NOT NULL
+  `ref_post_forum` int NOT NULL,
+  `ref_utilisateur` int NOT NULL,
+  PRIMARY KEY (`id_reponse_forum`),
+  KEY `ref_post_forum` (`ref_post_forum`),
+  KEY `ref_utilisateur` (`ref_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
@@ -159,163 +221,35 @@ CREATE TABLE `reponse_forum` (
 -- Table structure for table `utilisateur`
 --
 
-CREATE TABLE `utilisateur` (
-  `id_utilisateur` int(11) NOT NULL,
-  `nom` varchar(100) COLLATE latin1_bin NOT NULL,
-  `prenom` varchar(100) COLLATE latin1_bin NOT NULL,
-  `email` varchar(150) COLLATE latin1_bin NOT NULL,
-  `mdp` varchar(255) COLLATE latin1_bin NOT NULL,
-  `role` varchar(50) COLLATE latin1_bin DEFAULT NULL,
-  `specialite` varchar(100) COLLATE latin1_bin DEFAULT NULL,
-  `matiere` varchar(100) COLLATE latin1_bin DEFAULT NULL,
-  `poste` varchar(100) COLLATE latin1_bin DEFAULT NULL,
-  `annee_promo` year(4) DEFAULT NULL,
+DROP TABLE IF EXISTS `utilisateur`;
+CREATE TABLE IF NOT EXISTS `utilisateur` (
+  `id_utilisateur` int NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `prenom` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `email` varchar(150) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `mdp` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `role` varchar(50) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT 'utilisateur',
+  `specialite` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  `poste` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  `annee_promo` year DEFAULT NULL,
   `cv` blob,
-  `promo` varchar(50) COLLATE latin1_bin DEFAULT NULL,
-  `motif_partenariat` text COLLATE latin1_bin,
+  `motif_partenariat` text CHARACTER SET latin1 COLLATE latin1_bin,
   `est_verifie` tinyint(1) DEFAULT '0',
-  `ref_entreprise` int(11) DEFAULT NULL,
-  `ref_formation` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+  `ref_entreprise` int DEFAULT NULL,
+  `ref_formation` int DEFAULT NULL,
+  PRIMARY KEY (`id_utilisateur`),
+  KEY `ref_entreprise` (`ref_entreprise`),
+  KEY `ref_formation` (`ref_formation`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
--- Indexes for dumped tables
+-- Dumping data for table `utilisateur`
 --
 
---
--- Indexes for table `candidature`
---
-ALTER TABLE `candidature`
-  ADD PRIMARY KEY (`id_candidature`),
-  ADD KEY `ref_offre` (`ref_offre`),
-  ADD KEY `ref_utilisateur` (`ref_utilisateur`);
-
---
--- Indexes for table `categorie_forum`
---
-ALTER TABLE `categorie_forum`
-  ADD PRIMARY KEY (`id_categorie_forum`);
-
---
--- Indexes for table `entreprise`
---
-ALTER TABLE `entreprise`
-  ADD PRIMARY KEY (`id_entreprise`);
-
---
--- Indexes for table `evenement`
---
-ALTER TABLE `evenement`
-  ADD PRIMARY KEY (`id_evenement`);
-
---
--- Indexes for table `formation`
---
-ALTER TABLE `formation`
-  ADD PRIMARY KEY (`id_formation`);
-
---
--- Indexes for table `inscrire`
---
-ALTER TABLE `inscrire`
-  ADD PRIMARY KEY (`ref_utilisateur`,`ref_evenement`),
-  ADD KEY `ref_evenement` (`ref_evenement`);
-
---
--- Indexes for table `offre`
---
-ALTER TABLE `offre`
-  ADD PRIMARY KEY (`id_offre`),
-  ADD KEY `ref_entreprise` (`ref_entreprise`);
-
---
--- Indexes for table `organisation`
---
-ALTER TABLE `organisation`
-  ADD PRIMARY KEY (`ref_utilisateur`,`ref_evenement`),
-  ADD KEY `ref_evenement` (`ref_evenement`);
-
---
--- Indexes for table `post_forum`
---
-ALTER TABLE `post_forum`
-  ADD PRIMARY KEY (`id_post`),
-  ADD KEY `ref_categorie_forum` (`ref_categorie_forum`),
-  ADD KEY `ref_utilisateur` (`ref_utilisateur`);
-
---
--- Indexes for table `reponse_forum`
---
-ALTER TABLE `reponse_forum`
-  ADD PRIMARY KEY (`id_reponse_forum`),
-  ADD KEY `ref_post_forum` (`ref_post_forum`),
-  ADD KEY `ref_utilisateur` (`ref_utilisateur`);
-
---
--- Indexes for table `utilisateur`
---
-ALTER TABLE `utilisateur`
-  ADD PRIMARY KEY (`id_utilisateur`),
-  ADD KEY `ref_entreprise` (`ref_entreprise`),
-  ADD KEY `ref_formation` (`ref_formation`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `candidature`
---
-ALTER TABLE `candidature`
-  MODIFY `id_candidature` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `categorie_forum`
---
-ALTER TABLE `categorie_forum`
-  MODIFY `id_categorie_forum` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `entreprise`
---
-ALTER TABLE `entreprise`
-  MODIFY `id_entreprise` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `evenement`
---
-ALTER TABLE `evenement`
-  MODIFY `id_evenement` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `formation`
---
-ALTER TABLE `formation`
-  MODIFY `id_formation` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `offre`
---
-ALTER TABLE `offre`
-  MODIFY `id_offre` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `post_forum`
---
-ALTER TABLE `post_forum`
-  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `reponse_forum`
---
-ALTER TABLE `reponse_forum`
-  MODIFY `id_reponse_forum` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `utilisateur`
---
-ALTER TABLE `utilisateur`
-  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT;
+INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `mdp`, `role`, `specialite`, `poste`, `annee_promo`, `cv`, `motif_partenariat`, `est_verifie`, `ref_entreprise`, `ref_formation`) VALUES
+(2, 'admin', 'admin', 'admin@gmail.com', 'Aa12345', 'admin', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL),
+(17, 'User', 'User', 'User@gmail.com', '$2y$10$iZPZIjCMiYSrFL6ab/.TsezcOIr1zUsndhCeQt6ybGVQj9F5kyOGC', 'utilisateur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(19, 'test', 'test', 'test@gmail.com', '$2y$10$mcdWDVWWCyUi05SzCnMBwe1AEUz8iqLSWWA5W5KoSUdpfqLnwjhoS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Constraints for dumped tables
@@ -368,3 +302,8 @@ ALTER TABLE `reponse_forum`
 ALTER TABLE `utilisateur`
   ADD CONSTRAINT `utilisateur_ibfk_1` FOREIGN KEY (`ref_entreprise`) REFERENCES `entreprise` (`id_entreprise`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `utilisateur_ibfk_2` FOREIGN KEY (`ref_formation`) REFERENCES `formation` (`id_formation`) ON DELETE SET NULL ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
