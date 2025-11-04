@@ -1,3 +1,10 @@
+<?php
+require_once "../src/bdd/BDD.php";
+//require_once "../src/traitement/TraitementConnexionUtilisateur.php";
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,6 +22,7 @@
                 <h2>LPRS</h2>
             </div>
             <ul class="nav-menu">
+
                 <li class="nav-item">
                     <a href="#accueil" class="nav-link">Accueil</a>
                 </li>
@@ -27,6 +35,11 @@
                 <li class="nav-item">
                     <a href="#contact" class="nav-link">Contact</a>
                 </li>
+                <?php
+                var_dump($_SESSION);
+                if($_SESSION["userConnecte"]["role"]=="admin"){
+                    echo'<li><a class="dropdown-item" href="PageAdmin.php"> Page Admin </a></li>';
+                }?>
                 <li class="nav-item">
                     <button><a href="../src/traitement/Utilisateur/TraitementDeconnexionUtilisateur.php" class="nav-link">Deconexion</a></button>
                 </li>
@@ -42,6 +55,7 @@
 </header>
 
 <!-- Section Hero -->
+
 <section id="accueil" class="hero">
     <div class="hero-content">
         <h1 class="hero-title">Bienvenue sur notre site</h1>

@@ -94,21 +94,26 @@ class UtilisateurRepository
     /** Connexion utilisateur */
     public function connexion(Utilisateur $user)
     {
-        $sql = 'SELECT * FROM utilisateur WHERE email = :email';
-        $req = $this->bdd->getBdd()->prepare($sql);
-        $req->execute(['email' => $user->getEmail()]);
-        $donne = $req->fetch(PDO::FETCH_ASSOC);
-
-        if ($donne && $user->getMdp() === $donne['mdp']) {
-            $user->setIdUtilisateur($donne['id_utilisateur']);
+        $sqlconnexion = 'SELECT * FROM utilisateur WHERE email = :email';
+        $reqconnexion = $this->bdd->getBdd()->prepare($sqlconnexion);
+        $reqconnexion->execute(array(
+            'email' => $user->getEmail(),
+        ));
+        $donne = $reqconnexion->fetch();
+        if($donne && password_verify($user->getMdp(), $donne['mdp'])) {
             $user->setNom($donne['nom']);
             $user->setPrenom($donne['prenom']);
             $user->setEmail($donne['email']);
+            $user->setMdp($donne['mdp']);
             $user->setRole($donne['role']);
+            $user->setIdUtilisateur($donne['id_utilisateur']);
+
             return $user;
         }
+        else {
+            return null;
+        }
 
-        return null;
     }
 
     /** Liste des utilisateurs */
