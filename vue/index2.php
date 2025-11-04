@@ -36,9 +36,8 @@ session_start();
                     <a href="#contact" class="nav-link">Contact</a>
                 </li>
                 <?php
-                var_dump($_SESSION);
                 if($_SESSION["userConnecte"]["role"]=="admin"){
-                    echo'<li><a class="dropdown-item" href="PageAdmin.php"> Page Admin </a></li>';
+                    echo'<li><a class="nav-item" href="PageAdmin.php"> Page Admin </a></li>';
                 }?>
                 <li class="nav-item">
                     <button><a href="../src/traitement/TraitementDeconnexionUtilisateur.php" class="nav-link">Deconexion</a></button>
