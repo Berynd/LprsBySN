@@ -16,7 +16,7 @@
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="PageAdmin.php" class="nav-link">Accueil</a>
+                    <a href="#accueil" class="nav-link">Accueil</a>
                 </li>
                 <li class="nav-item">
                     <a href="#evenements" class="nav-link">Événements</a>
@@ -27,6 +27,9 @@
                 <li class="nav-item">
                     <a href="#contact" class="nav-link">Contact</a>
                 </li>
+                <li class="nav-item">
+                    <button><a href="../src/traitement/Utilisateur/TraitementDeconnexionUtilisateur.php" class="nav-link">Deconexion</a></button>
+                </li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -34,6 +37,7 @@
                 <span class="bar"></span>
             </div>
         </div>
+
     </nav>
 </header>
 
@@ -88,7 +92,7 @@
             </div>
             <div class="about-image">
                 <div class="placeholder-image">
-                    <img src="assets/img/imglycee.png" class="placeholder-image">
+                    <img src="../assets/img/imglycee.png" class="placeholder-image">
                 </div>
             </div>
         </div>
