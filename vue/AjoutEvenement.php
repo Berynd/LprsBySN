@@ -252,7 +252,7 @@ $nbFormations = $repFormations->nombreFormation();
 <main class="main">
     <header class="topbar">
         <h1>Panneau d'administration</h1>
-        <form action="../src/traitement/Utilisateur/TraitementDeconnexionUtilisateur.php" method="post" style="margin:0;">
+        <form action="../src/traitement/TraitementDeconnexionUtilisateur.php" method="post" style="margin:0;">
             <button type="submit" class="logout-btn">🚪 Déconnexion</button>
         </form>
     </header>

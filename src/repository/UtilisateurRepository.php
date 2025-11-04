@@ -65,9 +65,9 @@ class UtilisateurRepository
 
         if ($donne === false) {
             $sql = 'INSERT INTO utilisateur
-                    (nom, prenom, email, mdp, role, specialite, matiere, poste, annee_promo, cv, promo, motif_partenariat, est_verifie, ref_entreprise, ref_formation)
+                    (nom, prenom, email, mdp, role, specialite, poste, annee_promo, cv, motif_partenariat, est_verifie, ref_entreprise, ref_formation)
                     VALUES
-                    (:nom, :prenom, :email, :mdp, :role, :specialite, :matiere, :poste, :annee_promo, :cv, :promo, :motif_partenariat, :est_verifie, :ref_entreprise, :ref_formation)';
+                    (:nom, :prenom, :email, :mdp, :role, :specialite, :poste, :annee_promo, :cv, :motif_partenariat, :est_verifie, :ref_entreprise, :ref_formation)';
             $req = $this->bdd->getBdd()->prepare($sql);
             return $req->execute([
                 'nom' => $user->getNom(),
@@ -76,11 +76,9 @@ class UtilisateurRepository
                 'mdp' => $user->getMdp(),
                 'role' => $user->getRole(),
                 'specialite' => $user->getSpecialite(),
-                'matiere' => $user->getMatiere(),
                 'poste' => $user->getPoste(),
                 'annee_promo' => $user->getAnneePromo(),
                 'cv' => $user->getCv(),
-                'promo' => $user->getPromo(),
                 'motif_partenariat' => $user->getMotifPartenariat(),
                 'est_verifie' => $user->getEstVerifie(),
                 'ref_entreprise' => $user->getRefEntreprise(),
@@ -130,9 +128,7 @@ class UtilisateurRepository
     {
         $sql = "UPDATE utilisateur SET 
                     nom = :nom, prenom = :prenom, email = :email, mdp = :mdp, 
-                    role = :role, specialite = :specialite, matiere = :matiere, 
-                    poste = :poste, annee_promo = :annee_promo, cv = :cv, 
-                    promo = :promo, motif_partenariat = :motif_partenariat, 
+                    role = :role, specialite = :specialite, poste = :poste, annee_promo = :annee_promo, cv = :cv, motif_partenariat = :motif_partenariat, 
                     est_verifie = :est_verifie 
                 WHERE id_utilisateur = :id";
         $req = $this->bdd->getBdd()->prepare($sql);
@@ -143,11 +139,9 @@ class UtilisateurRepository
             'mdp' => $user->getMdp(),
             'role' => $user->getRole(),
             'specialite' => $user->getSpecialite(),
-            'matiere' => $user->getMatiere(),
             'poste' => $user->getPoste(),
             'annee_promo' => $user->getAnneePromo(),
             'cv' => $user->getCv(),
-            'promo' => $user->getPromo(),
             'motif_partenariat' => $user->getMotifPartenariat(),
             'est_verifie' => $user->getEstVerifie(),
             'id' => $user->getIdUtilisateur()
@@ -191,5 +185,21 @@ class UtilisateurRepository
         session_start();
         session_destroy();
         header("Location: ../../../index.php");
+    }
+
+    public function getNomEntreprise()
+    {
+        $sql = "SELECT DISTINCT nom FROM entreprise ORDER BY nom ASC";
+        $stmt = $this->bdd->getBdd()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function getNomFormation()
+    {
+        $sql = "SELECT DISTINCT nom FROM formation ORDER BY nom ASC";
+        $stmt = $this->bdd->getBdd()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 }
