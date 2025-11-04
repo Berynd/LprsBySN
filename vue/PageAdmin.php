@@ -8,6 +8,9 @@ require_once "../src/repository/FormationRepository.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
+if($_SESSION["userConnecte"]["role"]=="utilisateur"){
+    header('Location:../index2.php');
+}
 // Comptages pour le tableau de bord
 $repUtilisateur = new UtilisateurRepository();
 $nbUtilisateurs = $repUtilisateur->nombreUtilisateur();
