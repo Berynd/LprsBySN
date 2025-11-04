@@ -192,4 +192,50 @@ class UtilisateurRepository
         session_destroy();
         header("Location: ../../../index.php");
     }
+    public function rechercheUtilisateurParMail($email)
+    {
+        $recherche = "SELECT * FROM utilisateur WHERE email = :email";
+        $req = $this->bdd->getBdd()->prepare($recherche);
+        $req->execute(array(
+            'email' => $email
+        ));
+        return $req->fetch();
+    }
+    public function addTokens($token,$dateFin,$email)
+    {
+        $add="update utilisateur SET reset_token=:token, reset_expires=:dateFin
+                WHERE email=:email";
+        $req = $this->bdd->getBdd()->prepare($add);
+        $req->execute(array(
+            'token' => $token,
+            'dateFin' => $dateFin,
+            "email" => $email
+
+        ));
+        if($req){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+    public function verifierToken($token)
+    {
+        $verif="SELECT email,mdp FROM utilisateur WHERE reset_token=:token";
+        $req = $this->bdd->getBdd()->prepare($verif);
+        $req->execute(array(
+            'token' => $token
+        ));
+        return $req->fetch();
+    }
+    public function changerMdp($mdp,$email)
+    {
+        $update = "UPDATE utilisateur SET mdp=:mdp,reset_token=null,reset_expires=null WHERE email=:email";
+        $req = $this->bdd->getBdd()->prepare($update);
+        $req->execute(array(
+            'mdp' => $mdp,
+            'email' => $email
+        ));
+    }
 }
