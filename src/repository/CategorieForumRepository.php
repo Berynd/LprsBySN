@@ -1,9 +1,10 @@
 <?php
 
 namespace repository;
+require_once __DIR__ . '/../bdd/BDD.php';
+require_once __DIR__ . '/../modele/CategorieForum.php';
 
 use modele\CategorieForum;
-use BDD;
 
 class CategorieForumRepository
 {
@@ -11,20 +12,20 @@ class CategorieForumRepository
 
     public function __construct()
     {
-        $this->bdd = new BDD();
+        $this->bdd = new \BDD();
     }
 
     public function ajout(CategorieForum $categorieForum)
     {
         $check = $this->bdd->getBdd()->prepare(
-            'SELECT COUNT(*) FROM categorie_forum WHERE nom_categorie_forum = :nom'
+            'SELECT COUNT(*) FROM categorie_forum WHERE nom = :nom'
         );
         $check->execute([
             'nom' => $categorieForum->getNomCategorieForum()
         ]);
 
         if ($check->fetchColumn() == 0) {
-            $sql = 'INSERT INTO categorie_forum (nom_categorie_forum, description_categorie_forum, categorie)
+            $sql = 'INSERT INTO categorie_forum (nom, description, categorie)
                     VALUES (:nom, :description, :categorie)';
             $req = $this->bdd->getBdd()->prepare($sql);
             return $req->execute([
@@ -63,7 +64,7 @@ class CategorieForumRepository
     public function modification(CategorieForum $categorieForum)
     {
         $sql = 'UPDATE categorie_forum 
-                SET nom_categorie_forum = :nom, description_categorie_forum = :description, categorie = :categorie 
+                SET nom = :nom, description = :description, categorie = :categorie 
                 WHERE id_categorie_forum = :id';
         $req = $this->bdd->getBdd()->prepare($sql);
         return $req->execute([

@@ -1,10 +1,10 @@
 <?php
-
+namespace modele;
 class CategorieForum
 {
     private $idCategorieForum;
-    private $nomCategorieForum;
-    private $descriptionCategorieForum;
+    private $nom;
+    private $description;
     private $categorie;
 
     public function __construct(array $donnees = [])
@@ -38,22 +38,22 @@ class CategorieForum
 
     public function getNomCategorieForum()
     {
-        return $this->nomCategorieForum;
+        return $this->nom;
     }
 
-    public function setNomCategorieForum($nomCategorieForum)
+    public function setNomCategorieForum($nom)
     {
-        $this->nomCategorieForum = $nomCategorieForum;
+        $this->nom = $nom;
     }
 
     public function getDescriptionCategorieForum()
     {
-        return $this->descriptionCategorieForum;
+        return $this->description;
     }
 
-    public function setDescriptionCategorieForum($descriptionCategorieForum)
+    public function setDescriptionCategorieForum($description)
     {
-        $this->descriptionCategorieForum = $descriptionCategorieForum;
+        $this->description = $description;
     }
 
     public function getCategorie()
