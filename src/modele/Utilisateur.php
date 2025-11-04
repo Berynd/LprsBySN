@@ -56,10 +56,6 @@ class Utilisateur
 
     public function getSpecialite() { return $this->specialite; }
     public function setSpecialite($specialite) { $this->specialite = $specialite; }
-
-    public function getMatiere() { return $this->matiere; }
-    public function setMatiere($matiere) { $this->matiere = $matiere; }
-
     public function getPoste() { return $this->poste; }
     public function setPoste($poste) { $this->poste = $poste; }
 
@@ -68,10 +64,6 @@ class Utilisateur
 
     public function getCv() { return $this->cv; }
     public function setCv($cv) { $this->cv = $cv; }
-
-    public function getPromo() { return $this->promo; }
-    public function setPromo($promo) { $this->promo = $promo; }
-
     public function getMotifPartenariat() { return $this->motifPartenariat; }
     public function setMotifPartenariat($motifPartenariat) { $this->motifPartenariat = $motifPartenariat; }
 

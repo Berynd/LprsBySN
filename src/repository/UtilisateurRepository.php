@@ -139,11 +139,9 @@ class UtilisateurRepository
             'mdp' => $user->getMdp(),
             'role' => $user->getRole(),
             'specialite' => $user->getSpecialite(),
-            'matiere' => $user->getMatiere(),
             'poste' => $user->getPoste(),
             'annee_promo' => $user->getAnneePromo(),
             'cv' => $user->getCv(),
-            'promo' => $user->getPromo(),
             'motif_partenariat' => $user->getMotifPartenariat(),
             'est_verifie' => $user->getEstVerifie(),
             'id' => $user->getIdUtilisateur()
