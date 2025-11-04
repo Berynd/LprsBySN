@@ -145,7 +145,7 @@ $listeUtilisateurs = $repo->listeUtilisateur();
                     <td><?= htmlspecialchars($user['ref_entreprise'] ?? '—') ?></td>
                     <td><?= ($user['est_verifie'] ?? 0) ? '✅' : '❌' ?></td>
                     <td>
-                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/ModifUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Modifier</button>
+                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/ModifUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Modifier</button>
                         <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet utilisateur ?')) window.location.href='../src/traitement/Utilisateur/TraitementSuppresionUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Supprimer</button>
 
                     </td>

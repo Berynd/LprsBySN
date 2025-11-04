@@ -65,9 +65,9 @@ class UtilisateurRepository
 
         if ($donne === false) {
             $sql = 'INSERT INTO utilisateur
-                    (nom, prenom, email, mdp, role, specialite, matiere, poste, annee_promo, cv, promo, motif_partenariat, est_verifie, ref_entreprise, ref_formation)
+                    (nom, prenom, email, mdp, role, specialite, poste, annee_promo, cv, motif_partenariat, est_verifie, ref_entreprise, ref_formation)
                     VALUES
-                    (:nom, :prenom, :email, :mdp, :role, :specialite, :matiere, :poste, :annee_promo, :cv, :promo, :motif_partenariat, :est_verifie, :ref_entreprise, :ref_formation)';
+                    (:nom, :prenom, :email, :mdp, :role, :specialite, :poste, :annee_promo, :cv, :motif_partenariat, :est_verifie, :ref_entreprise, :ref_formation)';
             $req = $this->bdd->getBdd()->prepare($sql);
             return $req->execute([
                 'nom' => $user->getNom(),
@@ -76,11 +76,9 @@ class UtilisateurRepository
                 'mdp' => $user->getMdp(),
                 'role' => $user->getRole(),
                 'specialite' => $user->getSpecialite(),
-                'matiere' => $user->getMatiere(),
                 'poste' => $user->getPoste(),
                 'annee_promo' => $user->getAnneePromo(),
                 'cv' => $user->getCv(),
-                'promo' => $user->getPromo(),
                 'motif_partenariat' => $user->getMotifPartenariat(),
                 'est_verifie' => $user->getEstVerifie(),
                 'ref_entreprise' => $user->getRefEntreprise(),
@@ -94,21 +92,26 @@ class UtilisateurRepository
     /** Connexion utilisateur */
     public function connexion(Utilisateur $user)
     {
-        $sql = 'SELECT * FROM utilisateur WHERE email = :email';
-        $req = $this->bdd->getBdd()->prepare($sql);
-        $req->execute(['email' => $user->getEmail()]);
-        $donne = $req->fetch(PDO::FETCH_ASSOC);
-
-        if ($donne && $user->getMdp() === $donne['mdp']) {
-            $user->setIdUtilisateur($donne['id_utilisateur']);
+        $sqlconnexion = 'SELECT * FROM utilisateur WHERE email = :email';
+        $reqconnexion = $this->bdd->getBdd()->prepare($sqlconnexion);
+        $reqconnexion->execute(array(
+            'email' => $user->getEmail(),
+        ));
+        $donne = $reqconnexion->fetch();
+        if($donne && password_verify($user->getMdp(), $donne['mdp'])) {
             $user->setNom($donne['nom']);
             $user->setPrenom($donne['prenom']);
             $user->setEmail($donne['email']);
+            $user->setMdp($donne['mdp']);
             $user->setRole($donne['role']);
+            $user->setIdUtilisateur($donne['id_utilisateur']);
+
             return $user;
         }
+        else {
+            return null;
+        }
 
-        return null;
     }
 
     /** Liste des utilisateurs */
@@ -125,9 +128,7 @@ class UtilisateurRepository
     {
         $sql = "UPDATE utilisateur SET 
                     nom = :nom, prenom = :prenom, email = :email, mdp = :mdp, 
-                    role = :role, specialite = :specialite, matiere = :matiere, 
-                    poste = :poste, annee_promo = :annee_promo, cv = :cv, 
-                    promo = :promo, motif_partenariat = :motif_partenariat, 
+                    role = :role, specialite = :specialite, poste = :poste, annee_promo = :annee_promo, cv = :cv, motif_partenariat = :motif_partenariat, 
                     est_verifie = :est_verifie 
                 WHERE id_utilisateur = :id";
         $req = $this->bdd->getBdd()->prepare($sql);
@@ -138,11 +139,9 @@ class UtilisateurRepository
             'mdp' => $user->getMdp(),
             'role' => $user->getRole(),
             'specialite' => $user->getSpecialite(),
-            'matiere' => $user->getMatiere(),
             'poste' => $user->getPoste(),
             'annee_promo' => $user->getAnneePromo(),
             'cv' => $user->getCv(),
-            'promo' => $user->getPromo(),
             'motif_partenariat' => $user->getMotifPartenariat(),
             'est_verifie' => $user->getEstVerifie(),
             'id' => $user->getIdUtilisateur()
@@ -185,6 +184,67 @@ class UtilisateurRepository
     {
         session_start();
         session_destroy();
-        header("Location: ../../../index.php");
+        header("Location: ../../index.php");
+    }
+    public function rechercheUtilisateurParMail($email)
+    {
+        $recherche = "SELECT * FROM utilisateur WHERE email = :email";
+        $req = $this->bdd->getBdd()->prepare($recherche);
+        $req->execute(array(
+            'email' => $email
+        ));
+        return $req->fetch();
+    }
+    public function addTokens($token,$dateFin,$email)
+    {
+        $add="update utilisateur SET reset_token=:token, reset_expires=:dateFin
+                WHERE email=:email";
+        $req = $this->bdd->getBdd()->prepare($add);
+        $req->execute(array(
+            'token' => $token,
+            'dateFin' => $dateFin,
+            "email" => $email
+
+        ));
+        if($req){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+    public function verifierToken($token)
+    {
+        $verif="SELECT email,mdp FROM utilisateur WHERE reset_token=:token";
+        $req = $this->bdd->getBdd()->prepare($verif);
+        $req->execute(array(
+            'token' => $token
+        ));
+        return $req->fetch();
+    }
+    public function changerMdp($mdp,$email)
+    {
+        $update = "UPDATE utilisateur SET mdp=:mdp,reset_token=null,reset_expires=null WHERE email=:email";
+        $req = $this->bdd->getBdd()->prepare($update);
+        $req->execute(array(
+            'mdp' => $mdp,
+            'email' => $email
+        ));
+    }
+    public function getNomEntreprise()
+    {
+        $sql = "SELECT DISTINCT nom FROM entreprise ORDER BY nom ASC";
+        $stmt = $this->bdd->getBdd()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function getNomFormation()
+    {
+        $sql = "SELECT DISTINCT nom FROM formation ORDER BY nom ASC";
+        $stmt = $this->bdd->getBdd()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 }
