@@ -9,11 +9,9 @@ class Utilisateur
     private $mdp;
     private $role;
     private $specialite;
-    private $matiere;
     private $poste;
     private $anneePromo;
     private $cv;
-    private $promo;
     private $motifPartenariat;
     private $estVerifie;
     private $refEntreprise;

@@ -28,7 +28,7 @@
                     <a href="#contact" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <button><a href="../src/traitement/Utilisateur/TraitementDeconnexionUtilisateur.php" class="nav-link">Deconexion</a></button>
+                    <button><a href="../src/traitement/TraitementDeconnexionUtilisateur.php" class="nav-link">Deconexion</a></button>
                 </li>
             </ul>
             <div class="hamburger">
