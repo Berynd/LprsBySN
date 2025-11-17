@@ -65,24 +65,15 @@ class UtilisateurRepository
 
         if ($donne === false) {
             $sql = 'INSERT INTO utilisateur
-                    (nom, prenom, email, mdp, role, specialite, poste, annee_promo, cv, motif_partenariat, est_verifie, ref_entreprise, ref_formation)
+                    (nom, prenom, email, mdp)
                     VALUES
-                    (:nom, :prenom, :email, :mdp, :role, :specialite, :poste, :annee_promo, :cv, :motif_partenariat, :est_verifie, :ref_entreprise, :ref_formation)';
+                    (:nom, :prenom, :email, :mdp)';
             $req = $this->bdd->getBdd()->prepare($sql);
             return $req->execute([
                 'nom' => $user->getNom(),
                 'prenom' => $user->getPrenom(),
                 'email' => $user->getEmail(),
                 'mdp' => $user->getMdp(),
-                'role' => $user->getRole(),
-                'specialite' => $user->getSpecialite(),
-                'poste' => $user->getPoste(),
-                'annee_promo' => $user->getAnneePromo(),
-                'cv' => $user->getCv(),
-                'motif_partenariat' => $user->getMotifPartenariat(),
-                'est_verifie' => $user->getEstVerifie(),
-                'ref_entreprise' => $user->getRefEntreprise(),
-                'ref_formation' => $user->getRefFormation()
             ]);
         }
 

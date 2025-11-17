@@ -1,17 +1,9 @@
-<?php
-session_start();
-
-if($_SESSION["userConnecte"]["role"]=="utilisateur"){
-    header('Location:../vue/index2.php');
-}
-
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter une formation</title>
+    <title>Ajouter une catégorie de forum</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
         body {
@@ -54,6 +46,11 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
             color: #f1f1f1;
         }
 
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
         input[type="submit"] {
             background-color: #0d6efd;
             color: white;
@@ -63,18 +60,24 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
         }
 
         input[type="submit"]:hover {
-            background-color: #0d6efd;
+            background-color: #0b5ed7;
         }
     </style>
 </head>
 <body>
-<form action="../src/traitement/Formation/TraitementAjoutFormation.php" method="POST">
-    <h2>Ajouter une formation</h2>
+<form action="../src/traitement/Forum/TraitementAjoutCategorieForum.php" method="POST">
+    <h2>Ajouter une catégorie de forum</h2>
 
-    <label for="nom_formation">Nom de la formation :</label>
-    <input type="text" id="nom_formation" name="nom_formation" required>
+    <label for="nom_categorie_forum">Nom de la catégorie :</label>
+    <input type="text" id="nom_categorie_forum" name="nom_categorie_forum" required>
 
-    <input type="submit" value="Ajouter la formation">
+    <label for="description_categorie_forum">Description :</label>
+    <textarea id="description_categorie_forum" name="description_categorie_forum" placeholder="Décrivez la catégorie..." required></textarea>
+
+    <label for="categorie">Type de catégorie :</label>
+    <input type="text" id="categorie" name="categorie" placeholder="Ex : Général, Technique, Annonces..." required>
+
+    <input type="submit" value="Ajouter la catégorie">
 </form>
 </body>
 </html>
