@@ -37,10 +37,12 @@ session_start();
                 </li>
                 <?php
                 if($_SESSION["userConnecte"]["role"]=="admin"){
-                    echo'<li><a class="nav-item" href="PageAdmin.php"> Page Admin </a></li>';
+                    echo'<li class="nav-item">
+                            <a href="PageAdmin.php" class="nav-link"> Page Admin </a>
+                        </li>';
                 }?>
                 <li class="nav-item">
-                    <button><a href="../src/traitement/TraitementDeconnexionUtilisateur.php" class="nav-link">Deconexion</a></button>
+                    <button><a href="../src/traitement/TraitementDeconnexionUtilisateur.php" class="logout-btn">Deconexion</a></button>
                 </li>
             </ul>
             <div class="hamburger">
