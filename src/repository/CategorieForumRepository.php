@@ -46,6 +46,15 @@ class CategorieForumRepository
         $req->execute();
         return $req->fetchColumn();
     }
+    public function detailCategorieForum($id)
+    {
+        if (empty($id)) return null;
+
+        $sql = 'SELECT * FROM categorie_forum WHERE id_categorie_forum = :id';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['id' => $id]);
+        return $req->fetch(PDO::FETCH_ASSOC);
+    }
 
     public function suppression(CategorieForum $categorieForum)
     {

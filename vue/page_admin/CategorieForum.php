@@ -5,12 +5,13 @@ require_once __DIR__ . '/../../src/bdd/BDD.php';
 
 // Récupération de la liste des utilisateurs
 $repo = new CategorieForumRepository();
-$listeCategories = $repo->listeCategorie();
+$listeCategorieForum = $repo->listeCategorie();
 
 if($_SESSION["userConnecte"]["role"]=="utilisateur"){
     header('Location:../vue/index2.php');
 }
 ?>
+
 <style>
     .admin-container {
         background: #1e293b;
@@ -115,7 +116,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
 </style>
 
 <div class="admin-container">
-    <h2>Liste des Catégories des forums</h2>
+    <h2>Liste des Categories du forum</h2>
 
     <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher une catégorie..." onkeyup="filter()">
 
@@ -126,24 +127,28 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
     <table>
         <thead>
         <tr>
-            <th>Nom de la catégorie</th>
-            <th>Action</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <?php if (!empty($listeCategories)) : ?>
-            <?php foreach ($listeCategories as $categories) : ?>
+        <?php if (!empty($listeCategorieForum)) : ?>
+            <?php foreach ($listeCategorieForum as $user): ?>
                 <tr>
-                    <td><?= htmlspecialchars($categories['nom_categorie']) ?></td>
+                    <td><?= htmlspecialchars($user['nom']) ?></td>
+                    <td><?= htmlspecialchars($user['description']) ?></td>
+                    <td><?= htmlspecialchars($user['categorie']) ?></td>
                     <td>
-                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/crud/ModifCategorieForum.php?id=<?= $categories['id_categorie'] ?>'">Modifier</button>
-                        <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cette categorie ?')) window.location.href='../src/traitement/CategorieForum/TraitementSuppressionCategorieForum.php?id=<?= $categories['id_categorie'] ?>'">Supprimer</button>
+                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/crud/ModifCategorieForum.php?id=<?= $user['id_categorie_forum'] ?>'">Modifier</button>
+                        <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet evenement ?')) window.location.href='../src/traitement/Evenement/TraitementSuppresionEvenement.php?id=<?= $user['id_categorie_forum'] ?>'">Supprimer</button>
 
                     </td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
-            <tr><td colspan="10" style="text-align:center; opacity:0.7;">Aucune Catégorie de forum trouvée 😔</td></tr>
+            <tr><td colspan="10" style="text-align:center; opacity:0.7;">Aucune catégorie trouvé 😔</td></tr>
         <?php endif; ?>
         </tbody>
     </table>
