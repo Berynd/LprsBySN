@@ -1,11 +1,4 @@
 <?php
-
-namespace repository;
-
-use modele\ReponseForum;
-use BDD;
-use PDO;
-
 class ReponseForumRepository
 {
     private $bdd;

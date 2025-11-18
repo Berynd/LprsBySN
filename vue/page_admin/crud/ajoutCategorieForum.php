@@ -1,11 +1,10 @@
 <?php
 session_start();
-require_once "../src/bdd/BDD.php";
-require_once "../src/repository/UtilisateurRepository.php";
-require_once "../src/repository/EntrepriseRepository.php";
-require_once "../src/repository/EvenementRepository.php";
-require_once "../src/repository/FormationRepository.php";
-require_once "../src/modele/Entreprise.php";
+require_once "../../../src/bdd/BDD.php";
+require_once "../../../src/repository/UtilisateurRepository.php";
+require_once "../../../src/repository/EntrepriseRepository.php";
+require_once "../../../src/repository/EvenementRepository.php";
+require_once "../../../src/repository/FormationRepository.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
@@ -25,16 +24,6 @@ $nbEvenements = $repEvenement->nombreEvenement();
 
 $repFormations = new FormationRepository();
 $nbFormations = $repFormations->nombreFormation();
-
-$EntrepriseRepository = new EntrepriseRepository();
-$entreprise = $EntrepriseRepository->detailEntreprise($_GET["id"]);
-$entreprise = new Entreprise([
-    'idEntreprise' => $entreprise["id_entreprise"],
-    'nom' => $entreprise["nom"],
-    'adresse' => $entreprise["adresse"],
-    'siteWeb' => $entreprise["site_web"],
-]);
-$idEntreprise = $_GET['id'];
 
 ?>
 <!DOCTYPE html>
@@ -287,13 +276,13 @@ $idEntreprise = $_GET['id'];
         <h2>LPRS Admin</h2>
     </div>
     <ul class="sidebar-menu">
-        <li><a href="PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
-        <li><a href="PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
-        <li><a href="PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
-        <li><a href="PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
-        <li><a href="PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
-        <li><a href="PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
-        <li><a href="PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
+        <li><a href="../../PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
+        <li><a href="../../PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
+        <li><a href="../../PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
+        <li><a href="../../PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
+        <li><a href="../../PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
     </ul>
 </aside>
 
@@ -301,30 +290,30 @@ $idEntreprise = $_GET['id'];
 <main class="main">
     <header class="topbar">
         <h1>Panneau d'administration</h1>
-        <form action="../src/traitement/TraitementDeconnexionUtilisateur.php" method="post" style="margin:0;">
-            <button type="submit" class="logout-btn">🚪 Déconnexion</button>
+        <form action="../../PageAdmin.php" method="post" style="margin:0;">
+            <button type="submit" class="logout-btn">🚪 Retour</button>
         </form>
     </header>
 
     <div class="content">
-        <h2 class="form-title">Modifier l'entreprise</h2>
-        <form action="../src/traitement/Entreprise/TraitementModifEntreprise.php" method="post" class="add-form">
+        <h2 class="form-title">➕ Ajouter une catégorie de forum</h2>
+        <form method="POST" action="../../../src/traitement/CategorieForum/TraitementAjoutCategorieForum.php" class="add-form">
             <div class="form-group">
-                <label for="nom">Nom de l'entreprise</label>
-                <input type="text" id="nom" name="nom" value="<?=$entreprise->getNom()?>">
+                <label for="nom_categorie_forum">Nom de la formation :</label>
+                <input type="text" id="nom_categorie_forum" name="nom_categorie_forum" required>
             </div>
             <div class="form-group">
-                <label for="adresse">Adresse de l'entreprise</label>
-                <input type="text" id="adresse" name="adresse" value="<?=$entreprise->getAdresse()?>">
+                <label for="description_categorie_forum">Description de la categorie :</label>
+                <input type="text" id="description_categorie_forum" name="description_categorie_forum" required>
             </div>
             <div class="form-group">
-                <label for="siteWeb">Site de l'entreprise</label>
-                <input type="text" id="siteWeb" name="siteWeb" value="<?=$entreprise->getSiteWeb()?>">
+                <label for="categorie">Categorie :</label>
+                <input type="text" id="categorie" name="categorie" required>
             </div>
-            <input type="hidden" name="idEntreprise" value="<?=$entreprise->getIdEntreprise()?>">
-            <input type="submit" value="Modifier" class="btn-submit" >
+            <button type="submit" class="btn-submit">Ajouter la formation</button>
         </form>
     </div>
+
     <footer class="footer">
         <p>&copy; 2025 LPRS - Administration</p>
     </footer>
@@ -332,5 +321,3 @@ $idEntreprise = $_GET['id'];
 
 </body>
 </html>
-
-

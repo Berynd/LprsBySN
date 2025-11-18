@@ -120,7 +120,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]
 
     <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher un utilisateur..." onkeyup="filter()">
 
-    <button class="btn-ajout" onclick="window.location.href='../vue/AjoutUtilisateur.php'">
+    <button class="btn-ajout" onclick="window.location.href='page_admin/crud/AjoutUtilisateur.php'">
         ➕ Ajouter un utilisateur
     </button>
 
@@ -149,7 +149,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]
                     <td><?= htmlspecialchars($user['ref_entreprise'] ?? '—') ?></td>
                     <td><?= ($user['est_verifie'] ?? 0) ? '✅' : '❌' ?></td>
                     <td>
-                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/ModifUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Modifier</button>
+                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/crud/ModifUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Modifier</button>
                         <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet utilisateur ?')) window.location.href='../src/traitement/Utilisateur/TraitementSuppresionUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Supprimer</button>
 
                     </td>

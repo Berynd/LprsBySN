@@ -1,10 +1,11 @@
 <?php
 session_start();
-require_once "../src/bdd/BDD.php";
-require_once "../src/repository/UtilisateurRepository.php";
-require_once "../src/repository/EntrepriseRepository.php";
-require_once "../src/repository/EvenementRepository.php";
-require_once "../src/repository/FormationRepository.php";
+require_once "../../../src/bdd/BDD.php";
+require_once "../../../src/repository/UtilisateurRepository.php";
+require_once "../../../src/repository/EntrepriseRepository.php";
+require_once "../../../src/repository/EvenementRepository.php";
+require_once "../../../src/repository/FormationRepository.php";
+require_once "../../../src/modele/Entreprise.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
@@ -24,6 +25,16 @@ $nbEvenements = $repEvenement->nombreEvenement();
 
 $repFormations = new FormationRepository();
 $nbFormations = $repFormations->nombreFormation();
+
+$EntrepriseRepository = new EntrepriseRepository();
+$entreprise = $EntrepriseRepository->detailEntreprise($_GET["id"]);
+$entreprise = new Entreprise([
+    'idEntreprise' => $entreprise["id_entreprise"],
+    'nom' => $entreprise["nom"],
+    'adresse' => $entreprise["adresse"],
+    'siteWeb' => $entreprise["site_web"],
+]);
+$idEntreprise = $_GET['id'];
 
 ?>
 <!DOCTYPE html>
@@ -134,7 +145,52 @@ $nbFormations = $repFormations->nombreFormation();
             background-color: #b91c1c;
         }
 
-        /* Contenu principal */
+        .content {
+            padding: 2rem;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s ease, background 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: var(--hover);
+        }
+
+        .stat-title {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            border-top: 1px solid #334155;
+            margin-top: auto;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* --- Formulaire stylé --- */
         .content {
             padding: 3rem;
             display: flex;
@@ -178,8 +234,7 @@ $nbFormations = $repFormations->nombreFormation();
             font-size: 0.95rem;
         }
 
-        .form-group input,
-        .form-group select {
+        .form-group input {
             background: var(--bg);
             border: 2px solid transparent;
             border-radius: 8px;
@@ -194,8 +249,7 @@ $nbFormations = $repFormations->nombreFormation();
             opacity: 0.8;
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
+        .form-group input:focus {
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
@@ -223,15 +277,6 @@ $nbFormations = $repFormations->nombreFormation();
         .btn-submit:active {
             transform: scale(0.98);
         }
-
-        .footer {
-            text-align: center;
-            padding: 1rem;
-            border-top: 1px solid #334155;
-            margin-top: auto;
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
     </style>
 </head>
 <body>
@@ -242,13 +287,13 @@ $nbFormations = $repFormations->nombreFormation();
         <h2>LPRS Admin</h2>
     </div>
     <ul class="sidebar-menu">
-        <li><a href="PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
-        <li><a href="PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
-        <li><a href="PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
-        <li><a href="PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
-        <li><a href="PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
-        <li><a href="PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
-        <li><a href="PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
+        <li><a href="../../PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
+        <li><a href="../../PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
+        <li><a href="../../PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
+        <li><a href="../../PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
+        <li><a href="../../PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
     </ul>
 </aside>
 
@@ -256,61 +301,30 @@ $nbFormations = $repFormations->nombreFormation();
 <main class="main">
     <header class="topbar">
         <h1>Panneau d'administration</h1>
-        <form action="../src/traitement/TraitementDeconnexionUtilisateur.php" method="post" style="margin:0;">
-            <button type="submit" class="logout-btn">🚪 Déconnexion</button>
+        <form action="../../PageAdmin.php" method="post" style="margin:0;">
+            <button type="submit" class="logout-btn">🚪 Retour</button>
         </form>
     </header>
 
     <div class="content">
-        <h2 class="form-title">➕ Ajouter un événement</h2>
-        <form method="POST" action="../src/traitement/Evenement/TraitementAjoutEvenement.php" class="add-form">
+        <h2 class="form-title">Modifier l'entreprise</h2>
+        <form action="../../../src/traitement/Entreprise/TraitementModifEntreprise.php" method="post" class="add-form">
             <div class="form-group">
-                <label for="type">Type d'événement</label>
-                <select id="type" name="type" required>
-                    <option value="">-- Sélectionner un type --</option>
-                    <option value="Academique">🎓 Académique</option>
-                    <option value="Culturel_Artistique">🎭 Culturel & Artistique</option>
-                    <option value="Sportif">⚽ Sportif</option>
-                    <option value="Citoyens_Solidaire">🌍 Citoyen & Solidaire</option>
-                    <option value="Festifs_Communautaire">🎉 Festif & Communautaire</option>
-                    <option value="Technologique_Innovant">💻 Technologique & Innovant</option>
-                    <option value="Caritatifs">💖 Caritatif</option>
-                </select>
+                <label for="nom">Nom de l'entreprise</label>
+                <input type="text" id="nom" name="nom" value="<?=$entreprise->getNom()?>">
             </div>
-
             <div class="form-group">
-                <label for="titre">Titre</label>
-                <input type="text" id="titre" name="titre" placeholder="Titre de l’événement" required>
+                <label for="adresse">Adresse de l'entreprise</label>
+                <input type="text" id="adresse" name="adresse" value="<?=$entreprise->getAdresse()?>">
             </div>
-
             <div class="form-group">
-                <label for="description">Description</label>
-                <input type="text" id="description" name="description" placeholder="Brève description" required>
+                <label for="siteWeb">Site de l'entreprise</label>
+                <input type="text" id="siteWeb" name="siteWeb" value="<?=$entreprise->getSiteWeb()?>">
             </div>
-
-            <div class="form-group">
-                <label for="lieu">Lieu</label>
-                <input type="text" id="lieu" name="lieu" placeholder="Lieu de l’événement" required>
-            </div>
-
-            <div class="form-group">
-                <label for="element_requis">Éléments requis</label>
-                <input type="text" id="element_requis" name="element_requis" placeholder="Ex: ordinateur, tenue sportive..." required>
-            </div>
-
-            <div class="form-group">
-                <label for="nombre_place">Nombre de places</label>
-                <input type="number" id="nombre_place" name="nombre_place" min="1" required>
-            </div>
-
-            <div class="form-group">
-                <label for="date_evenement">Date de l’événement</label>
-                <input type="datetime-local" id="date_evenement" name="date_evenement" required>
-            </div>
-            <button type="submit" class="btn-submit">Ajouter l’événement</button>
+            <input type="hidden" name="idEntreprise" value="<?=$entreprise->getIdEntreprise()?>">
+            <input type="submit" value="Modifier" class="btn-submit" >
         </form>
     </div>
-
     <footer class="footer">
         <p>&copy; 2025 LPRS - Administration</p>
     </footer>
@@ -318,3 +332,5 @@ $nbFormations = $repFormations->nombreFormation();
 
 </body>
 </html>
+
+

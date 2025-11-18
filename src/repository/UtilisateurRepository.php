@@ -1,6 +1,4 @@
 <?php
-
-
 class UtilisateurRepository
 {
     private $bdd;
@@ -117,11 +115,7 @@ class UtilisateurRepository
     /** Modification côté admin */
     public function modificationAdmin(Utilisateur $user)
     {
-        $sql = "UPDATE utilisateur SET 
-                    nom = :nom, prenom = :prenom, email = :email, mdp = :mdp, 
-                    role = :role, specialite = :specialite, poste = :poste, annee_promo = :annee_promo, cv = :cv, motif_partenariat = :motif_partenariat, 
-                    est_verifie = :est_verifie 
-                WHERE id_utilisateur = :id";
+        $sql = "UPDATE utilisateur SET nom = :nom, prenom = :prenom, email = :email, mdp = :mdp, role = :role, specialite = :specialite, poste = :poste, annee_promo = :annee_promo, cv = :cv, motif_partenariat = :motif_partenariat, est_verifie = :est_verifie WHERE id_utilisateur = :id";
         $req = $this->bdd->getBdd()->prepare($sql);
         return $req->execute([
             'nom' => $user->getNom(),
@@ -233,7 +227,7 @@ class UtilisateurRepository
 
     public function getNomFormation()
     {
-        $sql = "SELECT DISTINCT nom FROM formation ORDER BY nom ASC";
+        $sql = "SELECT DISTINCT nom_formation FROM formation ORDER BY nom_formation ASC";
         $stmt = $this->bdd->getBdd()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_COLUMN);

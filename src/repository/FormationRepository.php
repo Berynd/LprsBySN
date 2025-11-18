@@ -1,5 +1,4 @@
 <?php
-
 class FormationRepository
 {
     private $bdd;

@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once "../src/bdd/BDD.php";
-require_once "../src/repository/UtilisateurRepository.php";
-require_once "../src/repository/EntrepriseRepository.php";
-require_once "../src/repository/EvenementRepository.php";
-require_once "../src/repository/FormationRepository.php";
-require_once "../src/modele/Utilisateur.php";
+require_once "../../../src/bdd/BDD.php";
+require_once "../../../src/repository/UtilisateurRepository.php";
+require_once "../../../src/repository/EntrepriseRepository.php";
+require_once "../../../src/repository/EvenementRepository.php";
+require_once "../../../src/repository/FormationRepository.php";
+require_once "../../../src/modele/Utilisateur.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
@@ -29,22 +29,20 @@ $nbFormations = $repFormations->nombreFormation();
 $UtilisateurRepository = new UtilisateurRepository();
 $utilisateur = $UtilisateurRepository->detailUtilisateur($_GET["id"]);
 $utilisateur = new Utilisateur([
-    'idUtilisateur' => $utilisateur['idUtilisateur'],
+    'idUtilisateur' => $utilisateur['id_utilisateur'],
     'nom' => $utilisateur['nom'],
     'prenom' => $utilisateur['prenom'],
     'email' => $utilisateur['email'],
     'mdp' => $utilisateur['mdp'],
     'role' => $utilisateur['role'],
     'specialite' => $utilisateur['specialite'],
-    'matiere' => $utilisateur['matiere'],
     'poste' => $utilisateur['poste'],
     'anneePromo' => $utilisateur['annee_promo'],
     'cv' => $utilisateur['cv'],
-    'promo' => $utilisateur['promo'],
     'motifPartenariat' => $utilisateur['motif_partenariat'],
-    'estVerifie' => $utilisateur['estVerifie'],
-    'refEntreprise' => $utilisateur['refEntreprise'],
-    'refFormation' => $utilisateur['refFormation']
+    'estVerifie' => $utilisateur['est_verifie'],
+    'refEntreprise' => $utilisateur['ref_entreprise'],
+    'refFormation' => $utilisateur['ref_formation']
 ]);
 $entreprise = $repUtilisateur->getNomEntreprise();
 $formation = $repUtilisateur->getNomFormation();
@@ -302,13 +300,13 @@ $idUtilisateur = $_GET['id'];
         <h2>LPRS Admin</h2>
     </div>
     <ul class="sidebar-menu">
-        <li><a href="PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
-        <li><a href="PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
-        <li><a href="PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
-        <li><a href="PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
-        <li><a href="PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
-        <li><a href="PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
-        <li><a href="PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
+        <li><a href="../../PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
+        <li><a href="../../PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
+        <li><a href="../../PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
+        <li><a href="../../PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
+        <li><a href="../../PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
     </ul>
 </aside>
 
@@ -316,14 +314,14 @@ $idUtilisateur = $_GET['id'];
 <main class="main">
     <header class="topbar">
         <h1>Panneau d'administration</h1>
-        <form action="../src/traitement/TraitementDeconnexionUtilisateur.php" method="post" style="margin:0;">
-            <button type="submit" class="logout-btn">🚪 Déconnexion</button>
+        <form action="../../PageAdmin.php" method="post" style="margin:0;">
+            <button type="submit" class="logout-btn">🚪 Retour</button>
         </form>
     </header>
 
     <div class="content">
         <h2 class="form-title">Modifier l'Utilisateur</h2>
-        <form action="../src/traitement/Utilisateur/TraitementModifUtilisateur.php" method="post" class="add-form">
+        <form action="../../../src/traitement/Utilisateur/TraitementModifUtilisateur.php" method="post" class="add-form">
             <div class="form-group">
                 <label for="nom">Nom</label>
                 <input type="text" id="nom" name="nom" value="<?=$utilisateur->getNom()?>">
@@ -350,6 +348,7 @@ $idUtilisateur = $_GET['id'];
             <div class="form-group">
                 <label for="specialite">Spécialité </label> <!-- Spécialité / Matière enseigné -->
                 <select id="specialite" name="specialite" value="<?=$utilisateur->getSpecialite()?>">
+                    <option value="null">NULL</option>
                     <option value="francais">français</option>
                     <option value="mathematique">mathématique</option>
                     <option value="anglais">anglais</option>
@@ -358,6 +357,7 @@ $idUtilisateur = $_GET['id'];
             <div class="form-group">
                 <label for="poste">Poste</label> <!-- Poste occupé dans l'entreprise -->
                 <select id="poste" name="poste" value="<?=$utilisateur->getPoste()?>">
+                    <option value="null">NULL</option>
                     <option value="directionGestion">Direction et gestion</option>
                     <option value="informatique">Informatique</option>
                     <option value="marketingCommunication">Marketing et communication</option>
@@ -368,7 +368,7 @@ $idUtilisateur = $_GET['id'];
             </div>
             <div class="form-group">
                 <label for="anneePromo">Année promo</label>
-                <input type="month" id="anneePromo" name="anneePromo" min="2000" required value="<?=$utilisateur->getAnneePromo()?>">
+                <input type="text" id="anneePromo" name="anneePromo" min="2000" required value="<?=$utilisateur->getAnneePromo()?>">
             </div>
             <div class="form-group">
                 <label for="cv">CV</label>
@@ -388,24 +388,24 @@ $idUtilisateur = $_GET['id'];
             <div class="form-group">
                 <label for="refEntreprise">refEntreprise</label>
                 <select id="refEntreprise" name="refEntreprise" value="<?=$utilisateur->getRefEntreprise()?>">
-                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownDestinations">
-                        <?php foreach ($entreprise as $entreprise): ?>
-                            <li><span class="dropdown-item disabled"><?= htmlspecialchars($entreprise) ?></span></li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <?php foreach ($entreprise as $entreprise): ?>
+                    <option>
+                    <li><span class="dropdown-item disabled"><?= htmlspecialchars($entreprise) ?></span></li>
+                    </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="form-group">
                 <label for="refFormation">refFormation</label>
                 <select id="refFormation" name="refFormation" value="<?=$utilisateur->getRefFormation()?>">
-                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownDestinations">
-                        <?php foreach ($formation as $formation): ?>
-                            <li><span class="dropdown-item disabled"><?= htmlspecialchars($formation) ?></span></li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <?php foreach ($formation as $formation): ?>
+                    <option>
+                    <li><span class="dropdown-item disabled"><?= htmlspecialchars($formation) ?></span></li>
+                    </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
-            <input type="hidden" name="idEvenement" value="<?=$utilisateur->getIdUtilisateur()?>">
+            <input type="hidden" name="idUtilisateur" value="<?=$utilisateur->getIdUtilisateur()?>">
             <input type="submit" value="Modifier" class="btn-submit" >
         </form>
     </div>

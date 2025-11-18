@@ -1,11 +1,4 @@
 <?php
-
-namespace repository;
-
-use modele\Offre;
-use BDD;
-use PDO;
-
 class OffreRepository
 {
     private $bdd;

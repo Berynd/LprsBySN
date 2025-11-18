@@ -1,17 +1,17 @@
 <?php
 session_start();
-require_once "../src/bdd/BDD.php";
-require_once "../src/repository/UtilisateurRepository.php";
-require_once "../src/repository/EntrepriseRepository.php";
-require_once "../src/repository/EvenementRepository.php";
-require_once "../src/repository/FormationRepository.php";
+require_once "../../../src/bdd/BDD.php";
+require_once "../../../src/repository/UtilisateurRepository.php";
+require_once "../../../src/repository/EntrepriseRepository.php";
+require_once "../../../src/repository/EvenementRepository.php";
+require_once "../../../src/repository/FormationRepository.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
 if($_SESSION["userConnecte"]["role"]=="utilisateur"){
     header('Location:../vue/index2.php');
-
 }
+
 // Comptages pour le tableau de bord
 $repUtilisateur = new UtilisateurRepository();
 $nbUtilisateurs = $repUtilisateur->nombreUtilisateur();
@@ -24,7 +24,7 @@ $nbEvenements = $repEvenement->nombreEvenement();
 
 $repFormations = new FormationRepository();
 $nbFormations = $repFormations->nombreFormation();
-//var_dump(__DIR__);
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -178,6 +178,94 @@ $nbFormations = $repFormations->nombreFormation();
             font-size: 0.9rem;
             opacity: 0.7;
         }
+
+        /* --- Formulaire stylé --- */
+        .content {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-title {
+            font-size: 1.6rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .add-form {
+            background: var(--card);
+            padding: 2rem 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+            width: 100%;
+            max-width: 480px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .add-form:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            background: var(--bg);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input::placeholder {
+            color: #94a3b8;
+            opacity: 0.8;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-submit {
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            padding: 0.9rem 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background: #2563eb;
+            transform: scale(1.02);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
     </style>
 </head>
 <body>
@@ -188,13 +276,13 @@ $nbFormations = $repFormations->nombreFormation();
         <h2>LPRS Admin</h2>
     </div>
     <ul class="sidebar-menu">
-        <li><a href="PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
-        <li><a href="PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
-        <li><a href="PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
-        <li><a href="PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
-        <li><a href="PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
-        <li><a href="PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
-        <li><a href="PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
+        <li><a href="../../PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
+        <li><a href="../../PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
+        <li><a href="../../PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
+        <li><a href="../../PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
+        <li><a href="../../PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
     </ul>
 </aside>
 
@@ -202,63 +290,21 @@ $nbFormations = $repFormations->nombreFormation();
 <main class="main">
     <header class="topbar">
         <h1>Panneau d'administration</h1>
-        <form action="index2.php" method="post" style="margin:0;">
+        <form action="../../PageAdmin.php" method="post" style="margin:0;">
             <button type="submit" class="logout-btn">🚪 Retour</button>
         </form>
     </header>
 
-    <section class="content">
-        <?php
-        switch ($page) {
-            case 'categorie_forum':
-                include __DIR__ . '/page_admin/CategorieForum.php';
-                break;
-            case 'entreprise':
-                include __DIR__ . '/page_admin/Entreprise.php';
-                break;
-            case 'evenement':
-                include __DIR__ . '/page_admin/Evenement.php';
-                break;
-            case 'formation':
-                include __DIR__ . '/page_admin/Formation.php';
-                break;
-            case 'post_forum':
-                include __DIR__ . '/page_admin/PostForum.php';
-                break;
-            case 'reponse_forum':
-                include __DIR__ . '/page_admin/ReponseForum.php';
-                break;
-            case 'utilisateur':
-                include __DIR__ . '/page_admin/Utilisateur.php';
-                break;
-            default:
-                echo "
-                <h2>Tableau de bord</h2>
-                <p>Bienvenue sur l’espace d’administration du site LPRS.</p>
-                
-                <div class='dashboard-stats'>
-                    <div class='stat-card'>
-                        <div class='stat-title'>👥 Utilisateurs</div>
-                        <div class='stat-number'>{$nbUtilisateurs}</div>
-                    </div>
-                    <div class='stat-card'>
-                        <div class='stat-title'>🏢 Entreprises</div>
-                        <div class='stat-number'>{$nbEntreprises}</div>
-                    </div>
-                    <div class='stat-card'>
-                        <div class='stat-title'>📅 Événements</div>
-                        <div class='stat-number'>{$nbEvenements}</div>
-                    </div>
-                    <div class='stat-card'>
-                        <div class='stat-title'>🎓 Formations</div>
-                        <div class='stat-number'>{$nbFormations}</div>
-                    </div>
-                </div>
-                ";
-                break;
-        }
-        ?>
-    </section>
+    <div class="content">
+        <h2 class="form-title">➕ Ajouter une formation</h2>
+        <form method="POST" action="../../../src/traitement/Formation/TraitementAjoutFormation.php" class="add-form">
+            <div class="form-group">
+                <label for="nom_formation">Nom de la formation :</label>
+                <input type="text" id="nom_formation" name="nom_formation" required>
+            </div>
+            <button type="submit" class="btn-submit">Ajouter la formation</button>
+        </form>
+    </div>
 
     <footer class="footer">
         <p>&copy; 2025 LPRS - Administration</p>

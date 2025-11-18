@@ -1,11 +1,4 @@
 <?php
-
-namespace repository;
-
-use modele\PostForum;
-use BDD;
-use PDO;
-
 class PostForumRepository
 {
     private $bdd;

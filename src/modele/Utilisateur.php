@@ -34,7 +34,10 @@ class Utilisateur
         }
     }
 
-    public function getIdUtilisateur() { return $this->idUtilisateur; }
+    public function getIdUtilisateur()
+    {
+        return $this->idUtilisateur;
+    }
     public function setIdUtilisateur($idUtilisateur) { $this->idUtilisateur = $idUtilisateur; }
 
     public function getNom() {
