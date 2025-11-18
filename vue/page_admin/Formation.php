@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . '/../../src/modele/Formation.php';
 require_once __DIR__ . '/../../src/repository/FormationRepository.php';
 require_once __DIR__ . '/../../src/bdd/BDD.php';
@@ -120,7 +119,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
 
     <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher une formation..." onkeyup="filter()">
 
-    <button class="btn-ajout" onclick="window.location.href='../vue/AjoutFormation.php'">
+    <button class="btn-ajout" onclick="window.location.href='page_admin/crud/AjoutFormation.php'">
         ➕ Ajouter une formation
     </button>
 
@@ -137,7 +136,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
             <tr>
                 <td><?= htmlspecialchars($formation['nom_formation']) ?></td>
                 <td>
-                    <button class="btn-action btn-modifier" onclick="window.location.href='../vue/ModifFormation.php?id=<?= $formation['id_formation'] ?>'">Modifier</button>
+                    <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/crud/ModifFormation.php?id=<?= $formation['id_formation'] ?>'">Modifier</button>
                     <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet evenement ?')) window.location.href='../src/traitement/Formation/TraitementSuppressionFormation.php?id=<?= $formation['id_formation'] ?>'">Supprimer</button>
 
                 </td>

@@ -6,8 +6,13 @@ require_once __DIR__ . '/../../src/modele/CategorieForum.php';
 require_once __DIR__ . '/../../src/repository/CategorieForumRepository.php';
 require_once __DIR__ . '/../../src/bdd/BDD.php';
 
+// Récupération de la liste des utilisateurs
 $repo = new CategorieForumRepository();
-$listeCategorieForum = $repo->listeCategorie();
+$listeCategories = $repo->listeCategorie();
+
+if($_SESSION["userConnecte"]["role"]=="utilisateur"){
+    header('Location:../vue/index2.php');
+}
 ?>
 <style>
     .admin-container {
@@ -74,11 +79,11 @@ $listeCategorieForum = $repo->listeCategorie();
     }
 
     tbody tr:nth-child(odd) {
-        background: #1e293b;
+        background: #0f172a; /* noir */
     }
 
     tbody tr:nth-child(even) {
-        background: #0f172a;
+        background: #1e293b; /* gris */
     }
 
     tbody tr:hover {
@@ -113,42 +118,35 @@ $listeCategorieForum = $repo->listeCategorie();
 </style>
 
 <div class="admin-container">
-    <h2>Liste des Catégories du Forum</h2>
+    <h2>Liste des Catégories des forums</h2>
 
     <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher une catégorie..." onkeyup="filter()">
 
-    <button class="btn-ajout" onclick="window.location.href='../vue/AjoutCategorieForum.php'">
-        ➕ Ajouter une catégorie
+    <button class="btn-ajout" onclick="window.location.href='page_admin/crud/AjoutCategorieForum.php'">
+        ➕ Ajouter une catégorie de forum
     </button>
 
     <table>
         <thead>
         <tr>
             <th>Nom de la catégorie</th>
-            <th>Description</th>
-            <th>Catégorie </th>
-            <th>Actions</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <?php if (!empty($listeCategories)) : ?>
-            <?php foreach ($listeCategories as $categorie): ?>
+            <?php foreach ($listeCategories as $categories) : ?>
                 <tr>
-                    <td><?= htmlspecialchars($categorie['nomCategorieForum']) ?></td>
-                    <td><?= htmlspecialchars($categorie['descriptionCategorieForum'] ?? '—') ?></td>
-                    <td><?= htmlspecialchars($categorie['categorie'] ?? '—') ?></td>
+                    <td><?= htmlspecialchars($categories['nom_categorie']) ?></td>
                     <td>
-                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/ModifCategorieForum.php?id=<?= $categorie['idCategorieForum'] ?>'">
-                            Modifier
-                        </button>
-                        <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cette catégorie ?')) window.location.href='../../src/traitement/CategorieForum/TraitementSuppressionCategorieForum.php?id=<?= $categorie['idCategorieForum'] ?>'">
-                            Supprimer
-                        </button>
+                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/crud/ModifCategorieForum.php?id=<?= $categories['id_categorie'] ?>'">Modifier</button>
+                        <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cette categorie ?')) window.location.href='../src/traitement/CategorieForum/TraitementSuppressionCategorieForum.php?id=<?= $categories['id_categorie'] ?>'">Supprimer</button>
+
                     </td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
-            <tr><td colspan="5" style="text-align:center; opacity:0.7;">Aucune catégorie trouvée 😔</td></tr>
+            <tr><td colspan="10" style="text-align:center; opacity:0.7;">Aucune Catégorie de forum trouvée 😔</td></tr>
         <?php endif; ?>
         </tbody>
     </table>

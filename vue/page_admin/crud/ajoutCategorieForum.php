@@ -1,10 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter une catégorie de forum</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css">
+</head>
+<body>
+<form action="../../../src/traitement/Forum/TraitementAjoutCategorieForum.php" method="POST">
+    <h2>Ajouter une catégorie de forum</h2>
+
+    <label for="nom_categorie_forum">Nom de la catégorie :</label>
+    <input type="text" id="nom_categorie_forum" name="nom_categorie_forum" required>
+
+    <label for="description_categorie_forum">Description :</label>
+    <textarea id="description_categorie_forum" name="description_categorie_forum" placeholder="Décrivez la catégorie..." required></textarea>
+
+    <label for="categorie">Type de catégorie :</label>
+    <input type="text" id="categorie" name="categorie" placeholder="Ex : Général, Technique, Annonces..." required>
+
+    <input type="submit" value="Ajouter la catégorie">
+</form>
+</body>
+</html>
+
+
 <?php
+
+use modele\CategorieForum;
+
 session_start();
-require_once "../src/bdd/BDD.php";
-require_once "../src/repository/UtilisateurRepository.php";
-require_once "../src/repository/EntrepriseRepository.php";
-require_once "../src/repository/EvenementRepository.php";
-require_once "../src/repository/FormationRepository.php";
+require_once "../../../src/bdd/BDD.php";
+require_once "../../../src/repository/UtilisateurRepository.php";
+require_once "../../../src/repository/EntrepriseRepository.php";
+require_once "../../../src/repository/EvenementRepository.php";
+require_once "../../../src/repository/FormationRepository.php";
+require_once "../../../src/modele/CategorieForum.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
@@ -24,6 +55,16 @@ $nbEvenements = $repEvenement->nombreEvenement();
 
 $repFormations = new FormationRepository();
 $nbFormations = $repFormations->nombreFormation();
+
+$CategorieRepository = new CategorieForumRepository();
+$categorie = $CategorieRepository->detailCategorie($_GET["id"]);
+$formation = new Formation([
+    'idFormation' => $formation["id_formation"],
+    'nomFormation' => $formation["nom_formation"]
+]);
+$idFormation = $_GET['id'];
+
+// finir categorie forum
 
 ?>
 <!DOCTYPE html>
@@ -276,13 +317,13 @@ $nbFormations = $repFormations->nombreFormation();
         <h2>LPRS Admin</h2>
     </div>
     <ul class="sidebar-menu">
-        <li><a href="PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
-        <li><a href="PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
-        <li><a href="PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
-        <li><a href="PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
-        <li><a href="PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
-        <li><a href="PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
-        <li><a href="PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
+        <li><a href="../../PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
+        <li><a href="../../PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
+        <li><a href="../../PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
+        <li><a href="../../PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
+        <li><a href="../../PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
     </ul>
 </aside>
 
@@ -290,34 +331,22 @@ $nbFormations = $repFormations->nombreFormation();
 <main class="main">
     <header class="topbar">
         <h1>Panneau d'administration</h1>
-        <form action="PageAdmin.php" method="post" style="margin:0;">
+        <form action="../../PageAdmin.php" method="post" style="margin:0;">
             <button type="submit" class="logout-btn">🚪 Retour</button>
         </form>
     </header>
 
     <div class="content">
-        <h2 class="form-title">➕ Ajouter un utilisateur</h2>
-        <form method="POST" action="../src/traitement/Utilisateur/TraitementAjoutUtilisateur.php" class="add-form">
+        <h2 class="form-title">Modifier la formation</h2>
+        <form action="../../../src/traitement/Formation/TraitementModifFormation.php" method="post" class="add-form">
             <div class="form-group">
-                <label for="nom">Nom</label>
-                <input type="text" id="nom" name="nom" required>
+                <label for="nomFormation">Nom de la formation</label>
+                <input type="text" id="nomFormation" name="nomFormation" value="<?=$formation->getNomFormation()?>">
             </div>
-            <div class="form-group">
-                <label for="prenom">Prénom</label>
-                <input type="text" id="prenom" name="prenom" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="exemple@lprs.fr" required>
-            </div>
-            <div class="form-group">
-                <label for="mdp">Mot de passe</label>
-                <input type="password" id="mdp" name="mdp" required>
-            </div>
-            <button type="submit" class="btn-submit">Ajouter l’utilisateur</button>
+            <input type="hidden" name="idFormation" value="<?=$formation->getIdFormation()?>">
+            <input type="submit" value="Modifier" class="btn-submit" >
         </form>
     </div>
-
     <footer class="footer">
         <p>&copy; 2025 LPRS - Administration</p>
     </footer>
@@ -325,3 +354,5 @@ $nbFormations = $repFormations->nombreFormation();
 
 </body>
 </html>
+
+

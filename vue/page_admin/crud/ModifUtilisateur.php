@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once "../src/bdd/BDD.php";
-require_once "../src/repository/UtilisateurRepository.php";
-require_once "../src/repository/EntrepriseRepository.php";
-require_once "../src/repository/EvenementRepository.php";
-require_once "../src/repository/FormationRepository.php";
-require_once "../src/modele/Entreprise.php";
+require_once "../../../src/bdd/BDD.php";
+require_once "../../../src/repository/UtilisateurRepository.php";
+require_once "../../../src/repository/EntrepriseRepository.php";
+require_once "../../../src/repository/EvenementRepository.php";
+require_once "../../../src/repository/FormationRepository.php";
+require_once "../../../src/modele/Utilisateur.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
@@ -17,8 +17,8 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
 $repUtilisateur = new UtilisateurRepository();
 $nbUtilisateurs = $repUtilisateur->nombreUtilisateur();
 
-$repEntreprise = new EntrepriseRepository();
-$nbEntreprises = $repEntreprise->nombreEntreprise();
+$repEvenement = new EvenementRepository();
+$nbEvenements = $repEvenement->nombreEvenement();
 
 $repEvenement = new EvenementRepository();
 $nbEvenements = $repEvenement->nombreEvenement();
@@ -26,15 +26,28 @@ $nbEvenements = $repEvenement->nombreEvenement();
 $repFormations = new FormationRepository();
 $nbFormations = $repFormations->nombreFormation();
 
-$EntrepriseRepository = new EntrepriseRepository();
-$entreprise = $EntrepriseRepository->detailEntreprise($_GET["id"]);
-$entreprise = new Entreprise([
-    'idEntreprise' => $entreprise["id_entreprise"],
-    'nom' => $entreprise["nom"],
-    'adresse' => $entreprise["adresse"],
-    'siteWeb' => $entreprise["site_web"],
+$UtilisateurRepository = new UtilisateurRepository();
+$utilisateur = $UtilisateurRepository->detailUtilisateur($_GET["id"]);
+$utilisateur = new Utilisateur([
+    'idUtilisateur' => $utilisateur['id_utilisateur'],
+    'nom' => $utilisateur['nom'],
+    'prenom' => $utilisateur['prenom'],
+    'email' => $utilisateur['email'],
+    'mdp' => $utilisateur['mdp'],
+    'role' => $utilisateur['role'],
+    'specialite' => $utilisateur['specialite'],
+    'poste' => $utilisateur['poste'],
+    'anneePromo' => $utilisateur['annee_promo'],
+    'cv' => $utilisateur['cv'],
+    'motifPartenariat' => $utilisateur['motif_partenariat'],
+    'estVerifie' => $utilisateur['est_verifie'],
+    'refEntreprise' => $utilisateur['ref_entreprise'],
+    'refFormation' => $utilisateur['ref_formation']
 ]);
-$idEntreprise = $_GET['id'];
+$entreprise = $repUtilisateur->getNomEntreprise();
+$formation = $repUtilisateur->getNomFormation();
+
+$idUtilisateur = $_GET['id'];
 
 ?>
 <!DOCTYPE html>
@@ -287,13 +300,13 @@ $idEntreprise = $_GET['id'];
         <h2>LPRS Admin</h2>
     </div>
     <ul class="sidebar-menu">
-        <li><a href="PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
-        <li><a href="PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
-        <li><a href="PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
-        <li><a href="PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
-        <li><a href="PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
-        <li><a href="PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
-        <li><a href="PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=dashboard" class="<?= ($page=='dashboard')?'active':'' ?>">📊 Dashboard</a></li>
+        <li><a href="../../PageAdmin.php?page=utilisateur" class="<?= ($page=='utilisateur')?'active':'' ?>">👥 Utilisateurs</a></li>
+        <li><a href="../../PageAdmin.php?page=entreprise" class="<?= ($page=='entreprise')?'active':'' ?>">🏢 Entreprises</a></li>
+        <li><a href="../../PageAdmin.php?page=evenement" class="<?= ($page=='evenement')?'active':'' ?>">📅 Événements</a></li>
+        <li><a href="../../PageAdmin.php?page=formation" class="<?= ($page=='formation')?'active':'' ?>">🎓 Formations</a></li>
+        <li><a href="../../PageAdmin.php?page=categorie_forum" class="<?= ($page=='categorie_forum')?'active':'' ?>">🗂️ Catégories Forum</a></li>
+        <li><a href="../../PageAdmin.php?page=post_forum" class="<?= ($page=='post_forum')?'active':'' ?>">💬 Posts Forum</a></li>
     </ul>
 </aside>
 
@@ -301,27 +314,98 @@ $idEntreprise = $_GET['id'];
 <main class="main">
     <header class="topbar">
         <h1>Panneau d'administration</h1>
-        <form action="PageAdmin.php" method="post" style="margin:0;">
+        <form action="../../PageAdmin.php" method="post" style="margin:0;">
             <button type="submit" class="logout-btn">🚪 Retour</button>
         </form>
     </header>
 
     <div class="content">
-        <h2 class="form-title">Modifier l'entreprise</h2>
-        <form action="../src/traitement/Entreprise/TraitementModifEntreprise.php" method="post" class="add-form">
+        <h2 class="form-title">Modifier l'Utilisateur</h2>
+        <form action="../../../src/traitement/Utilisateur/TraitementModifUtilisateur.php" method="post" class="add-form">
             <div class="form-group">
-                <label for="nom">Nom de l'entreprise</label>
-                <input type="text" id="nom" name="nom" value="<?=$entreprise->getNom()?>">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" value="<?=$utilisateur->getNom()?>">
             </div>
             <div class="form-group">
-                <label for="adresse">Adresse de l'entreprise</label>
-                <input type="text" id="adresse" name="adresse" value="<?=$entreprise->getAdresse()?>">
+                <label for="prenom">Prénom</label>
+                <input type="text" id="prenom" name="prenom" value="<?=$utilisateur->getPrenom()?>">
             </div>
             <div class="form-group">
-                <label for="siteWeb">Site de l'entreprise</label>
-                <input type="text" id="siteWeb" name="siteWeb" value="<?=$entreprise->getSiteWeb()?>">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" value="<?=$utilisateur->getEmail()?>">
             </div>
-            <input type="hidden" name="idEntreprise" value="<?=$entreprise->getIdEntreprise()?>">
+            <div class="form-group">
+                <label for="mdp">Mot de passe</label>
+                <input type="text" id="mdp" name="mdp" value="<?=$utilisateur->getMdp()?>">
+            </div>
+            <div class="form-group">
+                <label for="role">Role de l'utilisateur</label>
+                <select id="role" name="role" value="<?=$utilisateur->getRole()?>">
+                    <option value="utilisateur">utilisateur</option>
+                    <option value="Admin">admin</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="specialite">Spécialité </label> <!-- Spécialité / Matière enseigné -->
+                <select id="specialite" name="specialite" value="<?=$utilisateur->getSpecialite()?>">
+                    <option value="null">NULL</option>
+                    <option value="francais">français</option>
+                    <option value="mathematique">mathématique</option>
+                    <option value="anglais">anglais</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="poste">Poste</label> <!-- Poste occupé dans l'entreprise -->
+                <select id="poste" name="poste" value="<?=$utilisateur->getPoste()?>">
+                    <option value="null">NULL</option>
+                    <option value="directionGestion">Direction et gestion</option>
+                    <option value="informatique">Informatique</option>
+                    <option value="marketingCommunication">Marketing et communication</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="comptabilité">Comptabilité</option>
+                    <option value="ressourcesHumaines">Ressources humaines</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="anneePromo">Année promo</label>
+                <input type="text" id="anneePromo" name="anneePromo" min="2000" required value="<?=$utilisateur->getAnneePromo()?>">
+            </div>
+            <div class="form-group">
+                <label for="cv">CV</label>
+                <input type="file" id="cv" name="cv" accept="image/png, image/jpeg">
+            </div>
+            <div class="form-group">
+                <label for="motifPartenariat">motif du partenariat</label>
+                <input type="text" id="motifPartenariat" name="motifPartenariat" required value="<?=$utilisateur->getMotifPartenariat()?>">
+            </div>
+            <div class="form-group">
+                <label for="estVerifie">Est il vérifié</label> <!-- L'utilisateur est il vérifié par un admin -->
+                <select id="estVerifie" name="estVerifie" value="<?=$utilisateur->getEstVerifie()?>">
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="refEntreprise">refEntreprise</label>
+                <select id="refEntreprise" name="refEntreprise" value="<?=$utilisateur->getRefEntreprise()?>">
+                    <?php foreach ($entreprise as $entreprise): ?>
+                    <option>
+                    <li><span class="dropdown-item disabled"><?= htmlspecialchars($entreprise) ?></span></li>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="refFormation">refFormation</label>
+                <select id="refFormation" name="refFormation" value="<?=$utilisateur->getRefFormation()?>">
+                    <?php foreach ($formation as $formation): ?>
+                    <option>
+                    <li><span class="dropdown-item disabled"><?= htmlspecialchars($formation) ?></span></li>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <input type="hidden" name="idUtilisateur" value="<?=$utilisateur->getIdUtilisateur()?>">
             <input type="submit" value="Modifier" class="btn-submit" >
         </form>
     </div>
@@ -329,8 +413,5 @@ $idEntreprise = $_GET['id'];
         <p>&copy; 2025 LPRS - Administration</p>
     </footer>
 </main>
-
 </body>
 </html>
-
-

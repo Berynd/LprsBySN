@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . '/../../src/modele/Entreprise.php';
 require_once __DIR__ . '/../../src/repository/EntrepriseRepository.php';
 require_once __DIR__ . '/../../src/bdd/BDD.php';
@@ -121,7 +120,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
 
     <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher une entreprise..." onkeyup="filter()">
 
-    <button class="btn-ajout" onclick="window.location.href='../vue/AjoutEntreprise.php'">
+    <button class="btn-ajout" onclick="window.location.href='page_admin/crud/AjoutEntreprise.php'">
         ➕ Ajouter une entreprise
     </button>
 
@@ -142,7 +141,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
                     <td><?= htmlspecialchars($user['adresse']) ?></td>
                     <td><?= htmlspecialchars($user['site_web']) ?></td>
                     <td>
-                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/ModifEntreprise.php?id=<?= $user['id_entreprise'] ?>'">Modifier</button>
+                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/crud/ModifEntreprise.php?id=<?= $user['id_entreprise'] ?>'">Modifier</button>
                         <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cette entreprise ?')) window.location.href='../src/traitement/Entreprise/TraitementSuppresionEntreprise.php?id=<?= $user['id_entreprise'] ?>'">Supprimer</button>
 
                     </td>

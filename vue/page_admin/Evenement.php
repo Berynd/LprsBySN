@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . '/../../src/modele/Evenement.php';
 require_once __DIR__ . '/../../src/repository/EvenementRepository.php';
 require_once __DIR__ . '/../../src/bdd/BDD.php';
@@ -121,7 +120,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
 
     <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher un évenement..." onkeyup="filter()">
 
-    <button class="btn-ajout" onclick="window.location.href='../vue/AjoutEvenement.php'">
+    <button class="btn-ajout" onclick="window.location.href='page_admin/crud/AjoutEvenement.php'">
         ➕ Ajouter un évenement
     </button>
 
@@ -152,7 +151,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
                     <td><?= htmlspecialchars($user['date_evenement']) ?></td>
                     <td><?= htmlspecialchars($user['etat']) ?></td>
                     <td>
-                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/ModifEvenement.php?id=<?= $user['id_evenement'] ?>'">Modifier</button>
+                        <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/crud/ModifEvenement.php?id=<?= $user['id_evenement'] ?>'">Modifier</button>
                         <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet evenement ?')) window.location.href='../src/traitement/Evenement/TraitementSuppresionEvenement.php?id=<?= $user['id_evenement'] ?>'">Supprimer</button>
 
                     </td>
