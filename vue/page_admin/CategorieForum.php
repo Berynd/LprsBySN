@@ -1,7 +1,4 @@
 <?php
-
-use repository\CategorieForumRepository;
-
 require_once __DIR__ . '/../../src/modele/CategorieForum.php';
 require_once __DIR__ . '/../../src/repository/CategorieForumRepository.php';
 require_once __DIR__ . '/../../src/bdd/BDD.php';
