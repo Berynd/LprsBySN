@@ -1,16 +1,15 @@
 <?php
-require_once __DIR__ . '/../../src/modele/Formation.php';
-require_once __DIR__ . '/../../src/repository/FormationRepository.php';
-require_once __DIR__ . '/../../src/bdd/BDD.php';
+session_start();
+require_once __DIR__ . '/../src/modele/Evenement.php';
+require_once __DIR__ . '/../src/repository/EvenementRepository.php';
+require_once __DIR__ . '/../src/bdd/BDD.php';
 
 // Récupération de la liste des utilisateurs
-$repo = new FormationRepository();
-$listeFormation = $repo->listeFormation();
+$repo = new EvenementRepository();
+$listeEvenement = $repo->listeEvenement();
 
-if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]["role"]=="prof"){
-    header('Location:../vue/index2.php');
-}
 ?>
+
 <style>
     .admin-container {
         background: #1e293b;
@@ -115,35 +114,46 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]
 </style>
 
 <div class="admin-container">
-    <h2>Liste des Formations</h2>
+    <h2>Liste des Evenements</h2>
 
-    <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher une formation..." onkeyup="filter()">
+    <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher un évenement..." onkeyup="filter()">
 
-    <button class="btn-ajout" onclick="window.location.href='../vue/AjoutFormation.php'">
-        ➕ Ajouter une formation
-    </button>
+    <?php if ($_SESSION["userConnecte"]["role"] === "prof") : ?>
+        <button class="btn-ajout" onclick="window.location.href='AjoutEvenementProf.php'">
+            ➕ Ajouter un évenement
+        </button>
+    <?php endif; ?>
 
     <table>
         <thead>
         <tr>
-            <th>Nom de la Formation</th>
-            <th>Action</th>
+            <th>Type</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>lieu</th>
+            <th>Element requis</th>
+            <th>Nombre de place</th>
+            <th>Date de l'évènement</th>
+            <th>Etat</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <?php if (!empty($listeFormation)) : ?>
-            <?php foreach ($listeFormation as $formation) : ?>
-            <tr>
-                <td><?= htmlspecialchars($formation['nom_formation']) ?></td>
-                <td>
-                    <button class="btn-action btn-modifier" onclick="window.location.href='../vue/ModifFormation.php?id=<?= $formation['id_formation'] ?>'">Modifier</button>
-                    <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet evenement ?')) window.location.href='../src/traitement/Formation/TraitementSuppressionFormation.php?id=<?= $formation['id_formation'] ?>'">Supprimer</button>
-
-                </td>
-            </tr>
+        <?php if (!empty($listeEvenement)) : ?>
+            <?php foreach ($listeEvenement as $user): ?>
+                <tr>
+                    <td><?= htmlspecialchars($user['type']) ?></td>
+                    <td><?= htmlspecialchars($user['titre']) ?></td>
+                    <td><?= htmlspecialchars($user['description']) ?></td>
+                    <td><?= htmlspecialchars($user['lieu']) ?></td>
+                    <td><?= htmlspecialchars($user['element_requis']) ?></td>
+                    <td><?= htmlspecialchars($user['nombre_place']) ?></td>
+                    <td><?= htmlspecialchars($user['date_evenement']) ?></td>
+                    <td><?= htmlspecialchars($user['etat']) ?></td>
+                </tr>
             <?php endforeach; ?>
         <?php else: ?>
-            <tr><td colspan="10" style="text-align:center; opacity:0.7;">Aucune formation trouvée 😔</td></tr>
+            <tr><td colspan="10" style="text-align:center; opacity:0.7;">Aucun evenement trouvé 😔</td></tr>
         <?php endif; ?>
         </tbody>
     </table>

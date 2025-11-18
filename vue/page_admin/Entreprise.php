@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . '/../../src/modele/Entreprise.php';
 require_once __DIR__ . '/../../src/repository/EntrepriseRepository.php';
 require_once __DIR__ . '/../../src/bdd/BDD.php';
@@ -8,7 +7,7 @@ require_once __DIR__ . '/../../src/bdd/BDD.php';
 $repo = new EntrepriseRepository();
 $listeEntreprise = $repo->listeEntreprise();
 
-if($_SESSION["userConnecte"]["role"]=="utilisateur"){
+if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]["role"]=="prof"){
     header('Location:../vue/index2.php');
 }
 ?>
