@@ -42,7 +42,12 @@ class EvenementRepository
         $req->execute();
         return $req->fetchAll(\PDO::FETCH_ASSOC);
     }
-
+    public function listeEvenementuser() {
+        $sql = "SELECT * FROM evenement WHERE etat = 1";
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function nombreEvenement()
     {
         $sql = 'SELECT COUNT(*) FROM evenement';
