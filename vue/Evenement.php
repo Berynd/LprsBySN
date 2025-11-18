@@ -63,11 +63,15 @@ $listeEvenement = $repo->listeEvenement();
         background: #0f172a;
         border-radius: 8px;
         overflow: hidden;
+        color: white !important;
+    }
+
     }
 
     th, td {
         text-align: left;
         padding: 12px 16px;
+
     }
 
     thead {
@@ -111,18 +115,51 @@ $listeEvenement = $repo->listeEvenement();
     .btn-supprimer:hover {
         background: #dc2626;
     }
+
+    .logout-btn {
+        background-color: var(--danger);
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s ease;
+    }
+
+    .logout-btn:hover {
+        background-color: #b91c1c;
+    }
+
+    .header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
 </style>
 
 <div class="admin-container">
-    <h2>Liste des Evenements</h2>
+
+    <div class="header-bar">
+        <h2>Liste des Evenements</h2>
+
+        <form action="index2.php" method="post" style="margin:0;">
+            <button type="submit" class="logout-btn">🚪 Retour</button>
+        </form>
+    </div>
+
 
     <input type="text" id="search" class="search-bar" placeholder="🔍 Rechercher un évenement..." onkeyup="filter()">
 
-    <?php if ($_SESSION["userConnecte"]["role"] === "prof") : ?>
+    <?php if ($_SESSION["userConnecte"]["role"] == "prof" || $_SESSION["userConnecte"]["role"] == "admin" ): ?>
         <button class="btn-ajout" onclick="window.location.href='AjoutEvenementProf.php'">
             ➕ Ajouter un évenement
         </button>
     <?php endif; ?>
+
+
 
     <table>
         <thead>
@@ -135,7 +172,7 @@ $listeEvenement = $repo->listeEvenement();
             <th>Nombre de place</th>
             <th>Date de l'évènement</th>
             <th>Etat</th>
-            <th>Actions</th>
+
         </tr>
         </thead>
         <tbody>

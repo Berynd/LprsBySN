@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Nov 04, 2025 at 10:00 AM
--- Server version: 8.3.0
--- PHP Version: 8.2.18
+-- Hôte : 127.0.0.1:3306
+-- Généré le : mar. 18 nov. 2025 à 09:00
+-- Version du serveur : 9.1.0
+-- Version de PHP : 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `projetlprs`
+-- Base de données : `projetlprs`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `candidature`
+-- Structure de la table `candidature`
 --
 
 DROP TABLE IF EXISTS `candidature`;
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `candidature` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categorie_forum`
+-- Structure de la table `categorie_forum`
 --
 
 DROP TABLE IF EXISTS `categorie_forum`;
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `categorie_forum` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `entreprise`
+-- Structure de la table `entreprise`
 --
 
 DROP TABLE IF EXISTS `entreprise`;
@@ -67,19 +67,19 @@ CREATE TABLE IF NOT EXISTS `entreprise` (
   `adresse` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `site_web` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   PRIMARY KEY (`id_entreprise`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
--- Dumping data for table `entreprise`
+-- Déchargement des données de la table `entreprise`
 --
 
 INSERT INTO `entreprise` (`id_entreprise`, `nom`, `adresse`, `site_web`) VALUES
-(12, 'Thales', '69 rue du gros chateau', 'https://www.thalesgroup.com/fr');
+(1, 'ANCV', '36 Bd Henri Bergson, 95200 Sarcelles', 'https://www.ancv.com/');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `evenement`
+-- Structure de la table `evenement`
 --
 
 DROP TABLE IF EXISTS `evenement`;
@@ -91,22 +91,23 @@ CREATE TABLE IF NOT EXISTS `evenement` (
   `lieu` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `element_requis` text CHARACTER SET latin1 COLLATE latin1_bin,
   `nombre_place` int DEFAULT NULL,
-  `date_evenement` datetime DEFAULT NULL,
+  `date_evenement` date DEFAULT NULL,
   `etat` varchar(50) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+  `validation` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_evenement`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
--- Dumping data for table `evenement`
+-- Déchargement des données de la table `evenement`
 --
 
-INSERT INTO `evenement` (`id_evenement`, `type`, `titre`, `description`, `lieu`, `element_requis`, `nombre_place`, `date_evenement`, `etat`) VALUES
-(11, 'Sportif', 'test', 'test', 'test', 'test', 10, '2025-11-07 20:22:00', 'Finis');
+INSERT INTO `evenement` (`id_evenement`, `type`, `titre`, `description`, `lieu`, `element_requis`, `nombre_place`, `date_evenement`, `etat`, `validation`) VALUES
+(1, 'Caritatifs', 'pupuce', 'ad laurent ', 'pupuce land', 'des cameras et des capotes durex', 69, '2025-10-29', 'à venir', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `formation`
+-- Structure de la table `formation`
 --
 
 DROP TABLE IF EXISTS `formation`;
@@ -117,21 +118,19 @@ CREATE TABLE IF NOT EXISTS `formation` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
--- Dumping data for table `formation`
+-- Déchargement des données de la table `formation`
 --
 
 INSERT INTO `formation` (`id_formation`, `nom_formation`) VALUES
 (1, 'BTS SIO SLAM'),
-(2, 'BTS SIO SISR'),
-(3, 'BAC PRO SN'),
-(4, 'BAC PRO CIEL'),
-(5, 'BAC PRO TU'),
-(6, 'BAC PRO MEI');
+(3, 'BTS SIO SISR'),
+(5, 'BAC PRO MSPC'),
+(6, 'BAC PRO SN');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `inscrire`
+-- Structure de la table `inscrire`
 --
 
 DROP TABLE IF EXISTS `inscrire`;
@@ -146,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `inscrire` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offre`
+-- Structure de la table `offre`
 --
 
 DROP TABLE IF EXISTS `offre`;
@@ -167,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `offre` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `organisation`
+-- Structure de la table `organisation`
 --
 
 DROP TABLE IF EXISTS `organisation`;
@@ -181,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `organisation` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `post_forum`
+-- Structure de la table `post_forum`
 --
 
 DROP TABLE IF EXISTS `post_forum`;
@@ -200,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `post_forum` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reponse_forum`
+-- Structure de la table `reponse_forum`
 --
 
 DROP TABLE IF EXISTS `reponse_forum`;
@@ -218,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `reponse_forum` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `utilisateur`
+-- Structure de la table `utilisateur`
 --
 
 DROP TABLE IF EXISTS `utilisateur`;
@@ -240,64 +239,68 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   PRIMARY KEY (`id_utilisateur`),
   KEY `ref_entreprise` (`ref_entreprise`),
   KEY `ref_formation` (`ref_formation`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
--- Dumping data for table `utilisateur`
+-- Déchargement des données de la table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `mdp`, `role`, `specialite`, `poste`, `annee_promo`, `cv`, `motif_partenariat`, `est_verifie`, `ref_entreprise`, `ref_formation`) VALUES
-(2, 'admin', 'admin', 'admin@gmail.com', 'Aa12345', 'admin', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL),
-(17, 'User', 'User', 'User@gmail.com', '$2y$10$iZPZIjCMiYSrFL6ab/.TsezcOIr1zUsndhCeQt6ybGVQj9F5kyOGC', 'utilisateur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(19, 'test', 'test', 'test@gmail.com', '$2y$10$mcdWDVWWCyUi05SzCnMBwe1AEUz8iqLSWWA5W5KoSUdpfqLnwjhoS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 'langui', 'thomas', 'toxi.tv971@gmail.com', '$2y$10$aOdOqBx.6rWiJYuanpsC9.fpOTnMzfnyeFfWXMwQzpbuH6213TJQC', 'utilisateur', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+(2, 'Passard', 'Ethan', 'e.passard@lprs.fr', '$2y$10$x9TwEqz5cId4SCvrDjdmweNOuI5I4fgcawAMZ5WG5KXWYp2IfJ212', 'utilisateur', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+(3, 'Berinde', 'Gabi', 'g.berinde@lprs.fr', '$2y$10$3EWXvtI4.VOforKAx9L0Se.P00J5ecuUPgPbd59WGEoDkGbMow/za', 'utilisateur', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL),
+(4, 'admin', 'admin', 'admin@gmail.com', '$2y$10$eZI8uoU4cNy/2ncPoz1nyu3W6G2tN4/weZ1UaLDL1vcr2Auazmdje', 'admin', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+(5, 'nicolas', 'charpentier', 'ncharpentier@lprs.fr', '$2y$10$LzPHeDKCOB0bqHOxpGD0eunmo0QIo8N8V9zEDti2ozGKYFIL/U9jW', 'utilisateur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 'test', 'test', 'test@gmail.com', '$2y$10$k2H3dKxLpniN/cKRducuLuuTxAlWJG/RRKJ7QM.YPWE3u2Vp9fG4e', 'utilisateur', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL),
+(8, 'prof', 'prof', 'prof@gmail.com', '$2y$10$lmpnPde0dxk86sACU.OJi.7FKGkw7m4Cvode6cPfgkH5U7PUKC55W', 'prof', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL);
 
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Constraints for table `candidature`
+-- Contraintes pour la table `candidature`
 --
 ALTER TABLE `candidature`
   ADD CONSTRAINT `candidature_ibfk_1` FOREIGN KEY (`ref_offre`) REFERENCES `offre` (`id_offre`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `candidature_ibfk_2` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `inscrire`
+-- Contraintes pour la table `inscrire`
 --
 ALTER TABLE `inscrire`
   ADD CONSTRAINT `inscrire_ibfk_1` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `inscrire_ibfk_2` FOREIGN KEY (`ref_evenement`) REFERENCES `evenement` (`id_evenement`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `offre`
+-- Contraintes pour la table `offre`
 --
 ALTER TABLE `offre`
   ADD CONSTRAINT `offre_ibfk_1` FOREIGN KEY (`ref_entreprise`) REFERENCES `entreprise` (`id_entreprise`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `organisation`
+-- Contraintes pour la table `organisation`
 --
 ALTER TABLE `organisation`
   ADD CONSTRAINT `organisation_ibfk_1` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `organisation_ibfk_2` FOREIGN KEY (`ref_evenement`) REFERENCES `evenement` (`id_evenement`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `post_forum`
+-- Contraintes pour la table `post_forum`
 --
 ALTER TABLE `post_forum`
   ADD CONSTRAINT `post_forum_ibfk_1` FOREIGN KEY (`ref_categorie_forum`) REFERENCES `categorie_forum` (`id_categorie_forum`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `post_forum_ibfk_2` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `reponse_forum`
+-- Contraintes pour la table `reponse_forum`
 --
 ALTER TABLE `reponse_forum`
   ADD CONSTRAINT `reponse_forum_ibfk_1` FOREIGN KEY (`ref_post_forum`) REFERENCES `post_forum` (`id_post`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `reponse_forum_ibfk_2` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `utilisateur`
+-- Contraintes pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
   ADD CONSTRAINT `utilisateur_ibfk_1` FOREIGN KEY (`ref_entreprise`) REFERENCES `entreprise` (`id_entreprise`) ON DELETE SET NULL ON UPDATE CASCADE,
