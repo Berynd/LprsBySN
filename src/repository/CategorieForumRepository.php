@@ -1,11 +1,4 @@
 <?php
-
-namespace repository;
-require_once __DIR__ . '/../bdd/BDD.php';
-require_once __DIR__ . '/../modele/CategorieForum.php';
-
-use modele\CategorieForum;
-
 class CategorieForumRepository
 {
     private $bdd;

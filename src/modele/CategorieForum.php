@@ -1,5 +1,5 @@
 <?php
-namespace modele;
+
 class CategorieForum
 {
     private $idCategorieForum;

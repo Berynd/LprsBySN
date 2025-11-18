@@ -1,10 +1,4 @@
 <?php
-
-namespace repository;
-
-use modele\Candidature;
-use BDD;
-
 class CandidatureRepository
 {
     private $bdd;

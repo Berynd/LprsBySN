@@ -1,41 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter une catégorie de forum</title>
-    <link rel="stylesheet" href="../../../assets/css/styles.css">
-</head>
-<body>
-<form action="../../../src/traitement/Forum/TraitementAjoutCategorieForum.php" method="POST">
-    <h2>Ajouter une catégorie de forum</h2>
-
-    <label for="nom_categorie_forum">Nom de la catégorie :</label>
-    <input type="text" id="nom_categorie_forum" name="nom_categorie_forum" required>
-
-    <label for="description_categorie_forum">Description :</label>
-    <textarea id="description_categorie_forum" name="description_categorie_forum" placeholder="Décrivez la catégorie..." required></textarea>
-
-    <label for="categorie">Type de catégorie :</label>
-    <input type="text" id="categorie" name="categorie" placeholder="Ex : Général, Technique, Annonces..." required>
-
-    <input type="submit" value="Ajouter la catégorie">
-</form>
-</body>
-</html>
-
-
 <?php
-
-use modele\CategorieForum;
-
 session_start();
 require_once "../../../src/bdd/BDD.php";
 require_once "../../../src/repository/UtilisateurRepository.php";
 require_once "../../../src/repository/EntrepriseRepository.php";
 require_once "../../../src/repository/EvenementRepository.php";
 require_once "../../../src/repository/FormationRepository.php";
-require_once "../../../src/modele/CategorieForum.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
@@ -55,16 +24,6 @@ $nbEvenements = $repEvenement->nombreEvenement();
 
 $repFormations = new FormationRepository();
 $nbFormations = $repFormations->nombreFormation();
-
-$CategorieRepository = new CategorieForumRepository();
-$categorie = $CategorieRepository->detailCategorie($_GET["id"]);
-$formation = new Formation([
-    'idFormation' => $formation["id_formation"],
-    'nomFormation' => $formation["nom_formation"]
-]);
-$idFormation = $_GET['id'];
-
-// finir categorie forum
 
 ?>
 <!DOCTYPE html>
@@ -337,16 +296,24 @@ $idFormation = $_GET['id'];
     </header>
 
     <div class="content">
-        <h2 class="form-title">Modifier la formation</h2>
-        <form action="../../../src/traitement/Formation/TraitementModifFormation.php" method="post" class="add-form">
+        <h2 class="form-title">➕ Ajouter une catégorie de forum</h2>
+        <form method="POST" action="../../../src/traitement/CategorieForum/TraitementAjoutCategorieForum.php" class="add-form">
             <div class="form-group">
-                <label for="nomFormation">Nom de la formation</label>
-                <input type="text" id="nomFormation" name="nomFormation" value="<?=$formation->getNomFormation()?>">
+                <label for="nom_categorie_forum">Nom de la formation :</label>
+                <input type="text" id="nom_categorie_forum" name="nom_categorie_forum" required>
             </div>
-            <input type="hidden" name="idFormation" value="<?=$formation->getIdFormation()?>">
-            <input type="submit" value="Modifier" class="btn-submit" >
+            <div class="form-group">
+                <label for="description_categorie_forum">Description de la categorie :</label>
+                <input type="text" id="description_categorie_forum" name="description_categorie_forum" required>
+            </div>
+            <div class="form-group">
+                <label for="categorie">Categorie :</label>
+                <input type="text" id="categorie" name="categorie" required>
+            </div>
+            <button type="submit" class="btn-submit">Ajouter la formation</button>
         </form>
     </div>
+
     <footer class="footer">
         <p>&copy; 2025 LPRS - Administration</p>
     </footer>
@@ -354,5 +321,3 @@ $idFormation = $_GET['id'];
 
 </body>
 </html>
-
-
