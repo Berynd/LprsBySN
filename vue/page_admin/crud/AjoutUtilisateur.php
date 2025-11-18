@@ -8,7 +8,7 @@ require_once "../../../src/repository/FormationRepository.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
-if($_SESSION["userConnecte"]["role"]=="utilisateur"){
+if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]["role"]=="prof"){
     header('Location:../vue/index2.php');
 }
 
