@@ -34,6 +34,10 @@
             <input type="email" name="email" placeholder="Adresse email" required>
             <input type="password" name="mdp" placeholder="Mot de passe" required>
             <button type="submit">Se connecter</button>
+            <p style="text-align:right; margin-top: 10px;">
+                <a href="VueMail/MdpOublier.php" style="color:#3498db;font-weight:500;font-size:0.9em;">Mot de passe oublié ?</a>
+            </p>
+
         </form>
 
         <p style="text-align:center;margin-top:20px;">
