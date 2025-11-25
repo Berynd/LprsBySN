@@ -135,6 +135,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]
             <th>Nombre de place</th>
             <th>Date de l'évènement</th>
             <th>Etat</th>
+            <th>Validation</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -150,6 +151,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]
                     <td><?= htmlspecialchars($user['nombre_place']) ?></td>
                     <td><?= htmlspecialchars($user['date_evenement']) ?></td>
                     <td><?= htmlspecialchars($user['etat']) ?></td>
+                    <td><?= ($user['validation'] ?? 0) ? '✅' : '❌' ?></td>
                     <td>
                         <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/crud/ModifEvenement.php?id=<?= $user['id_evenement'] ?>'">Modifier</button>
                         <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet evenement ?')) window.location.href='../src/traitement/Evenement/TraitementSuppresionEvenement.php?id=<?= $user['id_evenement'] ?>'">Supprimer</button>
