@@ -5,6 +5,7 @@ require_once "../../../src/repository/UtilisateurRepository.php";
 require_once "../../../src/repository/EntrepriseRepository.php";
 require_once "../../../src/repository/EvenementRepository.php";
 require_once "../../../src/repository/FormationRepository.php";
+require_once "../../../src/repository/CategorieForumRepository.php";
 require_once "../../../src/modele/CategorieForum.php";
 
 $page = $_GET['page'] ?? 'dashboard';
@@ -30,11 +31,11 @@ $CategorieForumRepository = new CategorieForumRepository();
 $categorieForum = $CategorieForumRepository->detailCategorieForum($_GET["id"]);
 $categorieForum = new CategorieForum([
     'idCategorieForum' => $categorieForum["id_categorie_forum"],
-    'typeEvenement' => $evenement["type"],
-    'titreEvenement' => $evenement["titre"],
-    'dateEvenement' => $evenement["date_evenement"]
+    'nomCategorieForum' => $categorieForum["nom"],
+    'descriptionCategorieForum' => $categorieForum["description"],
+    'categorie' => $categorieForum["categorie"]
 ]);
-$idEvenement = $_GET['id'];
+$idCategorieForum = $_GET['id'];
 
 ?>
 <!DOCTYPE html>
@@ -307,54 +308,21 @@ $idEvenement = $_GET['id'];
     </header>
 
     <div class="content">
-        <h2 class="form-title">Modifier l'Evenement</h2>
-        <form action="../../../src/traitement/Evenement/TraitementModifEvenement.php" method="post" class="add-form">
+        <h2 class="form-title">Modifier la categorie du forum</h2>
+        <form action="../../../src/traitement/CategorieForum/TraitementModifCategorieForum.php" method="post" class="add-form">
             <div class="form-group">
-                <label for="type">Type d'événement</label>
-                <select id="type" name="type" value="<?=$evenement->getTypeEvenement()?>">
-                    <option value="">-- Sélectionner un type --</option>
-                    <option value="Academique">🎓 Académique</option>
-                    <option value="Culturel_Artistique">🎭 Culturel & Artistique</option>
-                    <option value="Sportif">⚽ Sportif</option>
-                    <option value="Citoyens_Solidaire">🌍 Citoyen & Solidaire</option>
-                    <option value="Festifs_Communautaire">🎉 Festif & Communautaire</option>
-                    <option value="Technologique_Innovant">💻 Technologique & Innovant</option>
-                    <option value="Caritatifs">💖 Caritatif</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="titre">Titre</label>
-                <input type="text" id="titre" name="titre" value="<?=$evenement->getTitreEvenement()?>">
+                <label for="nom">Titre</label>
+                <input type="text" id="nom" name="nom" value="<?=$categorieForum->getNomCategorieForum()?>">
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <input type="text" id="description" name="description" value="<?=$evenement->getDescriptionEvenement()?>">
+                <input type="text" id="description" name="description" value="<?=$categorieForum->getDescriptionCategorieForum()?>">
             </div>
             <div class="form-group">
-                <label for="lieu">Lieu</label>
-                <input type="text" id="lieu" name="lieu" value="<?=$evenement->getLieuEvenement()?>">
+                <label for="categorie">Lieu</label>
+                <input type="text" id="categorie" name="categorie" value="<?=$categorieForum->getCategorie()?>">
             </div>
-            <div class="form-group">
-                <label for="element_requis">Éléments requis</label>
-                <input type="text" id="element_requis" name="element_requis" value="<?=$evenement->getElementRequis()?>">
-            </div>
-            <div class="form-group">
-                <label for="nombre_place">Nombre de places</label>
-                <input type="number" id="nombre_place" name="nombre_place" min="1" required value="<?=$evenement->getNombrePlace()?>">
-            </div>
-            <div class="form-group">
-                <label for="date_evenement">Date de l’événement</label>
-                <input type="datetime-local" id="date_evenement" name="date_evenement" value="<?=$evenement->getDateEvenement()?>">
-            </div>
-            <div class="form-group">
-                <label for="etat">Etat</label>
-                <select id="etat" name="etat" value="<?=$evenement->getEtatEvenement()?>">
-                    <option value="A_venir">--- à venir ---</option>
-                    <option value="En_cour">--- En cour ---</option>
-                    <option value="Finis">--- Finis ---</option>
-                </select>
-            </div>
-            <input type="hidden" name="idEvenement" value="<?=$evenement->getIdEvenement()?>">
+            <input type="hidden" name="idCategorieForum" value="<?=$categorieForum->getIdCategorieForum()?>">
             <input type="submit" value="Modifier" class="btn-submit" >
         </form>
     </div>

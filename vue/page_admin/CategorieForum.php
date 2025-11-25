@@ -129,7 +129,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
         <tr>
             <th>Nom</th>
             <th>Description</th>
-            <th>Type</th>
+            <th>Catégorie</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -142,7 +142,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur"){
                     <td><?= htmlspecialchars($user['categorie']) ?></td>
                     <td>
                         <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/crud/ModifCategorieForum.php?id=<?= $user['id_categorie_forum'] ?>'">Modifier</button>
-                        <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet evenement ?')) window.location.href='../src/traitement/Evenement/TraitementSuppresionEvenement.php?id=<?= $user['id_categorie_forum'] ?>'">Supprimer</button>
+                        <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet evenement ?')) window.location.href='../src/traitement/CategorieForum/TraitementSuppresionCategorieForum.php?id=<?= $user['id_categorie_forum'] ?>'">Supprimer</button>
 
                     </td>
                 </tr>
