@@ -87,20 +87,28 @@ class UtilisateurRepository
             'email' => $user->getEmail(),
         ));
         $donne = $reqconnexion->fetch();
-        if($donne && password_verify($user->getMdp(), $donne['mdp'])) {
+        if ($donne && password_verify($user->getMdp(), $donne['mdp'])) {
+            if ($donne['est_verifie'] != 1) { // utilisateur non vérifié
+                return [
+                    'success' => false,
+                    'message' => 'Votre compte n’est pas encore vérifié.'
+                ];
+            }
             $user->setNom($donne['nom']);
             $user->setPrenom($donne['prenom']);
             $user->setEmail($donne['email']);
-            $user->setMdp($donne['mdp']);
             $user->setRole($donne['role']);
             $user->setIdUtilisateur($donne['id_utilisateur']);
 
-            return $user;
-        }
-        else {
-            return null;
-        }
+            return
+                $user;
 
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Email ou mot de passe incorrect.'
+            ];
+        }
     }
 
     /** Liste des utilisateurs */

@@ -6,8 +6,7 @@ require_once __DIR__ . '/../src/bdd/BDD.php';
 
 // Récupération de la liste des utilisateurs
 $repo = new EvenementRepository();
-$listeEvenement = $repo->listeEvenement();
-
+$listeEvenementuser = $repo->listeEvenementuser();
 ?>
 
 <style>
@@ -63,7 +62,7 @@ $listeEvenement = $repo->listeEvenement();
         background: #0f172a;
         border-radius: 8px;
         overflow: hidden;
-        color: white !important;
+        color: white;
     }
 
     }
@@ -176,8 +175,8 @@ $listeEvenement = $repo->listeEvenement();
         </tr>
         </thead>
         <tbody>
-        <?php if (!empty($listeEvenement)) : ?>
-            <?php foreach ($listeEvenement as $user): ?>
+        <?php if (!empty($listeEvenementuser)) : ?>
+            <?php foreach ($listeEvenementuser as $user): ?>
                 <tr>
                     <td><?= htmlspecialchars($user['type']) ?></td>
                     <td><?= htmlspecialchars($user['titre']) ?></td>
