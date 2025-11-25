@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../src/modele/Evenement.php';
 require_once __DIR__ . '/../../src/repository/EvenementRepository.php';
 require_once __DIR__ . '/../../src/bdd/BDD.php';
 
-// Récupération de la liste des utilisateurs
+// Récupération de la liste des evenements
 $repo = new EvenementRepository();
 $listeEvenement = $repo->listeEvenement();
 

@@ -70,7 +70,14 @@ class EvenementRepository
         $sql = 'SELECT * FROM evenement WHERE id_evenement = :id';
         $req = $this->bdd->getBdd()->prepare($sql);
         $req->execute(['id' => $id]);
-        return $req->fetch(PDO::FETCH_ASSOC);
+
+        $data = $req->fetch(PDO::FETCH_ASSOC);
+
+        if ($data) {
+            return new Evenement($data);
+        }
+
+        return null;
     }
 
     public function modification(Evenement $evenement)
