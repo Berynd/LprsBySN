@@ -141,6 +141,16 @@ class UtilisateurRepository
         ]);
     }
 
+    public function validationUtilisateur(Utilisateur $user)
+    {
+        $sql = "UPDATE utilisateur SET est_verifie = :validation WHERE id_utilisateur = :id";
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute([
+            'validation' => 1,
+            'id' => $user->getIdUtilisateur()
+        ]);
+    }
+
     /** Modification côté utilisateur */
     public function modificationUtilisateur(Utilisateur $user)
     {

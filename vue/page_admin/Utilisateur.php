@@ -98,6 +98,14 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]
         transition: 0.2s;
     }
 
+    .btn-valider {
+        background: #007BFF;
+    }
+
+    .btn-valider:hover {
+        background: #007BFF;
+    }
+
     .btn-modifier {
         background: #f59e0b;
     }
@@ -148,10 +156,11 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]
                     <td><?= htmlspecialchars($user['ref_formation'] ?? '—') ?></td>
                     <td><?= htmlspecialchars($user['ref_entreprise'] ?? '—') ?></td>
                     <td><?= ($user['est_verifie'] ?? 0) ? '✅' : '❌' ?></td>
-                    <td>
+
+                    <td><?php if (!($user['est_verifie'] ?? 0)) : ?>
+                        <button class="btn-action btn-valider" onclick="window.location.href='../src/traitement/Utilisateur/TraitementValiderUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Vérifier</button><?php endif; ?>
                         <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/crud/ModifUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Modifier</button>
                         <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet utilisateur ?')) window.location.href='../src/traitement/Utilisateur/TraitementSuppresionUtilisateur.php?id=<?= $user['id_utilisateur'] ?>'">Supprimer</button>
-
                     </td>
                 </tr>
             <?php endforeach; ?>
