@@ -89,4 +89,14 @@ class EvenementRepository
             'id' => $evenement->getIdEvenement()
         ]);
     }
+
+    public function validationEvenement(Evenement $evenement)
+    {
+        $sql = "UPDATE evenement SET validation = :validation WHERE id_evenement = :id";
+        $req = $this->bdd->getBdd()->prepare($sql);
+        return $req->execute([
+            'validation' => 1,
+            'id' => $evenement->getIdEvenement()
+        ]);
+    }
 }

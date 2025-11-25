@@ -98,6 +98,14 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]
         transition: 0.2s;
     }
 
+    .btn-valider {
+        background: #007BFF;
+    }
+
+    .btn-valider:hover {
+        background: #007BFF;
+    }
+
     .btn-modifier {
         background: #f59e0b;
     }
@@ -135,7 +143,7 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]
             <th>Nombre de place</th>
             <th>Date de l'évènement</th>
             <th>Etat</th>
-            <th>Validation</th>
+            <th>Verifié</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -152,7 +160,9 @@ if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]
                     <td><?= htmlspecialchars($user['date_evenement']) ?></td>
                     <td><?= htmlspecialchars($user['etat']) ?></td>
                     <td><?= ($user['validation'] ?? 0) ? '✅' : '❌' ?></td>
-                    <td>
+
+                    <td><?php if (!($user['validation'] ?? 0)) : ?>
+                        <button class="btn-action btn-valider" onclick="window.location.href='../src/traitement/Evenement/TraitementValiderEvenement.php?id=<?= $user['id_evenement'] ?>'">Vérifier</button><?php endif; ?>
                         <button class="btn-action btn-modifier" onclick="window.location.href='../vue/page_admin/crud/ModifEvenement.php?id=<?= $user['id_evenement'] ?>'">Modifier</button>
                         <button class="btn-action btn-supprimer" onclick="if(confirm('Supprimer cet evenement ?')) window.location.href='../src/traitement/Evenement/TraitementSuppresionEvenement.php?id=<?= $user['id_evenement'] ?>'">Supprimer</button>
 
