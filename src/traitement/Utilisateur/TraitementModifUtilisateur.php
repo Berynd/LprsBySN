@@ -33,4 +33,4 @@ var_dump($utilisateur);
 $repository = new UtilisateurRepository();
 $resultat = $repository->modificationAdmin($utilisateur);
 var_dump($resultat);
-//header("Location: ../../../vue/PageAdmin.php?page=utilisateur");
+header("Location: ../../../vue/pageAdmin.php");

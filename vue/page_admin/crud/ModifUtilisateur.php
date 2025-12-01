@@ -343,6 +343,7 @@ $idUtilisateur = $_GET['id'];
                 <select id="role" name="role" value="<?=$utilisateur->getRole()?>">
                     <option value="utilisateur">utilisateur</option>
                     <option value="Admin">admin</option>
+                    <option value="Admin">prof</option>
                 </select>
             </div>
             <div class="form-group">
@@ -377,13 +378,6 @@ $idUtilisateur = $_GET['id'];
             <div class="form-group">
                 <label for="motifPartenariat">motif du partenariat</label>
                 <input type="text" id="motifPartenariat" name="motifPartenariat" required value="<?=$utilisateur->getMotifPartenariat()?>">
-            </div>
-            <div class="form-group">
-                <label for="estVerifie">Est il vérifié</label> <!-- L'utilisateur est il vérifié par un admin -->
-                <select id="estVerifie" name="estVerifie" value="<?=$utilisateur->getEstVerifie()?>">
-                    <option value="oui">Oui</option>
-                    <option value="non">Non</option>
-                </select>
             </div>
             <div class="form-group">
                 <label for="refEntreprise">refEntreprise</label>
