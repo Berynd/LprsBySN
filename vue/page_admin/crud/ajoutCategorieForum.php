@@ -299,18 +299,18 @@ $nbFormations = $repFormations->nombreFormation();
         <h2 class="form-title">➕ Ajouter une catégorie de forum</h2>
         <form method="POST" action="../../../src/traitement/CategorieForum/TraitementAjoutCategorieForum.php" class="add-form">
             <div class="form-group">
-                <label for="nom_categorie_forum">Nom de la formation :</label>
+                <label for="nom_categorie_forum">Nom de la catégorie :</label>
                 <input type="text" id="nom_categorie_forum" name="nom_categorie_forum" required>
             </div>
             <div class="form-group">
-                <label for="description_categorie_forum">Description de la categorie :</label>
+                <label for="description_categorie_forum">Description de la catégorie :</label>
                 <input type="text" id="description_categorie_forum" name="description_categorie_forum" required>
             </div>
             <div class="form-group">
-                <label for="categorie">Categorie :</label>
+                <label for="categorie">Catégorie :</label>
                 <input type="text" id="categorie" name="categorie" required>
             </div>
-            <button type="submit" class="btn-submit">Ajouter la formation</button>
+            <button type="submit" class="btn-submit">Ajouter la catégorie</button>
         </form>
     </div>
 
