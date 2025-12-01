@@ -25,6 +25,6 @@ var_dump($user);
 
 $repository = new UtilisateurRepository();
 $resultat = $repository->validationUtilisateur($user);
-header("Location: ../../../vue/PageAdmin.php");
+header("Location: ../../../vue/PageAdmin.php?page=utilisateur");
 
 
