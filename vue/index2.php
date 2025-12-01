@@ -1,6 +1,13 @@
 <?php
 require_once "../src/bdd/BDD.php";
+require_once __DIR__ . '/../src/modele/Evenement.php';
+require_once __DIR__ . '/../src/repository/EvenementRepository.php';
+require_once __DIR__ . '/../src/bdd/BDD.php';
 //require_once "../src/traitement/TraitementConnexionUtilisateur.php";
+
+// Récupération de la liste des evenements
+$repo = new EvenementRepository();
+$listeEvenement = $repo->listeEvenement();
 session_start();
 
 ?>
@@ -73,21 +80,22 @@ session_start();
     <div class="container">
         <h2 class="section-title">Nos Événements</h2>
         <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">🚀</div>
-                <h3>Innovation</h3>
-                <p>Solutions innovantes adaptées à vos besoins</p>
+            <!--------------- Evenement dynamique ----------------->
+            <div class="services-grid">
+                <?php if (!empty($listeEvenement)) : ?>
+                    <?php foreach ($listeEvenement as $event): ?>
+                        <button class="service-card event-button" onclick="window.location.href='DetailEvenement.php?id=<?= $event['id_evenement'] ?>'">
+                            <h2><?= htmlspecialchars($event['type']) ?></h2>
+                            <p><?= htmlspecialchars($event['titre']) ?></p>
+                        </button>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p style="text-align:center; width:100%; opacity:0.7;">
+                        Aucun événement trouvé 😔
+                    </p>
+                <?php endif; ?>
             </div>
-            <div class="service-card">
-                <div class="service-icon">💡</div>
-                <h3>Conseil</h3>
-                <p>Accompagnement personnalisé pour vos projets</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">⚡</div>
-                <h3>Performance</h3>
-                <p>Optimisation et amélioration continue</p>
-            </div>
+            <!--------------- Evenement dynamique ----------------->
         </div>
     </div>
 </section>

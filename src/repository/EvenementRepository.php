@@ -74,12 +74,25 @@ class EvenementRepository
         $data = $req->fetch(PDO::FETCH_ASSOC);
 
         if ($data) {
-            return new Evenement($data);
+
+            // MAPPING SQL -> PHP
+            $mapped = [
+                'idEvenement'        => $data['id_evenement'],
+                'typeEvenement'      => $data['type'],
+                'titreEvenement'     => $data['titre'],
+                'descriptionEvenement'=> $data['description'],
+                'lieuEvenement'      => $data['lieu'],
+                'elementRequis'      => $data['element_requis'],
+                'nombrePlace'        => $data['nombre_place'],
+                'dateEvenement'      => $data['date_evenement'],
+                'etatEvenement'      => $data['etat'],
+            ];
+
+            return new Evenement($mapped);
         }
 
         return null;
     }
-
     public function modification(Evenement $evenement)
     {
         $sql = 'UPDATE evenement SET type = :type, titre = :titre, description = :description, lieu = :lieu, element_requis = :element_requis, nombre_place = :nombre_place, date_evenement = :date_evenement, etat = :etat WHERE id_evenement = :id';
