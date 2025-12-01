@@ -28,4 +28,4 @@ var_dump($evenement);
 $repository = new EvenementRepository();
 $resultat = $repository->modification($evenement);
 var_dump($resultat);
-//header("Location: ../../../vue/PageAdmin.php?page=evenement");
+header("Location: ../../../vue/PageAdmin.php?page=evenement");

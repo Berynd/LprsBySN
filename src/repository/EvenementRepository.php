@@ -70,28 +70,7 @@ class EvenementRepository
         $sql = 'SELECT * FROM evenement WHERE id_evenement = :id';
         $req = $this->bdd->getBdd()->prepare($sql);
         $req->execute(['id' => $id]);
-
-        $data = $req->fetch(PDO::FETCH_ASSOC);
-
-        if ($data) {
-
-            // MAPPING SQL -> PHP
-            $mapped = [
-                'idEvenement'        => $data['id_evenement'],
-                'typeEvenement'      => $data['type'],
-                'titreEvenement'     => $data['titre'],
-                'descriptionEvenement'=> $data['description'],
-                'lieuEvenement'      => $data['lieu'],
-                'elementRequis'      => $data['element_requis'],
-                'nombrePlace'        => $data['nombre_place'],
-                'dateEvenement'      => $data['date_evenement'],
-                'etatEvenement'      => $data['etat'],
-            ];
-
-            return new Evenement($mapped);
-        }
-
-        return null;
+        return $req->fetch(PDO::FETCH_ASSOC);
     }
     public function modification(Evenement $evenement)
     {

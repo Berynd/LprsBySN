@@ -25,6 +25,6 @@ var_dump($user);
 
 $repository = new EvenementRepository();
 $resultat = $repository->validationEvenement($user);
-header("Location: ../../../vue/PageAdmin.php");
+header("Location: ../../../vue/PageAdmin.php?page=evenement");
 
 
