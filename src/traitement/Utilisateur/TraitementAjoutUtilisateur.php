@@ -48,7 +48,7 @@ if (!empty($erreurs)) {
     }
 
 
-    header("Location: ../../vue/PageAdmin.php?page=utilisateur");
+    header("Location: ../../../vue/PageAdmin.php?page=utilisateur");
     exit();
 }
 
