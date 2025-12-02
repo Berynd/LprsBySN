@@ -1,0 +1,163 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+/* Background */
+.bg {
+    background: url("../../assets/img/backgroundindex.jpg") no-repeat center center / cover;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+.bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
+    z-index: 0;
+}
+
+/* CENTRAGE */
+.container {
+    position: relative;
+    z-index: 1;
+
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    padding: 20px;
+    color: #fff;
+}
+
+/* TITRE */
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    color: #ddd;
+}
+
+/* BOUTONS */
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+    max-width: 350px;
+}
+
+/* BOUTONS PRINCIPAUX */
+.btn {
+    padding: 15px;
+    text-decoration: none;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+
+    transition: 0.25s ease;
+}
+
+.btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-3px);
+}
+
+/* BOUTON SECONDAIRE */
+.btn-secondary {
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.btn-secondary:hover {
+    background: rgba(0,0,0,0.6);
+}
+
+/* HERO spécifique */
+.hero-connexion {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0 20px;
+
+    margin-top: 70px; /* éviter le header */
+}
+
+.hero-connexion h1 {
+    font-size: 3rem;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+.hero-connexion p {
+    font-size: 1.2rem;
+    color: #e6e6e6;
+    margin-bottom: 40px;
+}
+
+/* Container bouton */
+.connexion-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 350px;
+}
+
+/* Boutons */
+.connexion-btn {
+    padding: 15px;
+    text-decoration: none;
+    background: white;
+    border-radius: 10px;
+
+    color: #667eea;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-align: center;
+
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.connexion-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+}
+
+/* Bouton sombre */
+.btn-dark {
+    background: #2c3e50;
+    color: white;
+}
+
+.btn-dark:hover {
+    background: #1f2d3a;
+}
