@@ -1,20 +1,14 @@
 <?php
-/*
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/phpmailer/phpmailer/src/Exception.php';
 require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'vendor/phpmailer/phpmailer/src/SMTP.php';
-/*
- * ne touché pas svp
- *
- *
- * c'est pas fini tjr en construction
 if(isset($_POST['email'])) {
     $email=$_POST['email'];
     $repo=new UtilisateurRepository();
-
+var_dump();
     $token = bin2hex(random_bytes(32));
     setlocale(LC_ALL, 'fr_FR.UTF-8');
     $dateFin=date('Y-m-d H:i', strtotime('+1 hour'));
@@ -61,5 +55,3 @@ if(isset($_POST['email'])) {
         }
     }
 }
- */
-

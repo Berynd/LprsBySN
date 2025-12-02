@@ -36,6 +36,10 @@
             <button type="submit">Se connecter</button>
         </form>
 
+        <p style="text-align:center;margin-top:10px;">
+            <a href="mailVue/" style="color:#e74c3c;font-weight:600;text-decoration:none;">Mot de passe oublié ?</a>
+        </p>
+
         <p style="text-align:center;margin-top:20px;">
             Pas encore de compte ? <a href="Inscription.php" style="color:#3498db;font-weight:600;">Inscrivez-vous</a>
         </p>
