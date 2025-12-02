@@ -24,9 +24,9 @@ if (empty($_POST["email"]) ||
             "idUtilisateur" => $resultat->getIdUtilisateur(),
             "role" => $resultat->getRole()
         ];
-        header("Location: ../../vue/index2.php");
+        header("Location: ../../vue/indexConnexion.php");
     } else {
-        header("Location: ../../index.php");
+        header("Location: ../../indexSansConnexion.php");
     }
 
 }

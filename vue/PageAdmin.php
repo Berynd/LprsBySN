@@ -201,7 +201,7 @@ $nbFormations = $repFormations->nombreFormation();
 <main class="main">
     <header class="topbar">
         <h1>Panneau d'administration</h1>
-        <form action="index2.php" method="post" style="margin:0;">
+        <form action="indexConnexion.php" method="post" style="margin:0;">
             <button type="submit" class="logout-btn">🚪 Retour</button>
         </form>
     </header>
