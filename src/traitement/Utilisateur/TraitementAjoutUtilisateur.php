@@ -34,7 +34,7 @@ if (empty($_POST["nom"]) ||
     empty($_POST["mdp"])
 ) {
     echo "Veuillez remplir tous les champs.";
-    header("Location: ../../vue/Connexion.php");
+    header("Location: ../../../vue/Connexion.php");
     exit();
 }
 
