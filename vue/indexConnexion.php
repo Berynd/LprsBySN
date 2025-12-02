@@ -59,10 +59,16 @@ session_start();
 </header>
 
 <!-- HERO avec ton background -->
-<section class="hero separator">
-    <div class="hero-content">
+<section class="hero">
+    <div class="hero-left">
         <h1 class="hero-title">Bienvenue sur LPRS</h1>
         <p class="hero-subtitle">Votre portail d’informations, d’événements et d’échanges</p>
+    </div>
+
+    <div class="hero-right">
+        <div class="hero-image-box">
+            <img src="../assets/img/lycee.jpg" alt="présentation">
+        </div>
     </div>
 </section>
 
@@ -92,11 +98,12 @@ session_start();
 </section>
 
 <!-- FORUM -->
-<section id="forum" class="forum separator">
-    <div class="container">
-        <h2 class="section-title">Forum</h2>
-        <p class="forum-text">Discutez, échangez et participez aux conversations de la communauté.</p>
-        <a href="Forum.php" class="cta-button">Accéder au forum</a>
+<section class="forum separator">
+    <h2 class="section-title">Forum</h2>
+    <p class="forum-text">Participez aux discussions du lycée et échangez avec la communauté.</p>
+
+    <div class="forum-button-container">
+        <a href="#" class="cta-button">Accéder aux forums</a>
     </div>
 </section>
 

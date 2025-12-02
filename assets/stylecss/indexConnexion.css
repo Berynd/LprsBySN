@@ -77,27 +77,75 @@ input, textarea, button {
 
 
 /* =======================================================
-   HERO
+   HERO — Texte à gauche / Image à droite
    ======================================================= */
 
 .hero {
     min-height: 75vh;
     padding-top: 140px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    text-align: center;
+    justify-content: center;
+    gap: 60px; /* espace entre texte et image */
+}
+
+.hero-left {
+    flex: 1;
+    text-align: left;
+    padding-left: 40px;
 }
 
 .hero-title {
     font-size: 3.2rem;
     font-weight: 700;
+    line-height: 1.2;
 }
 
 .hero-subtitle {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     opacity: 0.9;
-    margin-top: 10px;
+    margin-top: 15px;
+}
+
+.hero-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-image-box {
+    width: 750px;
+    height: 461px;
+
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: rgba(255,255,255,0.85);
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* Image interne (optionnelle) */
+.hero-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 18px;
+}
+
+/* Si tu veux qu’une image remplisse la case */
+.hero-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 18px;
 }
 
 
@@ -191,6 +239,13 @@ section:not(:first-of-type)::before {
 
 .cta-button:hover {
     transform: translateY(-3px);
+}
+
+/* Centrer le bouton du forum */
+.forum-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
 }
 
 
