@@ -17,8 +17,6 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - LPRS</title>
-
-    <!-- CSS de la page -->
     <link rel="stylesheet" href="../assets/stylecss/indexConnexion.css">
 </head>
 
@@ -39,6 +37,7 @@ session_start();
                 <li class="nav-item"><a href="#evenements" class="nav-link">Événements</a></li>
                 <li class="nav-item"><a href="#forum" class="nav-link">Forum</a></li>
                 <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="Connexion.php" class="nav-link">Se connecter</a></li>
             </ul>
 
             <div class="hamburger">
@@ -68,7 +67,7 @@ session_start();
 <!-- ÉVÉNEMENTS -->
 <section id="evenements" class="evenements separator">
     <div class="container">
-        <h2 class="section-title">Événements récents</h2>
+        <h2 class="section-title">Événements</h2>
 
         <div class="event-grid">
             <?php if (!empty($listeEvenement)) : ?>
