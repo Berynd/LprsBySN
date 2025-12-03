@@ -353,9 +353,9 @@ $idEvenement = $_GET['id'];
             <div class="form-group">
                 <label for="etat">Etat</label>
                 <select id="etat" name="etat" value="<?=$evenement->getEtatEvenement()?>">
-                    <option value="A_venir">--- à venir ---</option>
-                    <option value="En_cour">--- En cour ---</option>
-                    <option value="Finis">--- Finis ---</option>
+                    <option value="à venir">--- à venir ---</option>
+                    <option value="en cour">--- En cour ---</option>
+                    <option value="finis">--- Finis ---</option>
                 </select>
             </div>
             <input type="hidden" name="idEvenement" value="<?=$evenement->getIdEvenement()?>">
