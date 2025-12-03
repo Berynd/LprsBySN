@@ -7,7 +7,7 @@ require_once __DIR__ . '/../src/bdd/BDD.php';
 
 // Récupération de la liste des evenements
 $repo = new EvenementRepository();
-$listeEvenement = $repo->listeEvenement();
+$listeEvenement = $repo->listeEvenementuser();
 session_start();
 
 ?>
@@ -78,27 +78,25 @@ session_start();
         <h2 class="section-title">Événements récents</h2>
 
         <div class="event-grid">
-            <!-- 3 cartes dynamiques (tu rempliras avec ta BDD) -->
-            <div class="event-card">
-                <h3>Titre événement 1</h3>
-                <p>Description courte de l’événement.</p>
-            </div>
-
-            <div class="event-card">
-                <h3>Titre événement 2</h3>
-                <p>Description courte de l’événement.</p>
-            </div>
-
-            <div class="event-card">
-                <h3>Titre événement 3</h3>
-                <p>Description courte de l’événement.</p>
-            </div>
+            <?php if (!empty($listeEvenement)) : ?>
+                <?php foreach ($listeEvenement as $event): ?>
+                    <div class="event-card" onclick="window.location.href='DetailEvenement.php?id=<?= $event['id_evenement'] ?>'">
+                        <h3><?= htmlspecialchars($event['titre']) ?></h3>
+                        <p><?= htmlspecialchars($event['type']) ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p style="text-align:center; width:100%; opacity:0.8;">
+                    Aucun événement trouvé 😔
+                </p>
+            <?php endif; ?>
         </div>
+
     </div>
 </section>
 
 <!-- FORUM -->
-<section class="forum separator">
+<section id="forum" class="forum separator">
     <h2 class="section-title">Forum</h2>
     <p class="forum-text">Participez aux discussions du lycée et échangez avec la communauté.</p>
 

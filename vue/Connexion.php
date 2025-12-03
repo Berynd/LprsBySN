@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Connexion - ProjetLprs</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/stylecss/connexion.css">
 </head>
 <body>
 <!-- Header -->

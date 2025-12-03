@@ -318,11 +318,11 @@ $idEvenement = $_GET['id'];
                 <select id="type" name="type" value="<?=$evenement->getTypeEvenement()?>">
                     <option value="">-- Sélectionner un type --</option>
                     <option value="Academique">🎓 Académique</option>
-                    <option value="Culturel_Artistique">🎭 Culturel & Artistique</option>
+                    <option value="Culturel">🎭 Culturel</option>
                     <option value="Sportif">⚽ Sportif</option>
-                    <option value="Citoyens_Solidaire">🌍 Citoyen & Solidaire</option>
-                    <option value="Festifs_Communautaire">🎉 Festif & Communautaire</option>
-                    <option value="Technologique_Innovant">💻 Technologique & Innovant</option>
+                    <option value="Solidaire">🌍 Solidaire</option>
+                    <option value="Festifs">🎉 Festif</option>
+                    <option value="Technologique">💻 Technologique</option>
                     <option value="Caritatifs">💖 Caritatif</option>
                 </select>
             </div>
