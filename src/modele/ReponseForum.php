@@ -5,6 +5,7 @@ class ReponseForum
     private $idReponseForum;
     private $contenuReponseForum;
     private $dateCreationReponseForum;
+    private $refCategorieForum;
     private $refPostForum;
     private $refUtilisateur;
 
@@ -53,6 +54,16 @@ class ReponseForum
     public function setDateCreationReponseForum($dateCreationReponseForum)
     {
         $this->dateCreationReponseForum = $dateCreationReponseForum;
+    }
+
+    public function getRefCategorieForum()
+    {
+        return $this->refCategorieForum;
+    }
+
+    public function setRefCategorieForum($refCategorieForum)
+    {
+        $this->refCategorieForum = $refCategorieForum;
     }
 
     public function getRefPostForum()

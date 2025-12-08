@@ -13,24 +13,27 @@ class ReponseForumRepository
     {
         $check = $this->bdd->getBdd()->prepare(
             'SELECT COUNT(*) FROM reponse_forum 
-             WHERE contenu_reponse_forum = :contenu 
+             WHERE contenu_reponse_forum = :contenu
+             AND ref_categorie_forum = :ref_categorie
              AND ref_utilisateur = :ref_utilisateur 
              AND ref_post_forum = :ref_post_forum'
         );
         $check->execute([
             'contenu' => $reponseForum->getContenuReponseForum(),
+            'ref_categorie' => $reponseForum->getRefCategorieForum(),
             'ref_utilisateur' => $reponseForum->getRefUtilisateur(),
             'ref_post_forum' => $reponseForum->getRefPostForum()
         ]);
 
         if ($check->fetchColumn() == 0) {
             $sql = 'INSERT INTO reponse_forum 
-                    (contenu_reponse_forum, date_creation_reponse_forum, ref_post_forum, ref_utilisateur)
-                    VALUES (:contenu, :date_creation, :ref_post_forum, :ref_utilisateur)';
+                    (contenu_reponse_forum, date_creation_reponse_forum, ref_categorie_forum, ref_post_forum, ref_utilisateur)
+                    VALUES (:contenu, :date_creation, :ref_categorie_forum, :ref_post_forum, :ref_utilisateur)';
             $req = $this->bdd->getBdd()->prepare($sql);
             return $req->execute([
                 'contenu' => $reponseForum->getContenuReponseForum(),
                 'date_creation' => $reponseForum->getDateCreationReponseForum(),
+                'ref_categorie_forum' => $reponseForum->getRefCategorieForum(),
                 'ref_post_forum' => $reponseForum->getRefPostForum(),
                 'ref_utilisateur' => $reponseForum->getRefUtilisateur()
             ]);
@@ -99,7 +102,8 @@ class ReponseForumRepository
     {
         $sql = 'UPDATE reponse_forum 
                 SET contenu_reponse_forum = :contenu, 
-                    date_creation_reponse_forum = :date_creation, 
+                    date_creation_reponse_forum = :date_creation,
+                    ref_categorie_forum = :ref_categorie_forum,
                     ref_post_forum = :ref_post_forum, 
                     ref_utilisateur = :ref_utilisateur 
                 WHERE id_reponse_forum = :id';
@@ -107,6 +111,7 @@ class ReponseForumRepository
         return $req->execute([
             'contenu' => $reponseForum->getContenuReponseForum(),
             'date_creation' => $reponseForum->getDateCreationReponseForum(),
+            'ref_categorie_forum' => $reponseForum->getRefCategorieForum(),
             'ref_post_forum' => $reponseForum->getRefPostForum(),
             'ref_utilisateur' => $reponseForum->getRefUtilisateur(),
             'id' => $reponseForum->getIdReponseForum()
