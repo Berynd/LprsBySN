@@ -148,7 +148,7 @@ $idEvenement = $_GET['id'];
     </div>
 
     <div class="btn-row">
-        <a href="index2.php" class="btn btn-primary">Retour</a>
+        <a href="indexConnexion.php" class="btn btn-primary">Retour</a>
     </div>
 
 </div>
