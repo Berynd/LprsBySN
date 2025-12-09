@@ -8,7 +8,6 @@ require 'vendor/phpmailer/phpmailer/src/SMTP.php';
 if(isset($_POST['email'])) {
     $email=$_POST['email'];
     $repo=new UtilisateurRepository();
-var_dump();
     $token = bin2hex(random_bytes(32));
     setlocale(LC_ALL, 'fr_FR.UTF-8');
     $dateFin=date('Y-m-d H:i', strtotime('+1 hour'));
@@ -26,13 +25,13 @@ var_dump();
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'g.berinde@lprs.fr';
-                $mail->Password = 'isps seow efga vmyn';
+                $mail->Username = 'lprsmdp@gmail.com';
+                $mail->Password = 'korl irqj gnus vfxk';
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
-                $mail->setFrom("g.berinde@lprs.fr", 'Support');
+                $mail->setFrom("lprsmdp@gmail.com", 'Support');
                 $mail->addAddress($compte['email'],$compte["prenom"]);
-                $mail->addreplyTo("g.berinde@lprs.fr", 'Support');
+                $mail->addreplyTo("lprsmdp@gmail.com", 'Support');
                 $mail->isHTML();
                 $mail->Subject = "Modification de votre mot de passe";
                 $mail->Body = "<p>Bonjour,</p>
@@ -43,7 +42,7 @@ var_dump();
                 Si vous n'avez pas demandé cette réinitialisation, ignorez cet email.";
                 if($mail->send()){
                     echo 'to:'.$mail->getToAddresses()[0][0];
-                    header("location:../../vue/messageConfirmation.php");
+                    header("location:../../vue/mailVue/messageConfirmation.php");
                 }else{
                     echo"le message n'a pas pu etre envoyer(".$mail->ErrorInfo.")";
 
