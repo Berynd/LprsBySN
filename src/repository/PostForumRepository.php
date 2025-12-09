@@ -57,4 +57,28 @@ class PostForumRepository
         $req->execute();
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function nombrePostForum()
+    {
+        $sql = 'SELECT COUNT(*) FROM utilisateur';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchColumn();
+    }
+
+    public function getCategorieForum()
+    {
+        $sql = "SELECT DISTINCT id_categorie_forum,nom FROM categorie_forum ORDER BY id_categorie_forum,nom ASC";
+        $stmt = $this->bdd->getBdd()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function getUtilisateur()
+    {
+        $sql = "SELECT DISTINCT id_utilisateur,nom FROM utilisateur ORDER BY id_utilisateur,nom ASC";
+        $stmt = $this->bdd->getBdd()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
 }
