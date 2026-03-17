@@ -11,7 +11,7 @@ require_once "../../../src/modele/CategorieForum.php";
 $page = $_GET['page'] ?? 'dashboard';
 
 if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]["role"]=="prof"){
-    header('Location:../vue/index2.php');
+    header('Location:../../indexConnexion.php');
 }
 
 // Comptages pour le tableau de bord

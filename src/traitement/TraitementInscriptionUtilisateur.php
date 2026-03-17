@@ -26,8 +26,6 @@ include "../repository/UtilisateurRepository.php";
 require_once "../bdd/BDD.php";
 require_once "../modele/Utilisateur.php";
 
-var_dump($_POST);
-
 if (empty($_POST["nom"]) ||
     empty($_POST["prenom"]) ||
     empty($_POST["email"]) ||

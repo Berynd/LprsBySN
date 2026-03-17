@@ -7,8 +7,9 @@ require_once __DIR__ . '/../../src/bdd/BDD.php';
 $repo = new UtilisateurRepository();
 $listeUtilisateurs = $repo->listeUtilisateur();
 
-if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]["role"]=="prof"){
-    header('Location:../vue/index2.php');
+if (!isset($_SESSION["userConnecte"]) || $_SESSION["userConnecte"]["role"] == "utilisateur" || $_SESSION["userConnecte"]["role"] == "prof") {
+    header('Location:indexConnexion.php');
+    exit();
 }
 ?>
 

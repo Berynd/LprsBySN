@@ -54,6 +54,8 @@
   popup.textContent = "Identifiant ou mot de passe incorrect. Veuillez réessayer.";
   <?php elseif ($_GET['erreur'] === 'champs_vides'): ?>
   popup.textContent = "Veuillez remplir tous les champs avant de continuer.";
+  <?php elseif ($_GET['erreur'] === 'non_verifie'): ?>
+  popup.textContent = "Votre compte n'est pas encore vérifié par un administrateur.";
   <?php endif; ?>
   popup.style.display = "block";
 

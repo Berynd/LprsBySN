@@ -8,7 +8,8 @@ $repo = new PostForumRepository();
 $listePostForum = $repo->listePost();
 
 if($_SESSION["userConnecte"]["role"]=="utilisateur" || $_SESSION["userConnecte"]["role"]=="prof"){
-    header('Location:../vue/index2.php');
+    header('Location:indexConnexion.php');
+    exit();
 }
 ?>
 

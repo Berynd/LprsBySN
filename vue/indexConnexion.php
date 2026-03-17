@@ -45,7 +45,7 @@ session_start();
                             <a href="PageAdmin.php" class="nav-link"> Page Admin </a>
                         </li>';
                 }?>
-                <li class="nav-item"><a href="indexSansConnexion.php" class="nav-link">Deconnexion</a></li>
+                <li class="nav-item"><a href="../src/traitement/TraitementDeconnexionUtilisateur.php" class="nav-link">Deconnexion</a></li>
             </ul>
 
             <div class="hamburger">

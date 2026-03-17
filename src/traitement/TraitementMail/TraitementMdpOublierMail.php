@@ -2,9 +2,13 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/phpmailer/phpmailer/src/Exception.php';
-require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
-require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+require __DIR__ . '/../../../vendor/phpmailer/phpmailer/src/Exception.php';
+require __DIR__ . '/../../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require __DIR__ . '/../../../vendor/phpmailer/phpmailer/src/SMTP.php';
+require_once __DIR__ . '/../../bdd/BDD.php';
+require_once __DIR__ . '/../../modele/Utilisateur.php';
+require_once __DIR__ . '/../../repository/UtilisateurRepository.php';
+
 if(isset($_POST['email'])) {
     $email=$_POST['email'];
     $repo=new UtilisateurRepository();
@@ -18,7 +22,7 @@ if(isset($_POST['email'])) {
     }else{
         $ajout=$repo->addTokens($token,$dateFin,$compte['email']);
         if($ajout){
-            $lien="http://localhost/SLAM/PHP/Projets%20PHP/LesTetard93/vue/reinitialiserMdp.php?token=".$token;
+            $lien="http://localhost/LprsBySN/vue/mailVue/reinitialiserMdp.php?token=".$token;
 
             try {
                 $mail = new PHPMailer();

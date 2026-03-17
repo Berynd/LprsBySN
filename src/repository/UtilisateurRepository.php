@@ -37,8 +37,6 @@ class UtilisateurRepository
                 'email' => $user->getEmail(),
                 'mdp' => $user->getMdp(),
             ));
-            var_dump($res);
-
             if ($res) {
                 return true;
                 echo "Votre profil a été créé ! ";
@@ -87,8 +85,8 @@ class UtilisateurRepository
         if ($donne && password_verify($user->getMdp(), $donne['mdp'])) {
             if ($donne['est_verifie'] != 1) { // utilisateur non vérifié
                 return [
-                    'success' => false,
-                    'message' => 'Votre compte n’est pas encore vérifié.'
+                    ‘success’ => false,
+                    ‘message’ => "Votre compte n’est pas encore vérifié."
                 ];
             }
             $user->setNom($donne['nom']);
@@ -197,7 +195,7 @@ class UtilisateurRepository
     }
     public function addTokens($token,$dateFin,$email)
     {
-        $add="update utilisateur SET reset_token=:token, reset_expires=:dateFin
+        $add="update utilisateur SET token=:token, date_fin=:dateFin
                 WHERE email=:email";
         $req = $this->bdd->getBdd()->prepare($add);
         $req->execute(array(
@@ -216,7 +214,7 @@ class UtilisateurRepository
     }
     public function verifierToken($token)
     {
-        $verif="SELECT email,mdp FROM utilisateur WHERE reset_token=:token";
+        $verif="SELECT email,mdp FROM utilisateur WHERE token=:token";
         $req = $this->bdd->getBdd()->prepare($verif);
         $req->execute(array(
             'token' => $token
@@ -225,7 +223,7 @@ class UtilisateurRepository
     }
     public function changerMdp($mdp,$email)
     {
-        $update = "UPDATE utilisateur SET mdp=:mdp,reset_token=null,reset_expires=null WHERE email=:email";
+        $update = "UPDATE utilisateur SET mdp=:mdp,token=null,date_fin='' WHERE email=:email";
         $req = $this->bdd->getBdd()->prepare($update);
         $req->execute(array(
             'mdp' => $mdp,

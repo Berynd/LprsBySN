@@ -2,7 +2,6 @@
 include "../../repository/CategorieForumRepository.php";
 require_once "../../bdd/BDD.php";
 require_once "../../modele/CategorieForum.php";
-var_dump($_POST);
 if (empty($_POST["nom"]) || empty($_POST["description"]) || empty($_POST["categorie"]))
 {
     echo "<p style='color: red; font-weight: bold;'>Erreur : Tous les champs doivent être remplis.</p>";
@@ -19,8 +18,6 @@ $donnees = [
 
 $categorieForum = new CategorieForum($donnees);
 
-var_dump($categorieForum);
 $repository = new CategorieForumRepository();
 $resultat = $repository->modification($categorieForum);
-var_dump($resultat);
-header("Location: ../../../vue/PageAdmin.php?page=categorieForum");
+header("Location: ../../../vue/PageAdmin.php?page=categorie_forum");

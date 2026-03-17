@@ -6,22 +6,14 @@ require_once "../../bdd/BDD.php";
 require_once "../../modele/Utilisateur.php";
 
 
-var_dump($_GET);
-if(empty(
-$_GET["id"]))
-{
-
-    var_dump($_POST);
+if (empty($_GET["id"])) {
     echo "Erreur : ID utilisateur requis";
-    return;
+    exit();
 }
 
 $user = new Utilisateur(array(
     'idUtilisateur' => $_GET["id"]
-
 ));
-
-var_dump($user);
 
 $repository = new UtilisateurRepository();
 $resultat = $repository->suppression($user);

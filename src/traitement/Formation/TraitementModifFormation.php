@@ -2,7 +2,6 @@
 include "../../repository/FormationRepository.php";
 require_once "../../bdd/BDD.php";
 require_once "../../modele/Formation.php";
-var_dump($_POST);
 if(empty($_POST["nomFormation"]))
 {
     echo "<p style='color: red; font-weight: bold;'>Erreur : Tous les champs doivent être remplis.</p>";
@@ -14,9 +13,8 @@ $formation = new Formation(
     $_POST,
 );
 
-var_dump($formation);
 $repository = new FormationRepository();
 $resultat = $repository->modification($formation);
-header("Location: ../../../vue/pageAdmin.php");
+header("Location: ../../../vue/PageAdmin.php?page=formation");
 
 

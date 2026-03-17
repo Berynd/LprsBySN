@@ -4,7 +4,7 @@ require_once "../bdd/BDD.php";
 require_once "../modele/Utilisateur.php";
 
 if (empty($_POST["email"]) || empty($_POST["mdp"])) {
-  header("Location: ../../index.php?erreur=champs_vides");
+  header("Location: ../../vue/Connexion.php?erreur=champs_vides");
   exit();
 }
 
@@ -27,10 +27,16 @@ if ($resultat instanceof Utilisateur) {
     "role" => $resultat->getRole()
   ];
 
-  header("Location: ../../vue/indexconnexion.php");
+  header("Location: ../../vue/indexConnexion.php");
   exit();
 }
 
-// SINON : $resultat vaut null
-header("Location: ../../vue/connexion.php?erreur=identifiants");
+// Compte non vérifié
+if (is_array($resultat) && isset($resultat['message']) && strpos($resultat['message'], 'vérifié') !== false) {
+  header("Location: ../../vue/Connexion.php?erreur=non_verifie");
+  exit();
+}
+
+// Identifiants incorrects
+header("Location: ../../vue/Connexion.php?erreur=identifiants");
 exit();

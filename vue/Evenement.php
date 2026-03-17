@@ -144,9 +144,7 @@ $listeEvenementuser = $repo->listeEvenementuser();
     <div class="header-bar">
         <h2>Liste des Evenements</h2>
 
-        <form action="index2.php" method="post" style="margin:0;">
-            <button type="submit" class="logout-btn">🚪 Retour</button>
-        </form>
+        <button type="button" class="logout-btn" onclick="history.back()">🚪 Retour</button>
     </div>
 
 

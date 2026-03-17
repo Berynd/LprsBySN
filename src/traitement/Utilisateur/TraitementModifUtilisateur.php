@@ -2,8 +2,7 @@
 include "../../repository/UtilisateurRepository.php";
 require_once "../../bdd/BDD.php";
 require_once "../../modele/Utilisateur.php";
-var_dump($_POST);
-if (empty($_POST["nom"]) || empty($_POST["prenom"]) || empty($_POST["email"]) || empty($_POST["mdp"]) || empty($_POST["role"]) || empty($_POST["specialite"]) || empty($_POST["poste"]) || empty($_POST["anneePromo"]) || empty($_POST["cv"]) ||  empty($_POST["motifPartenariat"]) ||  empty($_POST["estVerifie"]) ||  empty($_POST["refEntreprise"]) ||  empty($_POST["refFormation"]))
+if (empty($_POST["nom"]) || empty($_POST["prenom"]) || empty($_POST["email"]) || empty($_POST["role"]))
 {
     echo "<p style='color: red; font-weight: bold;'>Erreur : Tous les champs doivent être remplis.</p>";
     echo "<button onclick='history.back()' style='padding: 10px; font-size: 16px; cursor: pointer;'>Retour à la modification</button>";
@@ -29,8 +28,6 @@ $donnees = [
 
 $utilisateur = new Utilisateur($donnees);
 
-var_dump($utilisateur);
 $repository = new UtilisateurRepository();
 $resultat = $repository->modificationAdmin($utilisateur);
-var_dump($resultat);
-header("Location: ../../../vue/pageAdmin.php");
+header("Location: ../../../vue/PageAdmin.php?page=utilisateur");

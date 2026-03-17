@@ -8,8 +8,9 @@ require_once "../src/repository/FormationRepository.php";
 
 $page = $_GET['page'] ?? 'dashboard';
 
-if($_SESSION["userConnecte"]["role"]=="utilisateur"){
-    header('Location:../vue/index2.php');
+if (!isset($_SESSION["userConnecte"]) || $_SESSION["userConnecte"]["role"] == "utilisateur") {
+    header('Location:indexConnexion.php');
+    exit();
 }
 // Comptages pour le tableau de bord
 $repUtilisateur = new UtilisateurRepository();

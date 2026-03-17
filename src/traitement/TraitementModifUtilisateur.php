@@ -17,6 +17,6 @@ $entreprise = new Entreprise(
 var_dump($entreprise);
 $repository = new EntrepriseRepository();
 $resultat = $repository->modification($entreprise);
-header("Location: ../../../vue/pageAdmin.php");
+header("Location: ../../vue/PageAdmin.php");
 
 
