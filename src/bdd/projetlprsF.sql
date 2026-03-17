@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 09, 2025 at 08:04 AM
+-- Generation Time: Mar 17, 2026 at 07:44 AM
 -- Server version: 8.3.0
 -- PHP Version: 8.2.18
 
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `evenement` (
   `etat` varchar(50) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `validation` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_evenement`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Dumping data for table `evenement`
@@ -115,7 +115,8 @@ CREATE TABLE IF NOT EXISTS `evenement` (
 INSERT INTO `evenement` (`id_evenement`, `type`, `titre`, `description`, `lieu`, `element_requis`, `nombre_place`, `date_evenement`, `etat`, `validation`) VALUES
 (12, 'Sportif', 'EL CLASSICO', 'Match Paris saint germain VS l\'OMerde', 'Au vélordome (le terrain d\'entrainement du PSG)', 'Tenue du psg, drapeau, Fumigene, et l\'amour du club', 15000, '2026-02-08 15:00:00', 'à venir', 1),
 (20, 'Caritatifs', 'Vente de crêpes', 'Nous allons vendre des crêpes pour avoir un fond pour faire un voyage scolaire au ski', 'Self', 'Crêpes, machine a crêpes', 150, '2025-12-16 16:02:00', 'à venir', 1),
-(21, 'Festifs', 'Biere & Bear', 'Boire de la biere', 'Cave de chez moi', 'Tonneau, verre, biere, bonne humeur', 2, '2025-12-21 22:45:00', 'à venir', 1);
+(21, 'Festifs', 'Biere & Bear', 'Boire de la biere', 'Cave de chez moi', 'Tonneau, verre, biere, bonne humeur', 2, '2025-12-21 22:45:00', 'à venir', 1),
+(23, 'Sportif', 'test', 'test', '19 rue page', 'gateau', 56, '2025-12-16 14:00:00', 'à venir', 1);
 
 -- --------------------------------------------------------
 
@@ -259,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   PRIMARY KEY (`id_utilisateur`),
   KEY `ref_entreprise` (`ref_entreprise`),
   KEY `ref_formation` (`ref_formation`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Dumping data for table `utilisateur`
@@ -270,7 +271,7 @@ INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `mdp`, `r
 (24, 'user', 'user', 'user@gmail.com', '$2y$10$7kMICLdbVtEnFmKwIIZUBeLnsFm2VbWafZCeSB48uuCHWhB/8cCy6', 'utilisateur', NULL, NULL, NULL, NULL, NULL, '', NULL, 1, NULL, NULL),
 (29, 'Petit', 'Maxence', 'Maxence@gmail.com', '$2y$10$RSt/X6XBTZ80WBD1gsXxcOtCO3AinEmlzdCWtPnXRA2suBRXTOiiO', 'prof', 'francais', 'directionGestion', '2025', 0x6c6f676f434154722e706e67, NULL, '', 'temp', 1, NULL, NULL),
 (30, 'Chainiaux', 'jean', 'jean@gmail.com', '$2y$10$ZBjaU0cEAwX9.MaaohyTVe34KdbqzvEWdEQmN3h/0A9lCViD6p6KK', 'prof', NULL, NULL, NULL, NULL, NULL, '', NULL, 1, NULL, NULL),
-(31, 'Passard', 'Ethan', 'e.passard@lprs.fr', '$2y$10$JgoqLyZ6OfpRLM0HPkl90.ZuzyQLu/dbYEHfR5TzkFRizvZ0YRTea', 'utilisateur', NULL, NULL, NULL, NULL, NULL, '', NULL, 1, NULL, NULL);
+(33, 'test', 'test', 'test@gmail.com', '$2y$10$vX9UKmJpA0xvBOkZuz16zOhfHSKgPqlVtrJFAdR0j6psRTETduKsS', 'prof', NULL, NULL, NULL, NULL, NULL, '', NULL, 1, NULL, NULL);
 
 --
 -- Constraints for dumped tables
