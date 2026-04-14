@@ -1,4 +1,5 @@
 <?php
+// Valide les exigences de complexité d'un mot de passe
 function validerMotDePasse(string $mdp): array {
     $erreurs = [];
 
@@ -21,47 +22,49 @@ function validerMotDePasse(string $mdp): array {
     return $erreurs;
 }
 
-
+// Traitement de l'inscription d'un nouvel utilisateur
 include "../repository/UtilisateurRepository.php";
 require_once "../bdd/BDD.php";
 require_once "../modele/Utilisateur.php";
 
+// Vérification que tous les champs obligatoires sont remplis
 if (empty($_POST["nom"]) ||
     empty($_POST["prenom"]) ||
     empty($_POST["email"]) ||
     empty($_POST["mdp"])
 ) {
-    echo "Veuillez remplir tous les champs.";
-    header("Location: ../../vue/Connexion.php");
+    // Redirection vers le formulaire d'inscription (et non de connexion)
+    header("Location: ../../vue/Inscription.php?erreur=champs_vides");
     exit();
 }
 
-
+// Validation de la complexité du mot de passe
 $erreurs = validerMotDePasse($_POST['mdp']);
 
 if (!empty($erreurs)) {
-
-    foreach ($erreurs as $err) {
-        echo $err . "<br>";
-    }
-
-
-    header("Location: ../../vue/Inscription.php");
+    // Redirection vers le formulaire d'inscription avec les erreurs en session
+    session_start();
+    $_SESSION['erreurs_mdp'] = $erreurs;
+    header("Location: ../../vue/Inscription.php?erreur=mdp_invalide");
     exit();
 }
 
-$user = new Utilisateur(array(
-    'nom' => $_POST['nom'],
+// Construction de l'objet Utilisateur avec le mot de passe haché
+$user = new Utilisateur([
+    'nom'    => $_POST['nom'],
     'prenom' => $_POST['prenom'],
-    'email' => $_POST['email'],
-    'mdp' => password_hash($_POST['mdp'], PASSWORD_DEFAULT),
-));
+    'email'  => $_POST['email'],
+    'mdp'    => password_hash($_POST['mdp'], PASSWORD_DEFAULT),
+]);
 
+// Insertion en base de données (vérifie si l'email est déjà utilisé)
 $repository = new UtilisateurRepository();
 $resultat = $repository->inscription($user);
 
+// Redirection : si succès → page de connexion, sinon → page d'accueil
 if ($resultat == true) {
     header("Location: ../../vue/Connexion.php");
 } else {
     header("Location: ../../index.php");
 }
+exit();

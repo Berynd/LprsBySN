@@ -1,4 +1,5 @@
 <?php
+// Repository gérant toutes les opérations en base de données liées aux utilisateurs
 class UtilisateurRepository
 {
     private $bdd;
@@ -8,7 +9,7 @@ class UtilisateurRepository
         $this->bdd = new BDD();
     }
 
-    /** Détail d’un utilisateur */
+    /** Récupère le détail d'un utilisateur par son identifiant */
     public function detailUtilisateur($id)
     {
         if (empty($id)) return null;
@@ -19,94 +20,90 @@ class UtilisateurRepository
         return $req->fetch(PDO::FETCH_ASSOC);
     }
 
-    /** Inscription depuis le site public */
+    /** Inscription d'un nouvel utilisateur depuis le formulaire public */
     public function inscription(Utilisateur $user)
     {
+        // Vérifie si l'adresse email est déjà enregistrée
         $req2 = $this->bdd->getBdd()->prepare('SELECT * FROM utilisateur WHERE email = :email');
-        $req2->execute(array(
-            'email' => $user->getEmail(),
-        ));
+        $req2->execute(['email' => $user->getEmail()]);
         $donne = $req2->fetch();
-        if ($donne == NULL){
-            $sql = 'INSERT INTO Utilisateur(nom,prenom,email,mdp) 
-                Values (:nom,:prenom,:email,:mdp)';
+
+        if ($donne == NULL) {
+            // Insertion du nouvel utilisateur (compte en attente de vérification par un admin)
+            $sql = 'INSERT INTO Utilisateur(nom, prenom, email, mdp) VALUES (:nom, :prenom, :email, :mdp)';
             $req = $this->bdd->getBdd()->prepare($sql);
-            $res = $req->execute(array(
-                'nom' => $user->getNom(),
+            $res = $req->execute([
+                'nom'    => $user->getNom(),
                 'prenom' => $user->getPrenom(),
-                'email' => $user->getEmail(),
-                'mdp' => $user->getMdp(),
-            ));
-            if ($res) {
-                return true;
-                echo "Votre profil a été créé ! ";
-                header('Location:../../vue/Connexion.php');
-            } else {
-                return false;
-            }
-            exit();
+                'email'  => $user->getEmail(),
+                'mdp'    => $user->getMdp(),
+            ]);
+            return $res;
         } else {
-            echo "Vous avez déjà un compte, veuillez vous connecter ! ";
+            // Email déjà utilisé : redirection vers l'accueil
             header('Location: ../../index.php');
             exit();
         }
     }
 
-    /** Ajout d’un utilisateur par un administrateur */
+    /** Ajout d'un utilisateur directement par un administrateur */
     public function ajout(Utilisateur $user)
     {
+        // Vérifie si l'adresse email est déjà enregistrée
         $req2 = $this->bdd->getBdd()->prepare('SELECT * FROM utilisateur WHERE email = :email');
         $req2->execute(['email' => $user->getEmail()]);
         $donne = $req2->fetch();
 
         if ($donne === false) {
-            $sql = 'INSERT INTO utilisateur(nom, prenom, email, mdp)VALUES(:nom, :prenom, :email, :mdp)';
+            $sql = 'INSERT INTO utilisateur(nom, prenom, email, mdp) VALUES(:nom, :prenom, :email, :mdp)';
             $req = $this->bdd->getBdd()->prepare($sql);
             return $req->execute([
-                'nom' => $user->getNom(),
+                'nom'    => $user->getNom(),
                 'prenom' => $user->getPrenom(),
-                'email' => $user->getEmail(),
-                'mdp' => $user->getMdp(),
+                'email'  => $user->getEmail(),
+                'mdp'    => $user->getMdp(),
             ]);
         }
 
+        // Email déjà pris : retourne false
         return false;
     }
 
-    /** Connexion utilisateur */
+    /** Vérifie les identifiants et retourne l'objet Utilisateur si la connexion réussit */
     public function connexion(Utilisateur $user)
     {
-        $sqlconnexion = 'SELECT * FROM utilisateur WHERE email = :email';
-        $reqconnexion = $this->bdd->getBdd()->prepare($sqlconnexion);
-        $reqconnexion->execute(array(
-            'email' => $user->getEmail(),
-        ));
-        $donne = $reqconnexion->fetch();
+        $sql = 'SELECT * FROM utilisateur WHERE email = :email';
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['email' => $user->getEmail()]);
+        $donne = $req->fetch();
+
         if ($donne && password_verify($user->getMdp(), $donne['mdp'])) {
-            if ($donne['est_verifie'] != 1) { // utilisateur non vérifié
+            // Compte non encore vérifié par un administrateur
+            if ($donne['est_verifie'] != 1) {
                 return [
-                    ‘success’ => false,
-                    ‘message’ => "Votre compte n’est pas encore vérifié."
+                    'success' => false,
+                    'message' => "Votre compte n'est pas encore vérifié."
                 ];
             }
+
+            // Hydratation de l'objet Utilisateur avec les données de la BDD
             $user->setNom($donne['nom']);
             $user->setPrenom($donne['prenom']);
             $user->setEmail($donne['email']);
             $user->setRole($donne['role']);
             $user->setIdUtilisateur($donne['id_utilisateur']);
 
-            return
-                $user;
-
-        } else {
-            return [
-                'success' => false,
-                'message' => 'Email ou mot de passe incorrect.'
-            ];
+            return $user;
         }
+
+        // Email ou mot de passe incorrect
+        return [
+            'success' => false,
+            'message' => 'Email ou mot de passe incorrect.'
+        ];
     }
 
-    /** Liste des utilisateurs */
+    /** Retourne la liste de tous les utilisateurs */
     public function listeUtilisateur()
     {
         $sql = 'SELECT * FROM utilisateur';
@@ -115,52 +112,57 @@ class UtilisateurRepository
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /** Modification côté admin */
+    /** Modification complète d'un utilisateur par un administrateur (tous les champs) */
     public function modificationAdmin(Utilisateur $user)
     {
-        $sql = "UPDATE utilisateur SET nom = :nom, prenom = :prenom, email = :email, mdp = :mdp, role = :role, specialite = :specialite, poste = :poste, annee_promo = :annee_promo, cv = :cv, motif_partenariat = :motif_partenariat, est_verifie = :est_verifie WHERE id_utilisateur = :id";
+        $sql = "UPDATE utilisateur
+                SET nom = :nom, prenom = :prenom, email = :email, mdp = :mdp, role = :role,
+                    specialite = :specialite, poste = :poste, annee_promo = :annee_promo,
+                    cv = :cv, motif_partenariat = :motif_partenariat, est_verifie = :est_verifie
+                WHERE id_utilisateur = :id";
         $req = $this->bdd->getBdd()->prepare($sql);
         return $req->execute([
-            'nom' => $user->getNom(),
-            'prenom' => $user->getPrenom(),
-            'email' => $user->getEmail(),
-            'mdp' => $user->getMdp(),
-            'role' => $user->getRole(),
-            'specialite' => $user->getSpecialite(),
-            'poste' => $user->getPoste(),
-            'annee_promo' => $user->getAnneePromo(),
-            'cv' => $user->getCv(),
+            'nom'               => $user->getNom(),
+            'prenom'            => $user->getPrenom(),
+            'email'             => $user->getEmail(),
+            'mdp'               => $user->getMdp(),
+            'role'              => $user->getRole(),
+            'specialite'        => $user->getSpecialite(),
+            'poste'             => $user->getPoste(),
+            'annee_promo'       => $user->getAnneePromo(),
+            'cv'                => $user->getCv(),
             'motif_partenariat' => $user->getMotifPartenariat(),
-            'est_verifie' => $user->getEstVerifie(),
-            'id' => $user->getIdUtilisateur()
+            'est_verifie'       => $user->getEstVerifie(),
+            'id'                => $user->getIdUtilisateur()
         ]);
     }
 
+    /** Valide un compte utilisateur (passe est_verifie à 1) */
     public function validationUtilisateur(Utilisateur $user)
     {
         $sql = "UPDATE utilisateur SET est_verifie = :validation WHERE id_utilisateur = :id";
         $req = $this->bdd->getBdd()->prepare($sql);
         return $req->execute([
             'validation' => 1,
-            'id' => $user->getIdUtilisateur()
+            'id'         => $user->getIdUtilisateur()
         ]);
     }
 
-    /** Modification côté utilisateur */
+    /** Modification des informations de base par l'utilisateur lui-même */
     public function modificationUtilisateur(Utilisateur $user)
     {
         $sql = "UPDATE utilisateur SET nom = :nom, prenom = :prenom, email = :email, mdp = :mdp WHERE id_utilisateur = :id";
         $req = $this->bdd->getBdd()->prepare($sql);
         return $req->execute([
-            'nom' => $user->getNom(),
+            'nom'    => $user->getNom(),
             'prenom' => $user->getPrenom(),
-            'email' => $user->getEmail(),
-            'mdp' => $user->getMdp(),
-            'id' => $user->getIdUtilisateur()
+            'email'  => $user->getEmail(),
+            'mdp'    => $user->getMdp(),
+            'id'     => $user->getIdUtilisateur()
         ]);
     }
 
-    /** Suppression */
+    /** Supprime un utilisateur par son identifiant */
     public function suppression(Utilisateur $user)
     {
         $sql = 'DELETE FROM utilisateur WHERE id_utilisateur = :id';
@@ -168,7 +170,7 @@ class UtilisateurRepository
         return $req->execute(['id' => $user->getIdUtilisateur()]);
     }
 
-    /** Compte le nombre total d’utilisateurs */
+    /** Retourne le nombre total d'utilisateurs inscrits */
     public function nombreUtilisateur()
     {
         $sql = 'SELECT COUNT(*) FROM utilisateur';
@@ -177,59 +179,58 @@ class UtilisateurRepository
         return $req->fetchColumn();
     }
 
-    /** Deconnecte l'utilisateur */
+    /** Déconnecte l'utilisateur en détruisant la session */
     public function deconnect()
     {
         session_start();
         session_destroy();
         header("Location: ../../index.php");
+        exit();
     }
+
+    /** Recherche un utilisateur par son adresse email (pour la réinitialisation de mot de passe) */
     public function rechercheUtilisateurParMail($email)
     {
-        $recherche = "SELECT * FROM utilisateur WHERE email = :email";
-        $req = $this->bdd->getBdd()->prepare($recherche);
-        $req->execute(array(
-            'email' => $email
-        ));
+        $sql = "SELECT * FROM utilisateur WHERE email = :email";
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['email' => $email]);
         return $req->fetch();
     }
-    public function addTokens($token,$dateFin,$email)
+
+    /** Enregistre un token de réinitialisation de mot de passe avec sa date d'expiration */
+    public function addTokens($token, $dateFin, $email)
     {
-        $add="update utilisateur SET token=:token, date_fin=:dateFin
-                WHERE email=:email";
-        $req = $this->bdd->getBdd()->prepare($add);
-        $req->execute(array(
-            'token' => $token,
+        $sql = "UPDATE utilisateur SET token = :token, date_fin = :dateFin WHERE email = :email";
+        $req = $this->bdd->getBdd()->prepare($sql);
+        // On retourne le résultat de execute() (true/false) et non l'objet PDOStatement
+        return $req->execute([
+            'token'   => $token,
             'dateFin' => $dateFin,
-            "email" => $email
-
-        ));
-        if($req){
-            return true;
-        }
-        else{
-            return false;
-        }
-
+            'email'   => $email,
+        ]);
     }
+
+    /** Vérifie qu'un token de réinitialisation existe et retourne l'email associé */
     public function verifierToken($token)
     {
-        $verif="SELECT email,mdp FROM utilisateur WHERE token=:token";
-        $req = $this->bdd->getBdd()->prepare($verif);
-        $req->execute(array(
-            'token' => $token
-        ));
+        $sql = "SELECT email, mdp FROM utilisateur WHERE token = :token";
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute(['token' => $token]);
         return $req->fetch();
     }
-    public function changerMdp($mdp,$email)
+
+    /** Met à jour le mot de passe et efface le token après réinitialisation */
+    public function changerMdp($mdp, $email)
     {
-        $update = "UPDATE utilisateur SET mdp=:mdp,token=null,date_fin='' WHERE email=:email";
-        $req = $this->bdd->getBdd()->prepare($update);
-        $req->execute(array(
-            'mdp' => $mdp,
+        $sql = "UPDATE utilisateur SET mdp = :mdp, token = null, date_fin = '' WHERE email = :email";
+        $req = $this->bdd->getBdd()->prepare($sql);
+        $req->execute([
+            'mdp'   => $mdp,
             'email' => $email
-        ));
+        ]);
     }
+
+    /** Retourne la liste distincte des noms d'entreprises (pour les menus déroulants) */
     public function getNomEntreprise()
     {
         $sql = "SELECT DISTINCT nom FROM entreprise ORDER BY nom ASC";
@@ -238,6 +239,7 @@ class UtilisateurRepository
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
+    /** Retourne la liste distincte des noms de formations (pour les menus déroulants) */
     public function getNomFormation()
     {
         $sql = "SELECT DISTINCT nom_formation FROM formation ORDER BY nom_formation ASC";

@@ -340,10 +340,11 @@ $idUtilisateur = $_GET['id'];
             </div>
             <div class="form-group">
                 <label for="role">Role de l'utilisateur</label>
-                <select id="role" name="role" value="<?=$utilisateur->getRole()?>">
-                    <option value="utilisateur">utilisateur</option>
-                    <option value="Admin">admin</option>
-                    <option value="Admin">prof</option>
+                <!-- Valeurs : "utilisateur", "admin", "prof" — correspondant aux rôles en BDD -->
+                <select id="role" name="role">
+                    <option value="utilisateur" <?= $utilisateur->getRole() === 'utilisateur' ? 'selected' : '' ?>>utilisateur</option>
+                    <option value="admin" <?= $utilisateur->getRole() === 'admin' ? 'selected' : '' ?>>admin</option>
+                    <option value="prof" <?= $utilisateur->getRole() === 'prof' ? 'selected' : '' ?>>prof</option>
                 </select>
             </div>
             <div class="form-group">
@@ -380,22 +381,28 @@ $idUtilisateur = $_GET['id'];
                 <input type="text" id="motifPartenariat" name="motifPartenariat" required value="<?=$utilisateur->getMotifPartenariat()?>">
             </div>
             <div class="form-group">
-                <label for="refEntreprise">refEntreprise</label>
-                <select id="refEntreprise" name="refEntreprise" value="<?=$utilisateur->getRefEntreprise()?>">
-                    <?php foreach ($entreprise as $entreprise): ?>
-                    <option>
-                    <li><span class="dropdown-item disabled"><?= htmlspecialchars($entreprise) ?></span></li>
-                    </option>
+                <label for="refEntreprise">Entreprise</label>
+                <!-- Liste des entreprises enregistrées en BDD -->
+                <select id="refEntreprise" name="refEntreprise">
+                    <option value="">-- Aucune --</option>
+                    <?php foreach ($entreprise as $nomEntreprise): ?>
+                        <option value="<?= htmlspecialchars($nomEntreprise) ?>"
+                            <?= $utilisateur->getRefEntreprise() === $nomEntreprise ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($nomEntreprise) ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div class="form-group">
-                <label for="refFormation">refFormation</label>
-                <select id="refFormation" name="refFormation" value="<?=$utilisateur->getRefFormation()?>">
-                    <?php foreach ($formation as $formation): ?>
-                    <option>
-                    <li><span class="dropdown-item disabled"><?= htmlspecialchars($formation) ?></span></li>
-                    </option>
+                <label for="refFormation">Formation</label>
+                <!-- Liste des formations enregistrées en BDD -->
+                <select id="refFormation" name="refFormation">
+                    <option value="">-- Aucune --</option>
+                    <?php foreach ($formation as $nomFormation): ?>
+                        <option value="<?= htmlspecialchars($nomFormation) ?>"
+                            <?= $utilisateur->getRefFormation() === $nomFormation ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($nomFormation) ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>

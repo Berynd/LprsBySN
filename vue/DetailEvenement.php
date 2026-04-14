@@ -5,10 +5,35 @@ require_once "../src/repository/EvenementRepository.php";
 
 session_start();
 
+// Vérification que l'identifiant est bien fourni dans l'URL
+if (empty($_GET["id"])) {
+    header("Location: indexConnexion.php");
+    exit();
+}
 
-
+// Récupération des données brutes (tableau associatif) depuis la BDD
 $EvenementRepository = new EvenementRepository();
-$evenement = $EvenementRepository->detailEvenement($_GET["id"]);
+$donnees = $EvenementRepository->detailEvenement($_GET["id"]);
+
+// Vérification que l'événement existe bien
+if (!$donnees) {
+    header("Location: indexConnexion.php");
+    exit();
+}
+
+// Conversion du tableau en objet Evenement pour utiliser les getters dans la vue
+$evenement = new Evenement([
+    'idEvenement'          => $donnees['id_evenement'],
+    'typeEvenement'        => $donnees['type'],
+    'titreEvenement'       => $donnees['titre'],
+    'descriptionEvenement' => $donnees['description'],
+    'lieuEvenement'        => $donnees['lieu'],
+    'elementRequis'        => $donnees['element_requis'],
+    'nombrePlace'          => $donnees['nombre_place'],
+    'dateEvenement'        => $donnees['date_evenement'],
+    'etatEvenement'        => $donnees['etat'],
+]);
+
 $idEvenement = $_GET['id'];
 ?>
 <!DOCTYPE html>
@@ -148,7 +173,7 @@ $idEvenement = $_GET['id'];
     </div>
 
     <div class="btn-row">
-        <a href="indexConnexion.php" class="btn btn-primary">Retour</a>
+        <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
     </div>
 
 </div>
